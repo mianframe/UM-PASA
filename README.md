@@ -421,7 +421,7 @@ Department of Computing Education
 Computer Science and Information Technology Program  
 University of Mindanao Tagum / UM Visayan Campus  
 Visayan Village, Tagum City, Davao del Norte  
-Tel: (084) 655-6074
+
 
 ## Compliance Note
 
