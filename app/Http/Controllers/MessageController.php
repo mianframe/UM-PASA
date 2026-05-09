@@ -52,8 +52,8 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'conversation_id' => ['nullable', 'exists:conversations,id'],
-            'recipient_id' => ['nullable', 'exists:users,id'],
+            'conversation_id' => ['nullable', 'exists:conversations,id', 'required_without:recipient_id'],
+            'recipient_id' => ['nullable', 'exists:users,id', 'required_without:conversation_id'],
             'item_id' => ['nullable', 'exists:items,id'],
             'body' => ['nullable', 'string', 'max:1000'],
             'type' => ['nullable', 'in:text,meetup_proposal'],
@@ -102,8 +102,8 @@ class MessageController extends Controller
                 'type' => $type === 'meetup_proposal' ? 'meetup' : 'message',
                 'related_id' => $conversation->id,
                 'message' => $type === 'meetup_proposal'
-                    ? Auth::user()->name . ' sent a meetup proposal.'
-                    : Auth::user()->name . ' sent you a message.',
+                    ? Auth::user()->name.' sent a meetup proposal.'
+                    : Auth::user()->name.' sent you a message.',
             ]);
         }
 
@@ -117,6 +117,7 @@ class MessageController extends Controller
         abort_unless($this->isParticipant($conversation), 403);
         abort_if($message->type !== 'meetup_proposal', 403);
         abort_if($message->user_id === Auth::id(), 403);
+        abort_if($message->proposal_status !== 'pending', 403);
 
         $message->update(['proposal_status' => 'accepted']);
         $conversation->update(['last_message_at' => now()]);
@@ -132,7 +133,7 @@ class MessageController extends Controller
             'user_id' => $message->user_id,
             'type' => 'meetup',
             'related_id' => $conversation->id,
-            'message' => Auth::user()->name . ' accepted your meetup proposal.',
+            'message' => Auth::user()->name.' accepted your meetup proposal.',
         ]);
 
         return back()->with('success', 'Meetup proposal accepted.');
@@ -144,6 +145,7 @@ class MessageController extends Controller
         abort_unless($this->isParticipant($conversation), 403);
         abort_if($message->type !== 'meetup_proposal', 403);
         abort_if($message->user_id === Auth::id(), 403);
+        abort_if($message->proposal_status !== 'pending', 403);
 
         $message->update(['proposal_status' => 'declined']);
         $conversation->update(['last_message_at' => now()]);
@@ -159,7 +161,7 @@ class MessageController extends Controller
             'user_id' => $message->user_id,
             'type' => 'meetup',
             'related_id' => $conversation->id,
-            'message' => Auth::user()->name . ' declined your meetup proposal.',
+            'message' => Auth::user()->name.' declined your meetup proposal.',
         ]);
 
         return back()->with('success', 'Meetup proposal declined.');
@@ -187,6 +189,7 @@ class MessageController extends Controller
         $item = $request->filled('item_id') ? Item::findOrFail($request->item_id) : null;
 
         abort_if($recipient->id === Auth::id(), 403);
+        abort_if($item && $item->user_id !== $recipient->id, 403);
 
         $conversation = Conversation::where(function ($query) use ($recipient) {
             $query->where('starter_id', Auth::id())

@@ -134,7 +134,7 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="translate-x-full"
-            class="fixed right-0 top-0 z-50 h-full w-full max-w-lg overflow-y-auto border-l border-white/10 bg-[#161617] p-6 shadow-2xl"
+            class="glass-panel fixed right-0 top-0 z-50 h-full w-full max-w-lg overflow-y-auto rounded-none border-y-0 border-r-0 p-6 shadow-2xl"
         >
             <div class="mb-6 flex items-center justify-between">
                 <div>
@@ -198,7 +198,7 @@
             </form>
         </aside>
 
-        <div class="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+        <div class="sticky-toolbar flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="text-lg text-[#eedcbbd0]">
                 <span class="text-2xl font-black text-[#ff2b1c]">{{ $items->total() }}</span> items found
             </div>

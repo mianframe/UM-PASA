@@ -57,7 +57,7 @@ class RatingController extends Controller
             'user_id' => $reviewedUserId,
             'type' => 'rating',
             'related_id' => $transaction->id,
-            'message' => Auth::user()->name . ' left a new rating.',
+            'message' => Auth::user()->name.' left a new rating.',
         ]);
 
         return redirect()->route('profile.ratings')->with('success', 'Rating submitted.');

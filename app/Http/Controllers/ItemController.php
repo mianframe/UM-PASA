@@ -16,9 +16,9 @@ class ItemController extends Controller
         if ($request->filled('q')) {
             $search = $request->q;
             $query->where(function ($innerQuery) use ($search) {
-                $innerQuery->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%')
-                    ->orWhere('course_code', 'like', '%' . $search . '%');
+                $innerQuery->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('description', 'like', '%'.$search.'%')
+                    ->orWhere('course_code', 'like', '%'.$search.'%');
             });
         }
 
@@ -43,7 +43,7 @@ class ItemController extends Controller
         }
 
         if ($request->filled('course_code')) {
-            $query->where('course_code', 'like', '%' . $request->course_code . '%');
+            $query->where('course_code', 'like', '%'.$request->course_code.'%');
         }
 
         if ($request->filled('min_price')) {
@@ -91,7 +91,7 @@ class ItemController extends Controller
             'course_code' => ['required', 'string', 'max:20'],
             'listing_type' => ['required', 'in:sell,rent,swap'],
             'condition' => ['required', 'in:new,like_new,good,fair,poor'],
-            'price' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric', 'min:0'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
 
@@ -136,7 +136,7 @@ class ItemController extends Controller
             'course_code' => ['required', 'string', 'max:20'],
             'listing_type' => ['required', 'in:sell,rent,swap'],
             'condition' => ['required', 'in:new,like_new,good,fair,poor'],
-            'price' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric', 'min:0'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
 

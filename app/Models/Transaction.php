@@ -27,7 +27,6 @@ class Transaction extends Model
     /**
      * Relationships
      */
-
     public function buyer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'buyer_id');
@@ -51,7 +50,6 @@ class Transaction extends Model
     /**
      * Helper Methods
      */
-
     public function isPending(): bool
     {
         return $this->status === 'pending';
@@ -74,7 +72,7 @@ class Transaction extends Model
 
     public function getStatusBadgeColor(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'pending' => 'yellow',
             'approved' => 'blue',
             'rejected' => 'red',

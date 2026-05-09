@@ -35,7 +35,7 @@
     <body class="font-[Inter] antialiased">
         <div class="site-shell px-4 py-10">
             <div class="page-wrap grid min-h-[calc(100vh-5rem)] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-                <div class="space-y-8">
+                <div class="liquid-rise space-y-8">
                     <div class="inline-flex items-center gap-3 rounded-full border border-[#f3df3230] bg-[#f3df3210] px-5 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#f3df32]">
                         University of Mindanao
                     </div>
@@ -61,10 +61,10 @@
                     </div>
                 </div>
 
-                <div class="glass-card overflow-hidden px-6 py-8 shadow-2xl sm:px-8">
+                <div class="glass-card liquid-rise overflow-hidden px-6 py-8 shadow-2xl sm:px-8">
                     <div class="mb-8 flex items-center gap-3">
-                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-700 to-red-950 text-lg font-black text-white">
-                            UM
+                        <div class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-red-700 to-red-950 text-lg font-black text-white">
+                            <img src="{{ asset('UMPASALOGO.png') }}" alt="UM-Pasa logo" class="h-full w-full object-cover">
                         </div>
                         <div>
                             <div class="text-lg font-black tracking-[0.18em] text-white">UM-PASA</div>

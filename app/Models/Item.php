@@ -29,7 +29,6 @@ class Item extends Model
     /**
      * Relationships
      */
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -43,7 +42,6 @@ class Item extends Model
     /**
      * Helper Methods
      */
-
     public function isAvailable(): bool
     {
         return $this->status === 'available';
@@ -61,7 +59,7 @@ class Item extends Model
 
     public function getStatusBadgeColor(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'available' => 'green',
             'pending' => 'yellow',
             'sold' => 'red',
@@ -71,7 +69,7 @@ class Item extends Model
 
     public function getListingTypeLabel(): string
     {
-        return match($this->listing_type) {
+        return match ($this->listing_type) {
             'sell' => 'For Sale',
             'rent' => 'For Rent',
             'swap' => 'For Swap',

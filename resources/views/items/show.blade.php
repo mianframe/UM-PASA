@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="space-y-4">
+            <div class="sticky-glass space-y-4 self-start">
                 <div class="glass-card p-6">
                     <div class="text-sm uppercase tracking-[0.18em] text-slate-400">Seller Info</div>
                     <div class="mt-4 text-xl font-semibold text-white">{{ $item->user->name }}</div>

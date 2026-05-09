@@ -37,14 +37,14 @@
             @include('layouts.navigation')
 
             @isset($header)
-                <header class="pt-8">
+                <header class="liquid-rise pt-8">
                     <div class="page-wrap">
                         {{ $header }}
                     </div>
                 </header>
             @endisset
 
-            <main class="pb-20 pt-8">
+            <main class="liquid-rise pb-20 pt-8">
                 {{ $slot }}
             </main>
 

@@ -25,7 +25,6 @@ class Notification extends Model
     /**
      * Relationships
      */
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -34,7 +33,6 @@ class Notification extends Model
     /**
      * Helper Methods
      */
-
     public function markAsRead(): void
     {
         $this->update(['is_read' => true]);
@@ -47,6 +45,6 @@ class Notification extends Model
 
     public function isUnread(): bool
     {
-        return !$this->is_read;
+        return ! $this->is_read;
     }
 }

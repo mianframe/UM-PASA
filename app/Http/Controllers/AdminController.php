@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -31,6 +32,10 @@ class AdminController extends Controller
 
     public function destroyItem(Item $item)
     {
+        if ($item->image) {
+            Storage::disk('public')->delete($item->image);
+        }
+
         $item->delete();
 
         return back()->with('success', 'Item deleted by admin.');

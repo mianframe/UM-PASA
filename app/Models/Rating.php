@@ -21,7 +21,6 @@ class Rating extends Model
     /**
      * Relationships
      */
-
     public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewer_id');
@@ -40,7 +39,6 @@ class Rating extends Model
     /**
      * Helper Methods
      */
-
     public function getRatingStars(): string
     {
         return str_repeat('⭐', $this->rating);
