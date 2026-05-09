@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Conversation;
 use App\Models\Item;
 use App\Models\Message;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -85,6 +86,77 @@ class MarketplaceWorkflowTest extends TestCase
 
         $this->assertSame('accepted', $proposal->refresh()->proposal_status);
         $this->assertSame(1, Message::where('type', 'system')->count());
+    }
+
+    public function test_transaction_can_move_from_pending_to_approved_to_completed(): void
+    {
+        $buyer = User::factory()->create();
+        $seller = User::factory()->create();
+        $item = $this->createItemFor($seller);
+
+        $this->actingAs($buyer)
+            ->post(route('transactions.store', $item))
+            ->assertRedirect(route('transactions.history'));
+
+        $transaction = Transaction::firstOrFail();
+
+        $this->assertSame('pending', $transaction->status);
+        $this->assertSame('pending', $item->refresh()->status);
+
+        $meetupTime = now()->addDay()->setSecond(0);
+
+        $this->actingAs($seller)
+            ->post(route('transactions.approve', $transaction), [
+                'meetup_location' => 'UM Main Library Lobby',
+                'meetup_time' => $meetupTime->format('Y-m-d\TH:i'),
+            ])
+            ->assertSessionHasNoErrors();
+
+        $transaction->refresh();
+
+        $this->assertSame('approved', $transaction->status);
+        $this->assertSame('UM Main Library Lobby', $transaction->meetup_location);
+        $this->assertSame('pending', $item->refresh()->status);
+
+        $this->actingAs($seller)
+            ->post(route('transactions.complete', $transaction))
+            ->assertRedirect(route('transactions.show', $transaction));
+
+        $this->assertSame('completed', $transaction->refresh()->status);
+        $this->assertSame('sold', $item->refresh()->status);
+    }
+
+    public function test_seller_can_message_transaction_buyer_about_requested_item(): void
+    {
+        $buyer = User::factory()->create();
+        $seller = User::factory()->create();
+        $item = $this->createItemFor($seller);
+
+        Transaction::create([
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
+            'item_id' => $item->id,
+            'status' => 'pending',
+        ]);
+
+        $this->actingAs($seller)
+            ->post(route('messages.store'), [
+                'recipient_id' => $buyer->id,
+                'item_id' => $item->id,
+                'body' => 'I saw your request. Are you free after class?',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('conversations', [
+            'starter_id' => $seller->id,
+            'recipient_id' => $buyer->id,
+            'item_id' => $item->id,
+        ]);
+
+        $this->assertDatabaseHas('messages', [
+            'user_id' => $seller->id,
+            'body' => 'I saw your request. Are you free after class?',
+        ]);
     }
 
     public function test_admin_item_deletion_removes_uploaded_image(): void

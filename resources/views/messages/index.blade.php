@@ -15,54 +15,57 @@
     <div class="page-wrap space-y-6" x-data="{ meetupOpen: false }">
         <x-flash-messages />
 
-        <div class="grid gap-6 xl:grid-cols-[0.36fr_0.64fr]">
-            <aside class="glass-card overflow-hidden">
-                <div class="border-b border-white/10 px-5 py-4">
-                    <h2 class="text-lg font-bold text-white">Inbox</h2>
-                    <p class="mt-1 text-sm text-[#eedcbbcc]">{{ $conversations->count() }} conversation{{ $conversations->count() === 1 ? '' : 's' }}</p>
+        <div class="messages-shell">
+            <aside class="messages-sidebar">
+                <div class="messages-panel-header">
+                    <div>
+                        <p class="transaction-kicker">Inbox</p>
+                        <h2>{{ $conversations->count() }} conversation{{ $conversations->count() === 1 ? '' : 's' }}</h2>
+                    </div>
                 </div>
-                <div class="max-h-[42rem] overflow-y-auto">
+                <div class="messages-list">
                     @forelse($conversations as $conversation)
                         @php
                             $other = $conversation->starter_id === auth()->id() ? $conversation->recipient : $conversation->starter;
                             $latest = $conversation->latestMessage;
                         @endphp
-                        <a href="{{ route('messages.show', $conversation) }}" class="block border-b border-white/5 px-5 py-4 transition hover:bg-white/5 {{ $activeConversation && $activeConversation->id === $conversation->id ? 'bg-white/5' : '' }}">
+                        <a href="{{ route('messages.show', $conversation) }}" class="message-thread-link {{ $activeConversation && $activeConversation->id === $conversation->id ? 'message-thread-active' : '' }}">
                             <div class="flex items-start justify-between gap-3">
-                                <div>
-                                    <div class="font-semibold text-white">{{ $other?->name }}</div>
-                                    <div class="mt-1 text-sm text-[#eedcbbcc]">
+                                <div class="min-w-0">
+                                    <div class="message-thread-name">{{ $other?->name }}</div>
+                                    <div class="message-thread-item">
                                         {{ $conversation->item?->title ? \Illuminate\Support\Str::limit($conversation->item->title, 38) : 'General conversation' }}
                                     </div>
-                                    <div class="mt-2 text-xs text-slate-400">
+                                    <div class="message-thread-preview">
                                         {{ $latest?->body ? \Illuminate\Support\Str::limit($latest->body, 44) : 'No messages yet' }}
                                     </div>
                                 </div>
-                                <div class="text-xs text-slate-400">
+                                <div class="message-thread-time">
                                     {{ $conversation->last_message_at?->diffForHumans() ?? $conversation->created_at->diffForHumans() }}
                                 </div>
                             </div>
                         </a>
                     @empty
-                        <div class="px-5 py-10 text-center">
+                        <div class="messages-empty">
                             <div class="text-lg font-bold text-white">No conversations yet</div>
-                            <p class="mt-2 text-sm text-[#eedcbbcc]">Open any listing and click <strong>Message Seller</strong> to start your first chat.</p>
+                            <p>Open any listing and click Message Seller to start your first chat.</p>
                         </div>
                     @endforelse
                 </div>
             </aside>
 
-            <section class="glass-card overflow-hidden">
+            <section class="messages-chat">
                 @if($activeConversation)
                     @php
                         $other = $activeConversation->starter_id === auth()->id() ? $activeConversation->recipient : $activeConversation->starter;
                     @endphp
 
-                    <div class="border-b border-white/10 px-6 py-5">
+                    <div class="messages-chat-header">
                         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                             <div>
-                                <h2 class="text-2xl font-black text-white">{{ $other?->name }}</h2>
-                                <p class="mt-2 text-sm text-[#eedcbbcc]">
+                                <p class="transaction-kicker">Conversation</p>
+                                <h2>{{ $other?->name }}</h2>
+                                <p>
                                     {{ $activeConversation->item?->title ? 'Talking about: ' . $activeConversation->item->title : 'General marketplace conversation' }}
                                 </p>
                             </div>
@@ -70,12 +73,12 @@
                         </div>
                     </div>
 
-                    <div class="max-h-[32rem] space-y-4 overflow-y-auto px-6 py-6">
+                    <div class="messages-stream">
                         @foreach($activeConversation->messages as $message)
                             @php $mine = $message->user_id === auth()->id(); @endphp
                             <div class="flex {{ $mine ? 'justify-end' : 'justify-start' }}">
-                                <div class="max-w-[85%] rounded-[1.5rem] px-4 py-3 {{ $mine ? 'bg-red-700 text-white' : 'bg-white/6 text-[#eedcbb]' }}">
-                                    <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.18em] {{ $mine ? 'text-red-100' : 'text-slate-400' }}">
+                                <div class="message-bubble {{ $mine ? 'message-bubble-mine' : 'message-bubble-theirs' }}">
+                                    <div class="message-meta {{ $mine ? 'text-red-100' : 'text-slate-400' }}">
                                         <span>{{ $message->user->name }}</span>
                                         <span>{{ $message->created_at->format('M d, h:i A') }}</span>
                                     </div>
@@ -112,7 +115,7 @@
                         @endforeach
                     </div>
 
-                    <div class="border-t border-white/10 px-6 py-5">
+                    <div class="messages-compose">
                         <form method="POST" action="{{ route('messages.store') }}" class="space-y-3">
                             @csrf
                             <input type="hidden" name="conversation_id" value="{{ $activeConversation->id }}">
@@ -153,10 +156,10 @@
                         </div>
                     </div>
                 @else
-                    <div class="flex min-h-[36rem] items-center justify-center px-6 py-16 text-center">
+                    <div class="messages-empty messages-empty-large">
                         <div>
                             <div class="text-2xl font-black text-white">Your messages will appear here</div>
-                            <p class="mt-3 text-sm text-[#eedcbbcc]">Start from any listing to message a seller and coordinate a meetup.</p>
+                            <p>Start from any listing or transaction to message another student and coordinate a meetup.</p>
                         </div>
                     </div>
                 @endif

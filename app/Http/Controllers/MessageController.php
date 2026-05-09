@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -189,7 +190,17 @@ class MessageController extends Controller
         $item = $request->filled('item_id') ? Item::findOrFail($request->item_id) : null;
 
         abort_if($recipient->id === Auth::id(), 403);
-        abort_if($item && $item->user_id !== $recipient->id, 403);
+
+        if ($item) {
+            $buyerMessagingSeller = $item->user_id === $recipient->id;
+            $sellerMessagingTransactionBuyer = $item->user_id === Auth::id()
+                && Transaction::where('item_id', $item->id)
+                    ->where('buyer_id', $recipient->id)
+                    ->where('seller_id', Auth::id())
+                    ->exists();
+
+            abort_unless($buyerMessagingSeller || $sellerMessagingTransactionBuyer, 403);
+        }
 
         $conversation = Conversation::where(function ($query) use ($recipient) {
             $query->where('starter_id', Auth::id())

@@ -1,15 +1,23 @@
-<section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
+<section class="profile-section">
+    <header class="profile-section-header">
+        <div class="profile-section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+            </svg>
+        </div>
+        <div>
+        <h2>
             {{ __('Update Password') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
+        <p>
             {{ __('Ensure your account is using a long, random password to stay secure.') }}
         </p>
+        </div>
     </header>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('password.update') }}" class="profile-form">
         @csrf
         @method('put')
 
@@ -31,8 +39,8 @@
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+        <div class="profile-form-actions">
+            <x-primary-button>{{ __('Update Password') }}</x-primary-button>
 
             @if (session('status') === 'password-updated')
                 <p
@@ -40,7 +48,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
+                    class="text-sm text-emerald-200"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>

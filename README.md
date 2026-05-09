@@ -1,58 +1,432 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# UM-Pasa: Campus Marketplace
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+UM-Pasa is a Laravel-based campus marketplace system for the University of Mindanao community. It allows students to post, browse, request, message, and complete student-to-student transactions for academic materials in a more organized and accountable way.
 
-## About Laravel
+The system is designed for a BSIT project/capstone demonstration and follows Laravel's MVC structure using routes, controllers, models, migrations, Blade views, authentication, role-based access, and CRUD workflows.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+UM-Pasa addresses a common problem for students: academic materials such as books, uniforms, calculators, gadgets, laboratory tools, and course-related supplies are often expensive and sometimes only needed for one semester.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Instead of relying only on scattered social media posts or group chats, UM-Pasa provides a focused marketplace where students can:
 
-## Learning Laravel
+- Post academic items for sale, rent, or swap
+- Browse and filter listings by category, department, program, condition, price, and course code
+- Send requests for available items
+- Message buyers or sellers
+- Coordinate campus meetups
+- Receive notifications for important updates
+- Track transaction history
+- Leave ratings after completed transactions
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Objectives
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Provide a secure web-based marketplace for UM students
+- Organize academic item exchange within one platform
+- Support department, program, category, and course-code based filtering
+- Allow students to request, approve, reject, and complete marketplace transactions
+- Provide messaging and meetup proposal features
+- Add notifications for requests, approvals, messages, completions, and ratings
+- Support user ratings for accountability and trust
+- Provide admin monitoring for users, items, and transactions
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Target Users
 
-## Agentic Development
+| User Type | Access |
+|---|---|
+| Guest | Can view the landing page, help page, marketplace, and item details |
+| Student | Can register, log in, post items, request items, message users, manage transactions, receive notifications, and rate users |
+| Admin | Can view users, items, and transactions, and delete inappropriate listings |
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Tech Stack
 
-```bash
-composer require laravel/boost --dev
+| Layer | Technology |
+|---|---|
+| Framework | Laravel 13 |
+| Language | PHP 8.3+ |
+| Frontend | Blade, Tailwind CSS, Alpine.js |
+| Build Tool | Vite |
+| Database | SQLite or MySQL, depending on `.env` configuration |
+| Authentication | Laravel Breeze / Laravel Auth scaffolding |
+| Testing | PHPUnit |
+| Asset Storage | Laravel public storage disk |
 
-php artisan boost:install
+## Main Features
+
+- Student registration and login
+- UM-style campus marketplace landing page
+- Item listing CRUD
+- Marketplace search, sorting, and filters
+- Item details page
+- Request item transaction flow
+- Seller approval/rejection of requests
+- Transaction completion and receipt page
+- Buyer/seller messaging
+- Meetup proposal acceptance/decline
+- Notifications and unread notification count
+- User rating and reputation system
+- Student dashboard
+- Admin monitoring pages
+- Profile and password management
+
+## Project Structure
+
+```text
+UM-PASA/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AdminController.php
+│   │   │   ├── DashboardController.php
+│   │   │   ├── HomeController.php
+│   │   │   ├── ItemController.php
+│   │   │   ├── MessageController.php
+│   │   │   ├── NotificationController.php
+│   │   │   ├── ProfileController.php
+│   │   │   ├── RatingController.php
+│   │   │   └── TransactionController.php
+│   │   └── Middleware/
+│   │       └── AdminMiddleware.php
+│   └── Models/
+│       ├── Conversation.php
+│       ├── Item.php
+│       ├── Message.php
+│       ├── Notification.php
+│       ├── Rating.php
+│       ├── Transaction.php
+│       └── User.php
+├── config/
+│   └── um_departments.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│       └── DatabaseSeeder.php
+├── public/
+│   └── UMPASALOGO.png
+├── resources/
+│   ├── css/
+│   │   └── app.css
+│   ├── js/
+│   │   └── app.js
+│   └── views/
+│       ├── admin/
+│       ├── auth/
+│       ├── dashboard/
+│       ├── items/
+│       ├── layouts/
+│       ├── marketplace/
+│       ├── messages/
+│       ├── notifications/
+│       ├── profile/
+│       ├── ratings/
+│       ├── transactions/
+│       ├── help.blade.php
+│       └── home.blade.php
+├── routes/
+│   ├── auth.php
+│   └── web.php
+└── tests/
+    └── Feature/
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## MVC Architecture
 
-## Contributing
+UM-Pasa follows Laravel's MVC pattern:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| MVC Part | Description | Examples |
+|---|---|---|
+| Model | Represents database tables and relationships | `User`, `Item`, `Transaction`, `Conversation`, `Message`, `Notification`, `Rating` |
+| View | Blade files that display the UI | `home.blade.php`, `marketplace/index.blade.php`, `items/show.blade.php`, `messages/index.blade.php` |
+| Controller | Handles request logic and connects models to views | `ItemController`, `TransactionController`, `MessageController`, `RatingController` |
 
-## Code of Conduct
+Example flow:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```text
+User opens /marketplace
+-> routes/web.php matches marketplace.index
+-> ItemController@index runs search/filter query
+-> Item model retrieves available listings
+-> marketplace/index.blade.php displays results
+```
 
-## Security Vulnerabilities
+## Important Routes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Feature | Route Name | URL / Action |
+|---|---|---|
+| Landing page | `home` | `GET /` |
+| Marketplace | `marketplace.index` | `GET /marketplace` |
+| Item details | `marketplace.show` | `GET /marketplace/{item}` |
+| Create item | `items.create` | `GET /items/create` |
+| Store item | `items.store` | `POST /items` |
+| Edit item | `items.edit` | `GET /items/{item}/edit` |
+| Update item | `items.update` | `PUT/PATCH /items/{item}` |
+| Delete item | `items.destroy` | `DELETE /items/{item}` |
+| Request item | `transactions.store` | `POST /items/{item}/request` |
+| Pending requests | `transactions.pending` | `GET /transactions/pending` |
+| Transaction history | `transactions.history` | `GET /transactions/history` |
+| Transaction receipt | `transactions.show` | `GET /transactions/{transaction}` |
+| Messages | `messages.index` | `GET /messages` |
+| Notifications | `notifications.index` | `GET /notifications` |
+| Ratings | `ratings.create` | `GET /ratings/{transaction}/create` |
+| Admin users | `admin.users` | `GET /admin/users` |
+| Admin items | `admin.items` | `GET /admin/items` |
+| Admin transactions | `admin.transactions` | `GET /admin/transactions` |
 
-## License
+## Database Tables
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Table | Purpose |
+|---|---|
+| `users` | Stores student and admin accounts |
+| `items` | Stores posted marketplace listings |
+| `transactions` | Stores item requests and transaction status |
+| `conversations` | Stores chat threads between two users |
+| `messages` | Stores messages and meetup proposals |
+| `notifications` | Stores user updates |
+| `ratings` | Stores transaction-based user reviews |
+| `sessions` | Stores Laravel session data |
+| `password_reset_tokens` | Supports password reset |
+| `cache`, `jobs` | Laravel framework support tables |
+
+## Main Database Relationships
+
+- One user can post many items.
+- One item belongs to one user.
+- One item can have many transactions.
+- One transaction connects a buyer, seller, and item.
+- One user can have many notifications.
+- One conversation connects a starter, recipient, and optionally an item.
+- One conversation has many messages.
+- One completed transaction can receive ratings.
+- Ratings connect a reviewer, a reviewed user, and a transaction.
+
+## Transaction Flow
+
+```text
+1. Buyer opens an available item.
+2. Buyer clicks Request Item.
+3. System creates a pending transaction.
+4. Seller receives a notification.
+5. Seller approves or rejects the request.
+6. If approved, seller adds meetup location and time.
+7. After meetup, seller marks transaction as completed.
+8. Buyer/seller may leave a rating.
+```
+
+## Demo Accounts
+
+The seeder creates these demo accounts:
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@umindanao.edu.ph` | `password` |
+| Student | `student@umindanao.edu.ph` | `password` |
+
+Seeder file:
+
+```text
+database/seeders/DatabaseSeeder.php
+```
+
+## Setup Guide
+
+### 1. Install PHP dependencies
+
+```bash
+composer install
+```
+
+### 2. Install frontend dependencies
+
+```bash
+npm install
+```
+
+### 3. Create environment file
+
+```bash
+cp .env.example .env
+```
+
+### 4. Generate application key
+
+```bash
+php artisan key:generate
+```
+
+### 5. Configure database
+
+Open `.env` and configure your database.
+
+For SQLite:
+
+```env
+DB_CONNECTION=sqlite
+```
+
+Make sure the database file exists:
+
+```bash
+touch database/database.sqlite
+```
+
+For MySQL:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=um_pasa
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 6. Run migrations
+
+```bash
+php artisan migrate
+```
+
+### 7. Seed demo accounts
+
+```bash
+php artisan db:seed
+```
+
+### 8. Link public storage for item images
+
+```bash
+php artisan storage:link
+```
+
+### 9. Build frontend assets
+
+```bash
+npm run build
+```
+
+### 10. Start the Laravel server
+
+```bash
+php artisan serve
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Development Commands
+
+Run Laravel and Vite separately:
+
+```bash
+php artisan serve
+npm run dev
+```
+
+Or use the project dev script:
+
+```bash
+composer run dev
+```
+
+Run tests:
+
+```bash
+composer test
+```
+
+Clear caches before demo:
+
+```bash
+php artisan optimize:clear
+```
+
+Recommended final demo prep:
+
+```bash
+php artisan optimize:clear
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+npm run build
+php artisan serve
+```
+
+## Demo Flow
+
+1. Open the landing page.
+2. Explain UM-Pasa and the campus marketplace problem.
+3. Register or log in as a student.
+4. Open the dashboard.
+5. Post a new item.
+6. Browse the marketplace.
+7. Search or filter listings.
+8. Open an item details page.
+9. Request the item or message the seller.
+10. Check notifications.
+11. As seller, approve a pending request.
+12. Complete the transaction after meetup.
+13. Leave a rating.
+14. Log in as admin and show monitoring pages.
+15. Log out.
+
+## Scope and Limitations
+
+Current scope:
+
+- Campus marketplace for academic/student items
+- Student item posting and browsing
+- Item requests and transaction tracking
+- Messaging and meetup proposals
+- Notifications
+- Ratings
+- Admin monitoring
+
+Limitations:
+
+- No online payment gateway
+- No delivery service
+- No real-time websocket chat
+- Campus meetup safety still depends on user responsibility
+- Admin tools are focused on monitoring and item deletion, not full analytics
+
+## Future Improvements
+
+- Real-time chat using broadcasting/websockets
+- Report item/user feature
+- Stronger student verification
+- Admin analytics charts
+- More advanced moderation tools
+- Mobile PWA support
+- Better notification preferences
+- Exportable reports for admin
+
+## Project Team
+
+| Name | Role |
+|---|---|
+| Terante, Markpaul | Project Leader |
+| Tuyac, Sophia Khym O. | Front-end Developer |
+| Coronia, Ian Miguel T. | Front-end Developer |
+| Bacunlay, Tejay R. | Back-end Developer |
+| Nalzaro, Rhena Mae T. | Back-end Developer |
+| Arapoc, Dongie Ana Marie A. | Back-end Developer |
+| Villarosa, Jorlan | Back-end Developer |
+
+## Institution
+
+Department of Computing Education  
+Computer Science and Information Technology Program  
+University of Mindanao Tagum / UM Visayan Campus  
+Visayan Village, Tagum City, Davao del Norte  
+Tel: (084) 655-6074
+
+## Compliance Note
+
+UM-Pasa is designed with account-based access, user accountability, and role-based admin monitoring. As a student project, it should still be reviewed and improved further before production deployment, especially for privacy, moderation, and data protection requirements under the Data Privacy Act of 2012, R.A. 10173.
+
+## Summary
+
+UM-Pasa promotes affordability, sustainability, and mutual academic support within the UM campus by giving students a structured platform to exchange academic resources safely and efficiently.
