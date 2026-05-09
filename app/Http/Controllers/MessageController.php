@@ -192,11 +192,13 @@ class MessageController extends Controller
         abort_if($item && $item->user_id !== $recipient->id, 403);
 
         $conversation = Conversation::where(function ($query) use ($recipient) {
-            $query->where('starter_id', Auth::id())
-                ->where('recipient_id', $recipient->id);
-        })->orWhere(function ($query) use ($recipient) {
-            $query->where('starter_id', $recipient->id)
-                ->where('recipient_id', Auth::id());
+            $query->where(function ($q) use ($recipient) {
+                $q->where('starter_id', Auth::id())
+                    ->where('recipient_id', $recipient->id);
+            })->orWhere(function ($q) use ($recipient) {
+                $q->where('starter_id', $recipient->id)
+                    ->where('recipient_id', Auth::id());
+            });
         });
 
         if ($item) {

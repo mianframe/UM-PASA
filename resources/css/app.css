@@ -90,32 +90,17 @@
         mask-image: radial-gradient(circle at center, black, transparent 76%);
     }
 
-    html[data-theme="light"] .text-white,
-    html[data-theme="light"] .text-slate-100,
-    html[data-theme="light"] .text-slate-200,
-    html[data-theme="light"] .text-slate-300,
-    html[data-theme="light"] .text-slate-400,
-    html[data-theme="light"] .text-slate-500,
-    html[data-theme="light"] .text-gray-900 {
+    :is(html[data-theme="light"]) :is(.text-white, .text-slate-100, .text-slate-200, .text-slate-300, .text-slate-400, .text-slate-500, .text-gray-900) {
         color: var(--color-text) !important;
     }
 
-    html[data-theme="light"] [class*="text-[#eedcbb"],
-    html[data-theme="light"] [class*="text-[#fff"],
-    html[data-theme="light"] [class*="text-slate-"],
-    html[data-theme="light"] [class*="text-gray-"] {
+    :is(html[data-theme="light"]) :is([class*="text-[#eedcbb]"], [class*="text-[#fff]"], [class*="text-slate-"], [class*="text-gray-"]) {
         color: var(--color-text-secondary) !important;
     }
 
-    html[data-theme="light"] h1.text-white,
-    html[data-theme="light"] h2.text-white,
-    html[data-theme="light"] h3.text-white,
-    html[data-theme="light"] h1[class*="text-[#fff"],
-    html[data-theme="light"] h2[class*="text-[#fff"],
-    html[data-theme="light"] h3[class*="text-[#fff"],
-    html[data-theme="light"] .font-black.text-white,
-    html[data-theme="light"] .font-bold.text-white,
-    html[data-theme="light"] .font-semibold.text-white {
+    :is(html[data-theme="light"]) :is(h1, h2, h3).text-white,
+    :is(html[data-theme="light"]) :is(h1, h2, h3)[class*="text-[#fff]"],
+    :is(html[data-theme="light"]) :is(.font-black, .font-bold, .font-semibold).text-white {
         color: var(--color-text) !important;
     }
 
