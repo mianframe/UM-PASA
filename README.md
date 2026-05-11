@@ -1,8 +1,8 @@
 # UM-Pasa: Campus Marketplace
 
-UM-Pasa is a Laravel-based campus marketplace system for the University of Mindanao community. It allows students to post, browse, request, message, and complete student-to-student transactions for academic materials in a more organized and accountable way.
+UM-Pasa is a Laravel-based campus marketplace system for the UM Tagum community. It allows students to post, browse, request, message, and complete student-to-student transactions for academic materials in a more organized and accountable way.
 
-The system is designed for a BSIT project/capstone demonstration and follows Laravel's MVC structure using routes, controllers, models, migrations, Blade views, authentication, role-based access, and CRUD workflows.
+The system is designed for a BSIT project demonstration and follows Laravel's MVC structure using routes, controllers, models, migrations, Blade views, authentication, role-based access, and CRUD workflows.
 
 ## Overview
 
@@ -10,7 +10,7 @@ UM-Pasa addresses a common problem for students: academic materials such as book
 
 Instead of relying only on scattered social media posts or group chats, UM-Pasa provides a focused marketplace where students can:
 
-- Post academic items for sale, rent, or swap
+- Post academic items for sale or rent
 - Browse and filter listings by category, department, program, condition, price, and course code
 - Send requests for available items
 - Message buyers or sellers

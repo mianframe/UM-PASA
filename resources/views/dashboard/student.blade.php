@@ -7,6 +7,7 @@
                 <p class="section-copy mt-2">Manage listings, review requests, check notifications, and continue current transactions.</p>
             </div>
             <div class="flex flex-col gap-3 sm:flex-row">
+                <a href="{{ route('reports.student') }}" class="btn-secondary">Generate Report</a>
                 <a href="{{ route('items.create') }}" class="btn-primary">Post New Item</a>
                 <a href="{{ route('marketplace.index') }}" class="btn-secondary">Browse Marketplace</a>
             </div>
@@ -16,7 +17,17 @@
     <div class="page-wrap space-y-6">
         <x-flash-messages />
 
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <div class="glass-card p-5">
+                <div class="text-sm text-slate-300">Approved Listings</div>
+                <div class="mt-3 text-3xl font-bold text-white">{{ $stats['approvedListings'] }}</div>
+                <p class="mt-2 text-sm text-slate-400">Listings visible in the marketplace.</p>
+            </div>
+            <div class="glass-card p-5">
+                <div class="text-sm text-slate-300">Pending Listing Review</div>
+                <div class="mt-3 text-3xl font-bold text-white">{{ $stats['pendingListings'] }}</div>
+                <p class="mt-2 text-sm text-slate-400">Waiting for admin approval.</p>
+            </div>
             <div class="glass-card p-5">
                 <div class="text-sm text-slate-300">Total Items</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['totalItems'] }}</div>
@@ -31,11 +42,6 @@
                 <div class="text-sm text-slate-300">Completed Transactions</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['completedTransactions'] }}</div>
                 <p class="mt-2 text-sm text-slate-400">Completed deals linked to your account.</p>
-            </div>
-            <div class="glass-card p-5">
-                <div class="text-sm text-slate-300">Notifications</div>
-                <div class="mt-3 text-3xl font-bold text-white">{{ $stats['notifications'] }}</div>
-                <p class="mt-2 text-sm text-slate-400">Unread updates from requests, approvals, and ratings.</p>
             </div>
         </div>
 
@@ -59,7 +65,7 @@
                             <div class="mt-2 text-2xl font-bold text-white">{{ $stats['pendingRequests'] }}</div>
                         </div>
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                            <div class="text-xs uppercase tracking-[0.18em] text-slate-400">Total Earned Demo</div>
+                            <div class="text-xs uppercase tracking-[0.18em] text-slate-400">Total Earned</div>
                             <div class="mt-2 text-2xl font-bold text-white">P{{ number_format($user->items()->where('status', 'sold')->sum('price') ?? 0, 2) }}</div>
                         </div>
                     </div>
@@ -87,15 +93,18 @@
                         <h3 class="text-lg font-semibold text-white">Quick Actions</h3>
                         <span class="text-sm text-slate-400">Marketplace shortcuts</span>
                     </div>
-                    <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                    <div class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
                         <a href="{{ route('transactions.pending') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">
-                            Review pending buyer requests
+                            Review pending requests
                         </a>
                         <a href="{{ route('transactions.history') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">
-                            Open transaction history and receipts
+                            Transaction history and receipts
+                        </a>
+                        <a href="{{ route('reports.student') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">
+                            Generate report
                         </a>
                         <a href="{{ route('messages.index') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">
-                            Open conversation inbox
+                            Open inbox
                         </a>
                         <a href="{{ route('profile.ratings') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">
                             Review ratings and feedback

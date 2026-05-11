@@ -4,8 +4,9 @@
             <div>
                 <p class="text-sm uppercase tracking-[0.2em] text-red-200">Admin</p>
                 <h1 class="section-title mt-2">Transaction Overview</h1>
-                <p class="section-copy mt-2">Simple table view of buyer-seller activity across pending, approved, rejected, and completed requests.</p>
+                <p class="section-copy mt-2">Review buyer-seller activity across pending, approved, rejected, and completed requests.</p>
             </div>
+            <a href="{{ route('admin.reports') }}" class="btn-secondary">Generate Report</a>
         </div>
     </x-slot>
 
@@ -21,6 +22,7 @@
                                 <th class="px-4 py-4">Buyer</th>
                                 <th class="px-4 py-4">Seller</th>
                                 <th class="px-4 py-4">Status</th>
+                                <th class="px-4 py-4">Payment</th>
                                 <th class="px-4 py-4">Date</th>
                             </tr>
                         </thead>
@@ -34,6 +36,7 @@
                                     <td class="px-4 py-4">
                                         <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ ucfirst($transaction->status) }}</span>
                                     </td>
+                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentMethodLabel() }}</td>
                                     <td class="px-4 py-4 text-slate-300">{{ $transaction->created_at->format('M d, Y') }}</td>
                                 </tr>
                             @endforeach

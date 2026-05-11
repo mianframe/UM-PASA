@@ -62,6 +62,24 @@
                                 <strong>{{ ucfirst($transaction->item->listing_type) }}</strong>
                             </div>
                             <div class="transaction-meta-tile">
+                                <span>Mode of Payment</span>
+                                <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
+                            </div>
+                            <div class="transaction-meta-tile">
+                                <span>Payment Proof</span>
+                                <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
+                            </div>
+                            @if($transaction->item->listing_type === 'rent')
+                                <div class="transaction-meta-tile">
+                                    <span>Rental Duration</span>
+                                    <strong>{{ $transaction->rental_duration_days ? $transaction->rental_duration_days . ' day(s)' : 'To be discussed' }}</strong>
+                                </div>
+                                <div class="transaction-meta-tile">
+                                    <span>Due Date</span>
+                                    <strong>{{ $transaction->rental_due_date ? $transaction->rental_due_date->format('M d, Y') : 'Not set' }}</strong>
+                                </div>
+                            @endif
+                            <div class="transaction-meta-tile">
                                 <span>Requested On</span>
                                 <strong>{{ $transaction->created_at->format('M d, Y h:i A') }}</strong>
                             </div>

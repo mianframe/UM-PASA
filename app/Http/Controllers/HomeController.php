@@ -10,7 +10,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $recentItems = Item::with('user')->where('status', 'available')->latest()->take(4)->get();
+        $recentItems = Item::with('user')
+            ->where('status', 'available')
+            ->where('moderation_status', 'approved')
+            ->latest()
+            ->take(4)
+            ->get();
 
         $stats = [
             'students' => User::where('role', 'student')->count(),

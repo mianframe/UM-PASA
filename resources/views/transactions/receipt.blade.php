@@ -62,6 +62,20 @@
                 <a href="{{ route('marketplace.show', $transaction->item) }}" class="btn-secondary">View Item</a>
             </div>
 
+            @if(!$isSeller && in_array($transaction->status, ['pending', 'approved']))
+                <div class="transaction-final-panel print:hidden">
+                    <div>
+                        <strong>Payment proof</strong>
+                        <p>Upload a receipt or screenshot after payment is done. Accepted files: JPG, PNG, or PDF.</p>
+                    </div>
+                    <form method="POST" action="{{ route('transactions.paymentProof', $transaction) }}" enctype="multipart/form-data" class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                        @csrf
+                        <input type="file" name="payment_proof" accept="image/png,image/jpeg,application/pdf" class="glass-input" required>
+                        <button type="submit" class="btn-primary">Upload Proof</button>
+                    </form>
+                </div>
+            @endif
+
             <div class="mt-8 grid gap-6 md:grid-cols-2">
                 <div class="transaction-party-card print:bg-slate-100">
                     <h3>Buyer</h3>
@@ -87,8 +101,36 @@
                     </div>
                     <div class="transaction-meta-tile print:bg-slate-50">
                         <span>Price</span>
-                        <strong>{{ $transaction->item->price ? 'P' . number_format($transaction->item->price, 2) : 'Negotiable / Swap' }}</strong>
+                        <strong>{{ $transaction->item->price ? 'P' . number_format($transaction->item->price, 2) : 'Negotiable' }}</strong>
                     </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Mode of Payment</span>
+                        <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Payment Proof</span>
+                        <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Tracking Status</span>
+                        <strong>{{ $transaction->getTrackingStatusLabel() }}</strong>
+                    </div>
+                    @if($transaction->item->listing_type === 'rent')
+                        <div class="transaction-meta-tile print:bg-slate-50">
+                            <span>Rental Duration</span>
+                            <strong>{{ $transaction->rental_duration_days ? $transaction->rental_duration_days . ' day(s)' : 'To be discussed' }}</strong>
+                        </div>
+                        <div class="transaction-meta-tile print:bg-slate-50">
+                            <span>Rental Due Date</span>
+                            <strong>{{ $transaction->rental_due_date ? $transaction->rental_due_date->format('F d, Y') : 'Not set' }}</strong>
+                        </div>
+                    @endif
+                    @if($transaction->payment_proof)
+                        <div class="transaction-meta-tile print:bg-slate-50">
+                            <span>Receipt File</span>
+                            <strong><a href="{{ asset('storage/' . $transaction->payment_proof) }}" class="text-red-200 print:text-slate-900" target="_blank">View uploaded proof</a></strong>
+                        </div>
+                    @endif
                     <div class="transaction-meta-tile print:bg-slate-50">
                         <span>Department</span>
                         <strong>{{ $transaction->item->department }}</strong>

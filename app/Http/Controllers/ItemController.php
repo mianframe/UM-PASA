@@ -11,7 +11,9 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Item::with('user')->where('status', 'available');
+        $query = Item::with('user')
+            ->where('status', 'available')
+            ->where('moderation_status', 'approved');
 
         if ($request->filled('q')) {
             $search = $request->q;
@@ -89,7 +91,12 @@ class ItemController extends Controller
             'department' => ['required', 'string', 'max:255'],
             'program' => ['required', 'string', 'max:255'],
             'course_code' => ['required', 'string', 'max:20'],
-            'listing_type' => ['required', 'in:sell,rent,swap'],
+            'listing_type' => ['required', 'in:sell,rent'],
+            'accepted_payment_methods' => ['required', 'array', 'min:1'],
+            'accepted_payment_methods.*' => ['in:gcash,maya,bank_transfer,cash_on_pickup,other'],
+            'minimum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'min:1', 'max:365'],
+            'maximum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'gte:minimum_rental_days', 'max:365'],
+            'daily_rental_rate' => ['nullable', 'required_if:listing_type,rent', 'numeric', 'min:0'],
             'condition' => ['required', 'in:new,like_new,good,fair,poor'],
             'price' => ['nullable', 'numeric', 'min:0'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
@@ -100,9 +107,11 @@ class ItemController extends Controller
         }
 
         $data['user_id'] = Auth::id();
+        $data = $this->normalizeListingData($data);
+        $data['moderation_status'] = Auth::user()->isAdmin() ? 'approved' : 'pending';
         Item::create($data);
 
-        return redirect()->route('marketplace.index')->with('success', 'Item posted successfully.');
+        return redirect()->route('marketplace.index')->with('success', 'Item posted successfully. It will appear in the marketplace after admin approval.');
     }
 
     public function show(Item $item)
@@ -134,7 +143,12 @@ class ItemController extends Controller
             'department' => ['required', 'string', 'max:255'],
             'program' => ['required', 'string', 'max:255'],
             'course_code' => ['required', 'string', 'max:20'],
-            'listing_type' => ['required', 'in:sell,rent,swap'],
+            'listing_type' => ['required', 'in:sell,rent'],
+            'accepted_payment_methods' => ['required', 'array', 'min:1'],
+            'accepted_payment_methods.*' => ['in:gcash,maya,bank_transfer,cash_on_pickup,other'],
+            'minimum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'min:1', 'max:365'],
+            'maximum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'gte:minimum_rental_days', 'max:365'],
+            'daily_rental_rate' => ['nullable', 'required_if:listing_type,rent', 'numeric', 'min:0'],
             'condition' => ['required', 'in:new,like_new,good,fair,poor'],
             'price' => ['nullable', 'numeric', 'min:0'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
@@ -148,9 +162,13 @@ class ItemController extends Controller
             $data['image'] = $request->file('image')->store('items', 'public');
         }
 
+        $data = $this->normalizeListingData($data);
+        $data['moderation_status'] = Auth::user()->isAdmin() ? 'approved' : 'pending';
+        $data['rejection_reason'] = null;
+
         $item->update($data);
 
-        return redirect()->route('marketplace.show', $item)->with('success', 'Item updated successfully.');
+        return redirect()->route('marketplace.show', $item)->with('success', 'Item updated successfully. Admin approval is required before it appears in marketplace.');
     }
 
     public function destroy(Item $item)
@@ -164,5 +182,22 @@ class ItemController extends Controller
         $item->delete();
 
         return redirect()->route('marketplace.index')->with('success', 'Item deleted successfully.');
+    }
+
+    private function normalizeListingData(array $data): array
+    {
+        if ($data['listing_type'] === 'rent') {
+            $data['rental_duration_days'] = $data['maximum_rental_days'];
+            $data['price'] = $data['daily_rental_rate'];
+
+            return $data;
+        }
+
+        $data['minimum_rental_days'] = null;
+        $data['maximum_rental_days'] = null;
+        $data['daily_rental_rate'] = null;
+        $data['rental_duration_days'] = null;
+
+        return $data;
     }
 }

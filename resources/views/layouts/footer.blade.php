@@ -24,7 +24,7 @@
                             </svg>
                         </a>
                         @auth
-                            <a href="{{ route('messages.index') }}" class="footer-icon-button" aria-label="Open messages" title="Messages">
+                            <a href="{{ route('messages.index') }}" class="footer-icon-button" aria-label="Open inbox" title="Inbox">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a7.5 7.5 0 0 1-7.5 7.5H8l-5 2 1.7-4.3A7.5 7.5 0 1 1 21 12Z"></path>
                                 </svg>
@@ -50,12 +50,12 @@
                         Quick Links
                     </div>
                     <div class="footer-link-grid">
-                        <a href="{{ route('home') }}#about" class="footer-pill">
+                        <a href="{{ route('about') }}" class="footer-pill">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 21a8 8 0 1 0-16 0"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            About
+                            About Us
                         </a>
                         <a href="{{ route('marketplace.index') }}" class="footer-pill">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -64,19 +64,12 @@
                             </svg>
                             Browse Items
                         </a>
-                        <a href="{{ route('marketplace.index', ['type' => 'rent']) }}" class="footer-pill">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m12 12 8-4.5M12 12 4 7.5M12 12v9"></path>
-                            </svg>
-                            Rental Items
-                        </a>
                         @auth
                             <a href="{{ route('messages.index') }}" class="footer-pill">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a7.5 7.5 0 0 1-7.5 7.5H8l-5 2 1.7-4.3A7.5 7.5 0 1 1 21 12Z"></path>
                                 </svg>
-                                Messages
+                                Inbox
                             </a>
                             <a href="{{ route('dashboard') }}" class="footer-pill">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -87,7 +80,7 @@
                                 </svg>
                                 Dashboard
                             </a>
-                        @endif
+                        @endauth
                         <a href="{{ route('help') }}" class="footer-pill">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                 <circle cx="12" cy="12" r="9"></circle>
@@ -96,7 +89,7 @@
                             </svg>
                             Help
                         </a>
-                        <a href="{{ route('home') }}#contact" class="footer-pill footer-pill-wide">
+                        <a href="{{ route('help') }}#contact-us" class="footer-pill">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.7 19.7 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.7 19.7 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"></path>
                             </svg>

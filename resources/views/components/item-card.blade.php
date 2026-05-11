@@ -12,7 +12,6 @@
             $listingClasses = match($item->listing_type) {
                 'sell' => 'badge-sale',
                 'rent' => 'badge-rent',
-                'swap' => 'badge-swap',
                 default => 'badge-base bg-white/10 text-white',
             };
         @endphp
@@ -20,23 +19,24 @@
         <span class="{{ $listingClasses }} absolute left-4 top-4">
             {{ ucfirst($item->listing_type) }}
         </span>
-        <button type="button" class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/35 text-white/90 transition hover:border-white/20 hover:bg-black/50">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m12 20.5-1.1-1C5.7 14.8 2.5 11.9 2.5 8.2 2.5 5.4 4.7 3.5 7.4 3.5c1.5 0 2.9.7 3.8 1.9.9-1.2 2.3-1.9 3.8-1.9 2.7 0 4.9 1.9 4.9 4.7 0 3.7-3.2 6.6-8.4 11.3L12 20.5Z"></path>
-            </svg>
-        </button>
     </div>
 
-    <div class="space-y-4 p-5">
+    <div class="flex min-h-[17rem] flex-col space-y-4 p-5">
         <div>
-            <h3 class="text-xl font-bold tracking-tight text-white">{{ $item->title }}</h3>
+            <h3 class="line-clamp-2 text-lg font-bold leading-snug text-white">{{ $item->title }}</h3>
             <p class="mt-2 text-sm leading-6 text-[#eedcbbc7]">{{ \Illuminate\Support\Str::limit($item->description, 95) }}</p>
         </div>
 
-        <div class="flex items-center justify-between text-sm text-[#eedcbbcc]">
-            <span>{{ $item->department }}</span>
-            <span class="font-semibold text-white">{{ $item->price ? 'P' . number_format($item->price, 2) : 'Flexible' }}</span>
+        <div class="flex items-start justify-between gap-3 text-sm text-[#eedcbbcc]">
+            <span class="min-w-0 truncate">{{ $item->department }}</span>
+            <span class="shrink-0 text-base font-black text-white">{{ $item->price ? 'P' . number_format($item->price, 2) : 'Flexible' }}</span>
         </div>
+
+        @if($item->listing_type === 'rent')
+            <div class="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-[#eedcbbcc]">
+                Rental: {{ $item->minimum_rental_days ?? 1 }}-{{ $item->maximum_rental_days ?? $item->rental_duration_days ?? 1 }} day(s) · P{{ number_format($item->daily_rental_rate ?? $item->price ?? 0, 2) }}/day
+            </div>
+        @endif
 
         <div class="flex items-center justify-between gap-3">
             <span class="market-card-bottom-pill">
@@ -69,7 +69,7 @@
             @endif
         </div>
 
-        <div class="flex items-center justify-between gap-3 border-t border-white/5 pt-3">
+        <div class="mt-auto flex items-center justify-between gap-3 border-t border-white/5 pt-3">
             <span class="text-xs uppercase tracking-[0.18em] text-slate-500">
                 {{ $item->course_code }} · {{ $item->user->name }}
             </span>

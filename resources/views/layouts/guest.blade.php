@@ -10,7 +10,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=auto" rel="stylesheet">
 
         <script>
             (() => {
@@ -52,11 +52,11 @@
                         </div>
                         <div class="glass-card p-5">
                             <div class="text-sm font-semibold text-white">Marketplace Flow</div>
-                            <p class="mt-2 text-sm text-[#eedcbbcc]">Sell, rent, swap, or request items in a few clicks.</p>
+                            <p class="mt-2 text-sm text-[#eedcbbcc]">Sell, rent, or request items in a few clicks.</p>
                         </div>
                         <div class="glass-card p-5">
-                            <div class="text-sm font-semibold text-white">Help & Support</div>
-                            <p class="mt-2 text-sm text-[#eedcbbcc]">See instructions and contact support if you need help using the system.</p>
+                            <div class="text-sm font-semibold text-white">Help and Contact</div>
+                            <p class="mt-2 text-sm text-[#eedcbbcc]">See instructions and Contact Us details if you need help using the system.</p>
                         </div>
                     </div>
                 </div>

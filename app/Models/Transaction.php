@@ -16,12 +16,20 @@ class Transaction extends Model
         'seller_id',
         'item_id',
         'status',
+        'payment_method',
+        'other_payment_method',
+        'rental_duration_days',
+        'rental_due_date',
+        'payment_proof',
+        'payment_proof_uploaded_at',
         'meetup_location',
         'meetup_time',
     ];
 
     protected $casts = [
         'meetup_time' => 'datetime',
+        'rental_due_date' => 'date',
+        'payment_proof_uploaded_at' => 'datetime',
     ];
 
     /**
@@ -78,6 +86,57 @@ class Transaction extends Model
             'rejected' => 'red',
             'completed' => 'green',
             default => 'gray',
+        };
+    }
+
+    public function getPaymentMethodLabel(): string
+    {
+        if ($this->payment_method === 'other') {
+            return $this->other_payment_method ?: 'Other payment method';
+        }
+
+        return match ($this->payment_method) {
+            'gcash' => 'GCash',
+            'maya' => 'Maya',
+            'bank_transfer' => 'Bank Transfer',
+            'cash_on_pickup' => 'Cash on Pickup',
+            default => 'Not specified',
+        };
+    }
+
+    public function getPaymentProofStatusLabel(): string
+    {
+        return $this->payment_proof ? 'Uploaded' : 'Not uploaded';
+    }
+
+    public function getTrackingStatusLabel(): string
+    {
+        if ($this->status === 'completed') {
+            return 'Completed';
+        }
+
+        if ($this->status === 'rejected') {
+            return 'Rejected';
+        }
+
+        if ($this->item?->listing_type === 'rent' && $this->rental_due_date) {
+            if ($this->rental_due_date->isPast() && ! $this->rental_due_date->isToday()) {
+                return 'Rental overdue';
+            }
+
+            if ($this->rental_due_date->isToday()) {
+                return 'Rental due today';
+            }
+
+            if (now()->diffInDays($this->rental_due_date, false) <= 2) {
+                return 'Rental due soon';
+            }
+        }
+
+        return match ($this->status) {
+            'pending' => 'Waiting for seller approval',
+            'approved' => 'Approved and in progress',
+            default => ucfirst($this->status),
         };
     }
 

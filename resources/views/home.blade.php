@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="landing-wrap page-wrap space-y-16">
-        <section id="about" class="landing-hero">
+        <section class="landing-hero">
             <div class="landing-glow landing-glow-red"></div>
             <div class="landing-glow landing-glow-gold"></div>
 
@@ -9,10 +9,10 @@
                     <p class="section-kicker">University Marketplace</p>
                     <div class="space-y-5">
                         <h1 class="landing-title">
-                            Buy, sell, rent, swap, and connect inside one trusted <span class="title-accent">UM</span> marketplace.
+                            Find, sell, and rent campus items in one trusted <span class="title-accent">UM</span> marketplace.
                         </h1>
                         <p class="landing-copy">
-                            UM-Pasa helps students find academic items, manage listings, message sellers, and complete campus meetups safely from one polished student marketplace.
+                            UM-Pasa helps students browse academic items, manage listings, coordinate with sellers, and track campus transactions in one organized system.
                         </p>
                     </div>
                     <div class="landing-actions">
@@ -50,8 +50,8 @@
                     <div class="hero-flow-card">
                         <div class="flex items-start justify-between gap-4">
                             <div>
-                                <div class="text-sm font-semibold uppercase tracking-[0.24em] text-[#f3df32]">Core Flow</div>
-                                <div class="mt-3 text-2xl font-extrabold leading-tight text-white">List item. Message seller. Propose meetup. Complete deal.</div>
+                                <div class="text-sm font-semibold uppercase tracking-[0.24em] text-[#f3df32]">System Characteristics</div>
+                                <div class="mt-3 text-2xl font-extrabold leading-tight text-white">A moderated marketplace for campus sale and rental transactions.</div>
                             </div>
                             <div class="hero-flow-mark">UM</div>
                         </div>
@@ -63,8 +63,8 @@
                                 </div>
                                 <span>01</span>
                                 <div>
-                                    <strong>List item</strong>
-                                    <p>Post books, uniforms, gadgets, and supplies.</p>
+                                    <strong>Admin-reviewed listings</strong>
+                                    <p>Listings are checked before they appear publicly.</p>
                                 </div>
                             </div>
                             <div class="flow-step">
@@ -73,8 +73,8 @@
                                 </div>
                                 <span>02</span>
                                 <div>
-                                    <strong>Message seller</strong>
-                                    <p>Ask questions before sending a request.</p>
+                                    <strong>Flexible payments</strong>
+                                    <p>Sellers choose accepted payment methods for each item.</p>
                                 </div>
                             </div>
                             <div class="flow-step">
@@ -83,8 +83,8 @@
                                 </div>
                                 <span>03</span>
                                 <div>
-                                    <strong>Propose meetup</strong>
-                                    <p>Coordinate safe campus handoffs.</p>
+                                    <strong>Rental tracking</strong>
+                                    <p>Rental duration, due date, and overdue status stay visible.</p>
                                 </div>
                             </div>
                             <div class="flow-step">
@@ -93,8 +93,8 @@
                                 </div>
                                 <span>04</span>
                                 <div>
-                                    <strong>Complete deal</strong>
-                                    <p>Track transactions and leave feedback.</p>
+                                    <strong>Reports and receipts</strong>
+                                    <p>Students and admins can generate clear transaction records.</p>
                                 </div>
                             </div>
                         </div>
@@ -103,8 +103,8 @@
                     <div class="floating-mini-card mini-card-one">
                         <span class="mini-dot"></span>
                         <div>
-                            <div class="font-bold text-white">UM Email Verified</div>
-                            <p>Campus access only</p>
+                            <div class="font-bold text-white">UM Email Only</div>
+                            <p>Campus-focused access</p>
                         </div>
                     </div>
                     <div class="floating-mini-card mini-card-two">
@@ -118,7 +118,7 @@
                         <span class="mini-dot"></span>
                         <div>
                             <div class="font-bold text-white">Student Deals</div>
-                            <p>Trade with confidence</p>
+                            <p>Request with confidence</p>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                 </div>
                 <div class="stat-number">{{ $stats['completed'] }}</div>
                 <div class="stat-label">Completed Deals</div>
-                <p>Requests finished through campus meetup flow.</p>
+                <p>Transactions completed through campus meetups.</p>
             </div>
             <div class="premium-stat-card">
                 <div class="stat-icon">
@@ -205,12 +205,12 @@
         <section class="landing-section feature-grid">
             <div class="feature-card">
                 <span>01</span>
-                <h3>Verified UM students only</h3>
-                <p>Keep marketplace activity focused around trusted campus accounts and student needs.</p>
+                <h3>UM email accounts only</h3>
+                <p>Keep marketplace activity focused around campus accounts and student needs.</p>
             </div>
             <div class="feature-card">
                 <span>02</span>
-                <h3>Buy, sell, rent, and swap</h3>
+                <h3>Buy, sell, and rent</h3>
                 <p>Support flexible student deals for books, uniforms, calculators, gadgets, and supplies.</p>
             </div>
             <div class="feature-card">
@@ -218,7 +218,7 @@
                 <h3>Built-in messaging</h3>
                 <p>Ask questions, send meetup proposals, and coordinate handoffs without leaving UM-Pasa.</p>
             </div>
-            <div id="contact" class="feature-card">
+            <div class="feature-card">
                 <span>04</span>
                 <h3>Organized campus marketplace</h3>
                 <p>Filter by category, department, program, condition, and listing type to move fast.</p>

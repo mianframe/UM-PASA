@@ -53,7 +53,7 @@
                         $isSeller = auth()->id() === $transaction->seller_id;
                         $nextStep = match($transaction->status) {
                             'pending' => $isSeller ? 'Review this request in Pending Requests.' : 'Waiting for the seller to approve or reject your request.',
-                            'approved' => $isSeller ? 'Meet the buyer, then mark the deal as completed.' : 'Meet the seller using the approved meetup details.',
+                            'approved' => $isSeller ? 'Meet the buyer, verify payment proof if needed, then mark the deal as completed.' : 'Upload payment proof if needed and meet the seller using the approved details.',
                             'rejected' => 'This request was rejected. The item can receive new requests again.',
                             'completed' => 'Deal completed. You can open the receipt and leave a rating if you have not rated yet.',
                             default => 'Open the receipt for more details.',
@@ -85,6 +85,28 @@
                                 <strong>{{ $transaction->meetup_time ? $transaction->meetup_time->format('M d, Y h:i A') : 'To be announced' }}</strong>
                             </div>
                             <div class="transaction-meta-tile">
+                                <span>Mode of Payment</span>
+                                <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
+                            </div>
+                            <div class="transaction-meta-tile">
+                                <span>Payment Proof</span>
+                                <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
+                            </div>
+                            <div class="transaction-meta-tile">
+                                <span>Tracking Status</span>
+                                <strong>{{ $transaction->getTrackingStatusLabel() }}</strong>
+                            </div>
+                            @if($transaction->item->listing_type === 'rent')
+                                <div class="transaction-meta-tile">
+                                    <span>Rental Duration</span>
+                                    <strong>{{ $transaction->rental_duration_days ? $transaction->rental_duration_days . ' day(s)' : 'To be discussed' }}</strong>
+                                </div>
+                                <div class="transaction-meta-tile">
+                                    <span>Due Date</span>
+                                    <strong>{{ $transaction->rental_due_date ? $transaction->rental_due_date->format('M d, Y') : 'Not set' }}</strong>
+                                </div>
+                            @endif
+                            <div class="transaction-meta-tile">
                                 <span>Transaction Date</span>
                                 <strong>{{ $transaction->created_at->format('M d, Y') }}</strong>
                             </div>
@@ -92,6 +114,13 @@
 
                         <div class="transaction-card-actions">
                             <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
+                            @if(!$isSeller && in_array($transaction->status, ['pending', 'approved']))
+                                <form method="POST" action="{{ route('transactions.paymentProof', $transaction) }}" enctype="multipart/form-data" class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                                    @csrf
+                                    <input type="file" name="payment_proof" accept="image/png,image/jpeg,application/pdf" class="glass-input max-w-xs" required>
+                                    <button type="submit" class="btn-secondary">Upload Proof</button>
+                                </form>
+                            @endif
                             <form method="POST" action="{{ route('messages.store') }}">
                                 @csrf
                                 <input type="hidden" name="recipient_id" value="{{ $isSeller ? $transaction->buyer_id : $transaction->seller_id }}">

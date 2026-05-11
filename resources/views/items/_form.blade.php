@@ -5,6 +5,8 @@
     if (! $previewImage && $editing && $item->image) {
         $previewImage = asset('storage/' . $item->image);
     }
+
+    $selectedPaymentMethods = old('accepted_payment_methods', $item->accepted_payment_methods ?? ['gcash', 'maya', 'bank_transfer', 'cash_on_pickup']);
 @endphp
 
 <form
@@ -17,6 +19,7 @@
         departmentPrograms: @js($departments),
         department: @js(old('department', $item->department ?? '')),
         selectedProgram: @js(old('program', $item->program ?? '')),
+        listingType: @js(old('listing_type', $item->listing_type ?? '')),
         get programs() {
             return this.departmentPrograms[this.department] || [];
         }
@@ -85,13 +88,46 @@
 
                 <div>
                     <label for="listing_type" class="text-sm font-medium text-slate-200">Listing Type</label>
-                    <select id="listing_type" name="listing_type" class="glass-input">
+                    <select id="listing_type" name="listing_type" class="glass-input" x-model="listingType">
                         <option value="">Select listing type</option>
                         <option value="sell" @selected(old('listing_type', $item->listing_type ?? '') === 'sell')>Sell</option>
                         <option value="rent" @selected(old('listing_type', $item->listing_type ?? '') === 'rent')>Rent</option>
-                        <option value="swap" @selected(old('listing_type', $item->listing_type ?? '') === 'swap')>Swap</option>
                     </select>
                     @error('listing_type') <p class="mt-2 text-sm text-red-200">{{ $message }}</p> @enderror
+                </div>
+            </div>
+
+            <div class="glass-panel p-5">
+                <h3 class="text-lg font-semibold text-white">Accepted Payment Methods</h3>
+                <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                    @foreach(\App\Models\Item::paymentMethodOptions() as $methodValue => $methodLabel)
+                        <label class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200">
+                            <input type="checkbox" name="accepted_payment_methods[]" value="{{ $methodValue }}" class="rounded border-white/20 bg-white/10 text-red-600" @checked(in_array($methodValue, $selectedPaymentMethods, true))>
+                            <span>{{ $methodLabel }}</span>
+                        </label>
+                    @endforeach
+                </div>
+                @error('accepted_payment_methods') <p class="mt-3 text-sm text-red-200">{{ $message }}</p> @enderror
+            </div>
+
+            <div x-show="listingType === 'rent'" x-transition class="glass-panel p-5">
+                <h3 class="text-lg font-semibold text-white">Rental Terms</h3>
+                <div class="mt-4 grid gap-4 sm:grid-cols-3">
+                    <div>
+                        <label for="minimum_rental_days" class="text-sm font-medium text-slate-200">Minimum Duration</label>
+                        <input id="minimum_rental_days" type="number" min="1" max="365" name="minimum_rental_days" value="{{ old('minimum_rental_days', $item->minimum_rental_days ?? '') }}" class="glass-input" placeholder="3" />
+                        @error('minimum_rental_days') <p class="mt-2 text-sm text-red-200">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="maximum_rental_days" class="text-sm font-medium text-slate-200">Maximum Duration</label>
+                        <input id="maximum_rental_days" type="number" min="1" max="365" name="maximum_rental_days" value="{{ old('maximum_rental_days', $item->maximum_rental_days ?? $item->rental_duration_days ?? '') }}" class="glass-input" placeholder="14" />
+                        @error('maximum_rental_days') <p class="mt-2 text-sm text-red-200">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="daily_rental_rate" class="text-sm font-medium text-slate-200">Daily Rental Rate</label>
+                        <input id="daily_rental_rate" type="number" step="0.01" min="0" name="daily_rental_rate" value="{{ old('daily_rental_rate', $item->daily_rental_rate ?? '') }}" class="glass-input" placeholder="25.00" />
+                        @error('daily_rental_rate') <p class="mt-2 text-sm text-red-200">{{ $message }}</p> @enderror
+                    </div>
                 </div>
             </div>
 
@@ -129,7 +165,7 @@
                     <template x-if="!preview">
                         <div>
                             <div class="text-sm font-semibold text-white">Click to upload an image</div>
-                            <div class="mt-2 text-sm text-slate-400">Preview will appear here for the live demo.</div>
+                            <div class="mt-2 text-sm text-slate-400">Preview will appear here before posting.</div>
                         </div>
                     </template>
                 </label>
@@ -139,12 +175,15 @@
             </div>
 
             <div class="glass-panel p-5">
-                <h3 class="text-lg font-semibold text-white">Demo Notes</h3>
+                <h3 class="text-lg font-semibold text-white">Listing Tips</h3>
                 <ul class="mt-3 space-y-2 text-sm text-slate-300">
                     <li>Use a clear item title for faster browsing.</li>
                     <li>Pick the correct department and program for live filtering.</li>
-                    <li>Set the listing type to sell, rent, or swap.</li>
-                    <li>Price can be left blank for negotiation or swap offers.</li>
+                    <li>Set the listing type to sell or rent.</li>
+                    <li>Rental listings need minimum and maximum duration plus a daily rate.</li>
+                    <li>Select every payment method you can accept.</li>
+                    <li>Price can be left blank for negotiation.</li>
+                    <li>Admin approval is required before listings appear publicly.</li>
                 </ul>
             </div>
         </div>

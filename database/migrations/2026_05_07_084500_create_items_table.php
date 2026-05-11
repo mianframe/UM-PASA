@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('department');
             $table->string('course_code');
-            $table->enum('listing_type', ['sell', 'rent', 'swap']);
+            $table->enum('listing_type', ['sell', 'rent']);
             $table->decimal('price', 10, 2)->nullable();
             $table->string('image')->nullable();
             $table->enum('status', ['available', 'pending', 'sold'])->default('available');

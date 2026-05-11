@@ -95,12 +95,15 @@ class MarketplaceWorkflowTest extends TestCase
         $item = $this->createItemFor($seller);
 
         $this->actingAs($buyer)
-            ->post(route('transactions.store', $item))
+            ->post(route('transactions.store', $item), [
+                'payment_method' => 'gcash',
+            ])
             ->assertRedirect(route('transactions.history'));
 
         $transaction = Transaction::firstOrFail();
 
         $this->assertSame('pending', $transaction->status);
+        $this->assertSame('gcash', $transaction->payment_method);
         $this->assertSame('pending', $item->refresh()->status);
 
         $meetupTime = now()->addDay()->setSecond(0);
@@ -191,6 +194,7 @@ class MarketplaceWorkflowTest extends TestCase
             'condition' => 'good',
             'price' => 500,
             'status' => 'available',
+            'moderation_status' => 'approved',
         ], $overrides));
     }
 }

@@ -491,10 +491,6 @@
         @apply inline-flex items-center rounded-full bg-[#b70201] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-white;
     }
 
-    .badge-swap {
-        @apply inline-flex items-center rounded-full bg-sky-500/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-100;
-    }
-
     .metric-card {
         @apply glass-card p-5;
     }
@@ -916,7 +912,7 @@
         isolation: isolate;
         overflow: hidden;
         border-radius: clamp(1.75rem, 3vw, 2.5rem);
-        border: 1px solid color-mix(in srgb, var(--glass-border) 70%, var(--color-accent) 30%);
+        border: 1px solid color-mix(in srgb, var(--glass-border) 82%, var(--color-accent) 18%);
         padding: clamp(1.4rem, 3vw, 3rem);
         background:
             radial-gradient(circle at 4% 8%, rgba(255, 64, 64, 0.2), transparent 20rem),
@@ -928,10 +924,10 @@
         -webkit-backdrop-filter: blur(26px) saturate(1.45);
         box-shadow:
             0 0 0 1px rgba(255, 79, 65, 0.06),
-            0 34px 100px rgba(0, 0, 0, 0.48),
-            0 0 44px rgba(230, 36, 36, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.18),
-            inset 0 -1px 0 rgba(246, 200, 76, 0.12);
+            0 28px 76px rgba(0, 0, 0, 0.42),
+            0 0 30px rgba(230, 36, 36, 0.07),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14),
+            inset 0 -1px 0 rgba(246, 200, 76, 0.08);
     }
 
     .footer-glass::before {
@@ -1073,8 +1069,10 @@
     .footer-separator {
         width: 1px;
         height: 100%;
-        min-height: 14rem;
-        background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.16), transparent);
+        min-height: 13rem;
+        align-self: center;
+        background: linear-gradient(to bottom, transparent 6%, rgba(255, 255, 255, 0.07) 24%, rgba(255, 255, 255, 0.09) 50%, rgba(255, 255, 255, 0.07) 76%, transparent 94%);
+        opacity: 0.62;
     }
 
     .footer-section-title {
@@ -1139,18 +1137,11 @@
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        .footer-pill-wide {
-            grid-column: span 3 / span 3;
-        }
     }
 
     @media (min-width: 1280px) {
         .footer-link-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .footer-pill-wide {
-            grid-column: span 2 / span 2;
         }
     }
 
@@ -1824,6 +1815,38 @@
         font-weight: 760;
     }
 
+    .message-user-meta,
+    .message-header-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem 0.7rem;
+        color: color-mix(in srgb, var(--color-muted) 82%, transparent);
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 1.45;
+    }
+
+    .message-user-meta {
+        margin-top: 0.25rem;
+    }
+
+    .message-header-meta {
+        margin-top: 0.5rem;
+    }
+
+    .message-user-meta span,
+    .message-header-meta span {
+        display: inline-flex;
+        min-height: 1.45rem;
+        align-items: center;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.045);
+        padding: 0.18rem 0.55rem;
+        white-space: nowrap;
+    }
+
     .message-thread-item {
         margin-top: 0.35rem;
         color: var(--color-muted);
@@ -1844,6 +1867,18 @@
 
     .message-thread-time {
         white-space: nowrap;
+        text-align: right;
+    }
+
+    @media (max-width: 520px) {
+        .message-thread-time {
+            white-space: normal;
+            text-align: right;
+        }
+
+        .message-bubble {
+            max-width: 94%;
+        }
     }
 
     .messages-stream {

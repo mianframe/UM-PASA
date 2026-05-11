@@ -4,7 +4,7 @@
             <div>
                 <p class="text-sm uppercase tracking-[0.2em] text-red-200">Create Listing</p>
                 <h1 class="section-title mt-2">Post a New Academic Item</h1>
-                <p class="section-copy mt-2">Use the simple form below to create a sell, rent, or swap listing for the marketplace demo.</p>
+                <p class="section-copy mt-2">Use the form below to create a sale or rental listing for the campus marketplace.</p>
             </div>
             <a href="{{ route('marketplace.index') }}" class="btn-secondary">Back to Marketplace</a>
         </div>

@@ -4,9 +4,10 @@
             <div>
                 <p class="text-sm uppercase tracking-[0.2em] text-red-200">Admin Dashboard</p>
                 <h1 class="section-title mt-2">Marketplace Control Panel</h1>
-                <p class="section-copy mt-2">Monitor users, listings, and transaction activity for the UM-Pasa demo environment.</p>
+                <p class="section-copy mt-2">Monitor users, listings, and transaction activity across UM-Pasa.</p>
             </div>
             <div class="flex flex-col gap-3 sm:flex-row">
+                <a href="{{ route('admin.reports') }}" class="btn-secondary">Generate Report</a>
                 <a href="{{ route('admin.users') }}" class="btn-secondary">View Users</a>
                 <a href="{{ route('admin.items') }}" class="btn-primary">Moderate Items</a>
             </div>
@@ -46,7 +47,8 @@
                 <div class="mt-4 grid gap-3">
                     <a href="{{ route('admin.users') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">Open user list</a>
                     <a href="{{ route('admin.transactions') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">Review transaction overview</a>
-                    <a href="{{ route('admin.items') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">Delete inappropriate items</a>
+                    <a href="{{ route('admin.items') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">Approve, reject, or delete listed items</a>
+                    <a href="{{ route('admin.reports') }}" class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200 transition hover:bg-white/10">Generate admin report</a>
                 </div>
             </div>
 

@@ -13,11 +13,13 @@
 
             <div class="nav-capsule justify-self-center">
                 <a href="{{ route('home') }}" class="nav-pill {{ request()->routeIs('home') ? 'nav-pill-active' : '' }}">Home</a>
-                <a href="{{ route('marketplace.index') }}" class="nav-pill {{ request()->routeIs('marketplace.*') || request()->routeIs('items.*') ? 'nav-pill-active' : '' }}">Marketplace</a>
                 @auth
-                    <a href="{{ route('messages.index') }}" class="nav-pill {{ request()->routeIs('messages.*') ? 'nav-pill-active' : '' }}">Messages</a>
                     <a href="{{ route('dashboard') }}" class="nav-pill {{ request()->routeIs('dashboard') ? 'nav-pill-active' : '' }}">Dashboard</a>
                 @endauth
+                @guest
+                    <a href="{{ route('about') }}" class="nav-pill {{ request()->routeIs('about') ? 'nav-pill-active' : '' }}">About Us</a>
+                @endguest
+                <a href="{{ route('marketplace.index') }}" class="nav-pill {{ request()->routeIs('marketplace.*') || request()->routeIs('items.*') ? 'nav-pill-active' : '' }}">Marketplace</a>
             </div>
 
             <div class="nav-side justify-self-end">
@@ -31,6 +33,11 @@
                     </svg>
                 </button>
                 @auth
+                    <a href="{{ route('messages.index') }}" class="nav-icon-button" aria-label="Inbox" title="Inbox">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.5a8.4 8.4 0 0 1-9 8.3 8.8 8.8 0 0 1-3.8-.9L3 20l1.2-4.6A8 8 0 1 1 21 11.5Z"></path>
+                        </svg>
+                    </a>
                     <a href="{{ route('notifications.index') }}" class="nav-icon-button" aria-label="Notifications" title="Notifications">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"></path>
@@ -68,7 +75,8 @@
             @auth
                 <a href="{{ route('dashboard') }}" class="nav-pill block {{ request()->routeIs('dashboard') ? 'nav-pill-active' : '' }}">Dashboard</a>
                 <a href="{{ route('transactions.history') }}" class="nav-pill block {{ request()->routeIs('transactions.*') ? 'nav-pill-active' : '' }}">Transactions</a>
-                <a href="{{ route('messages.index') }}" class="nav-pill block {{ request()->routeIs('messages.*') ? 'nav-pill-active' : '' }}">Messages</a>
+                <a href="{{ route('reports.student') }}" class="nav-pill block {{ request()->routeIs('reports.*') ? 'nav-pill-active' : '' }}">Reports</a>
+                <a href="{{ route('messages.index') }}" class="nav-pill block {{ request()->routeIs('messages.*') ? 'nav-pill-active' : '' }}">Inbox</a>
                 <a href="{{ route('notifications.index') }}" class="nav-pill block">Alerts</a>
                 <a href="{{ route('profile.edit') }}" class="nav-pill block">Profile</a>
                 <button type="button" onclick="window.toggleTheme()" class="nav-pill flex w-full items-center gap-3 text-left">
@@ -86,6 +94,7 @@
                     <button type="submit" class="btn-primary mt-2 w-full">Logout</button>
                 </form>
             @else
+                <a href="{{ route('about') }}" class="nav-pill block {{ request()->routeIs('about') ? 'nav-pill-active' : '' }}">About Us</a>
                 <a href="{{ route('login') }}" class="nav-pill block">Login</a>
                 <button type="button" onclick="window.toggleTheme()" class="nav-pill flex w-full items-center gap-3 text-left">
                     <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">

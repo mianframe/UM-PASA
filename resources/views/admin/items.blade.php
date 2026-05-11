@@ -6,6 +6,7 @@
                 <h1 class="section-title mt-2">Item Moderation</h1>
                 <p class="section-copy mt-2">Review marketplace listings and remove inappropriate entries when needed.</p>
             </div>
+            <a href="{{ route('admin.reports') }}" class="btn-secondary">Generate Report</a>
         </div>
     </x-slot>
 
@@ -21,7 +22,10 @@
                                 <th class="px-4 py-4">Title</th>
                                 <th class="px-4 py-4">Seller</th>
                                 <th class="px-4 py-4">Status</th>
+                                <th class="px-4 py-4">Review</th>
+                                <th class="px-4 py-4">Reason</th>
                                 <th class="px-4 py-4">Type</th>
+                                <th class="px-4 py-4">Rental Duration</th>
                                 <th class="px-4 py-4">Action</th>
                             </tr>
                         </thead>
@@ -33,13 +37,33 @@
                                     <td class="px-4 py-4">
                                         <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ ucfirst($item->status) }}</span>
                                     </td>
-                                    <td class="px-4 py-4 text-slate-300">{{ ucfirst($item->listing_type) }}</td>
                                     <td class="px-4 py-4">
+                                        <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ $item->getModerationStatusLabel() }}</span>
+                                    </td>
+                                    <td class="px-4 py-4 text-slate-300">{{ $item->rejection_reason ?: 'N/A' }}</td>
+                                    <td class="px-4 py-4 text-slate-300">{{ ucfirst($item->listing_type) }}</td>
+                                    <td class="px-4 py-4 text-slate-300">{{ $item->listing_type === 'rent' ? (($item->minimum_rental_days ?? 1) . '-' . ($item->maximum_rental_days ?? $item->rental_duration_days ?? 'TBD') . ' day(s)') : 'N/A' }}</td>
+                                    <td class="px-4 py-4">
+                                        <div class="flex flex-wrap gap-2">
+                                            @if($item->moderation_status !== 'approved')
+                                                <form method="POST" action="{{ route('admin.items.approve', $item) }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn-primary">Approve</button>
+                                                </form>
+                                            @endif
+                                            @if($item->moderation_status !== 'rejected')
+                                                <form method="POST" action="{{ route('admin.items.reject', $item) }}" class="flex flex-col gap-2">
+                                                    @csrf
+                                                    <input type="text" name="rejection_reason" class="glass-input min-w-48" placeholder="Reason">
+                                                    <button type="submit" class="btn-secondary">Reject</button>
+                                                </form>
+                                            @endif
                                         <form method="POST" action="{{ route('admin.items.destroy', $item) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn-danger">Delete</button>
                                         </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
