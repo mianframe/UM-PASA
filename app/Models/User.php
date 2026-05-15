@@ -4,18 +4,27 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected function casts(): array
     {
@@ -25,32 +34,32 @@ class User extends Authenticatable
         ];
     }
 
-    public function items()
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class);
     }
 
-    public function transactionsAsBuyer()
+    public function transactionsAsBuyer(): HasMany
     {
         return $this->hasMany(Transaction::class, 'buyer_id');
     }
 
-    public function transactionsAsSeller()
+    public function transactionsAsSeller(): HasMany
     {
         return $this->hasMany(Transaction::class, 'seller_id');
     }
 
-    public function ratingsGiven()
+    public function ratingsGiven(): HasMany
     {
         return $this->hasMany(Rating::class, 'reviewer_id');
     }
 
-    public function ratingsReceived()
+    public function ratingsReceived(): HasMany
     {
         return $this->hasMany(Rating::class, 'reviewed_user_id');
     }
 
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
     }

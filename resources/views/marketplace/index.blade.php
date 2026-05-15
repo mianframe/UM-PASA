@@ -5,6 +5,14 @@
     ])->values();
 @endphp
 
+@once
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('marketplaceFilters', { open: false });
+        });
+    </script>
+@endonce
+
 <x-app-layout>
     <x-slot name="header">
         <div class="marketplace-hero">
@@ -58,7 +66,7 @@
                                 </button>
                             </div>
 
-                            <button type="button" class="nav-auth-soft h-[58px] rounded-[1.2rem] px-7" @click="filtersOpen = true">
+                            <button type="button" class="nav-auth-soft h-[58px] rounded-[1.2rem] px-7" @click="$store.marketplaceFilters.open = true">
                                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h12M7 10h6M5 14h10"></path>
                                 </svg>
@@ -112,7 +120,6 @@
     <div
         class="page-wrap space-y-6"
         x-data="{
-            filtersOpen: false,
             departmentPrograms: @js($departmentPrograms),
             selectedDepartment: @js(request('department')),
             selectedType: @js(request('type', '')),
@@ -124,10 +131,11 @@
     >
         <x-flash-messages />
 
-        <div x-show="filtersOpen" x-transition.opacity class="fixed inset-0 z-40 bg-black/60" @click="filtersOpen = false"></div>
+        <div x-cloak x-show="$store.marketplaceFilters.open" x-transition.opacity class="fixed inset-0 z-40 bg-black/60" @click="$store.marketplaceFilters.open = false"></div>
 
         <aside
-            x-show="filtersOpen"
+            x-cloak
+            x-show="$store.marketplaceFilters.open"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="translate-x-full"
             x-transition:enter-end="translate-x-0"
@@ -141,7 +149,7 @@
                     <div class="section-kicker">Marketplace Filters</div>
                     <h2 class="mt-2 text-2xl font-black text-white">Filter Drawer</h2>
                 </div>
-                <button type="button" class="btn-ghost" @click="filtersOpen = false">Close</button>
+                <button type="button" class="btn-ghost" @click="$store.marketplaceFilters.open = false">Close</button>
             </div>
 
             <form method="GET" action="{{ route('marketplace.index') }}" class="space-y-5">

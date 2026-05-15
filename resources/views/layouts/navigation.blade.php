@@ -43,9 +43,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 9a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h4"></path>
                         </svg>
-                        @php $unreadNotifications = auth()->user()->notifications()->where('is_read', false)->count(); @endphp
-                        @if($unreadNotifications)
-                            <span class="nav-icon-badge">{{ $unreadNotifications }}</span>
+                        @if($unreadNotificationCount)
+                            <span class="nav-icon-badge">{{ $unreadNotificationCount }}</span>
                         @endif
                     </a>
                     <a href="{{ route('profile.edit') }}" class="nav-auth-soft">{{ Auth::user()->name }}</a>

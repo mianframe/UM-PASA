@@ -11,6 +11,22 @@ class Item extends Model
 {
     use HasFactory;
 
+    public const TYPE_SELL = 'sell';
+
+    public const TYPE_RENT = 'rent';
+
+    public const STATUS_AVAILABLE = 'available';
+
+    public const STATUS_PENDING = 'pending';
+
+    public const STATUS_SOLD = 'sold';
+
+    public const MODERATION_PENDING = 'pending';
+
+    public const MODERATION_APPROVED = 'approved';
+
+    public const MODERATION_REJECTED = 'rejected';
+
     protected $fillable = [
         'user_id',
         'title',
@@ -56,7 +72,8 @@ class Item extends Model
      */
     public function isAvailable(): bool
     {
-        return $this->status === 'available' && $this->moderation_status === 'approved';
+        return $this->status === self::STATUS_AVAILABLE
+            && $this->moderation_status === self::MODERATION_APPROVED;
     }
 
     public function isSoldByUser($userId): bool
@@ -66,15 +83,15 @@ class Item extends Model
 
     public function hasPendingRequest(): bool
     {
-        return $this->transactions()->where('status', 'pending')->exists();
+        return $this->transactions()->where('status', Transaction::STATUS_PENDING)->exists();
     }
 
     public function getStatusBadgeColor(): string
     {
         return match ($this->status) {
-            'available' => 'green',
-            'pending' => 'yellow',
-            'sold' => 'red',
+            self::STATUS_AVAILABLE => 'green',
+            self::STATUS_PENDING => 'yellow',
+            self::STATUS_SOLD => 'red',
             default => 'gray',
         };
     }
@@ -82,8 +99,8 @@ class Item extends Model
     public function getModerationStatusLabel(): string
     {
         return match ($this->moderation_status) {
-            'approved' => 'Approved',
-            'rejected' => 'Rejected',
+            self::MODERATION_APPROVED => 'Approved',
+            self::MODERATION_REJECTED => 'Rejected',
             default => 'Pending Review',
         };
     }
@@ -91,8 +108,8 @@ class Item extends Model
     public function getListingTypeLabel(): string
     {
         return match ($this->listing_type) {
-            'sell' => 'For Sale',
-            'rent' => 'For Rent',
+            self::TYPE_SELL => 'For Sale',
+            self::TYPE_RENT => 'For Rent',
             default => 'Unknown',
         };
     }

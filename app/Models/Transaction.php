@@ -11,6 +11,14 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    public const STATUS_PENDING = 'pending';
+
+    public const STATUS_APPROVED = 'approved';
+
+    public const STATUS_REJECTED = 'rejected';
+
+    public const STATUS_COMPLETED = 'completed';
+
     protected $fillable = [
         'buyer_id',
         'seller_id',
@@ -60,31 +68,31 @@ class Transaction extends Model
      */
     public function isPending(): bool
     {
-        return $this->status === 'pending';
+        return $this->status === self::STATUS_PENDING;
     }
 
     public function isApproved(): bool
     {
-        return $this->status === 'approved';
+        return $this->status === self::STATUS_APPROVED;
     }
 
     public function isRejected(): bool
     {
-        return $this->status === 'rejected';
+        return $this->status === self::STATUS_REJECTED;
     }
 
     public function isCompleted(): bool
     {
-        return $this->status === 'completed';
+        return $this->status === self::STATUS_COMPLETED;
     }
 
     public function getStatusBadgeColor(): string
     {
         return match ($this->status) {
-            'pending' => 'yellow',
-            'approved' => 'blue',
-            'rejected' => 'red',
-            'completed' => 'green',
+            self::STATUS_PENDING => 'yellow',
+            self::STATUS_APPROVED => 'blue',
+            self::STATUS_REJECTED => 'red',
+            self::STATUS_COMPLETED => 'green',
             default => 'gray',
         };
     }
@@ -111,15 +119,15 @@ class Transaction extends Model
 
     public function getTrackingStatusLabel(): string
     {
-        if ($this->status === 'completed') {
+        if ($this->status === self::STATUS_COMPLETED) {
             return 'Completed';
         }
 
-        if ($this->status === 'rejected') {
+        if ($this->status === self::STATUS_REJECTED) {
             return 'Rejected';
         }
 
-        if ($this->item?->listing_type === 'rent' && $this->rental_due_date) {
+        if ($this->item?->listing_type === Item::TYPE_RENT && $this->rental_due_date) {
             if ($this->rental_due_date->isPast() && ! $this->rental_due_date->isToday()) {
                 return 'Rental overdue';
             }
@@ -134,25 +142,25 @@ class Transaction extends Model
         }
 
         return match ($this->status) {
-            'pending' => 'Waiting for seller approval',
-            'approved' => 'Approved and in progress',
+            self::STATUS_PENDING => 'Waiting for seller approval',
+            self::STATUS_APPROVED => 'Approved and in progress',
             default => ucfirst($this->status),
         };
     }
 
     public function canBeApproved(): bool
     {
-        return $this->status === 'pending' && $this->seller_id === auth()->id();
+        return $this->status === self::STATUS_PENDING && $this->seller_id === auth()->id();
     }
 
     public function canBeRejected(): bool
     {
-        return $this->status === 'pending' && $this->seller_id === auth()->id();
+        return $this->status === self::STATUS_PENDING && $this->seller_id === auth()->id();
     }
 
     public function canBeCompleted(): bool
     {
-        return $this->status === 'approved' && $this->seller_id === auth()->id();
+        return $this->status === self::STATUS_APPROVED && $this->seller_id === auth()->id();
     }
 
     public function hasBeenRated($userId): bool

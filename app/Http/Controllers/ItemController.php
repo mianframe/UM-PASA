@@ -2,21 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveItemRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
     public function index(Request $request)
     {
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:120'],
+            'category' => ['nullable', 'string', Rule::in(array_merge(['All'], config('um_departments.categories', [])))],
+            'type' => ['nullable', Rule::in([Item::TYPE_SELL, Item::TYPE_RENT])],
+            'department' => ['nullable', 'string', Rule::in(array_keys(config('um_departments.departments', [])))],
+            'program' => ['nullable', 'string', 'max:255'],
+            'condition' => ['nullable', 'string', Rule::in(config('um_departments.conditions', []))],
+            'course_code' => ['nullable', 'string', 'max:20'],
+            'min_price' => ['nullable', 'numeric', 'min:0'],
+            'max_price' => ['nullable', 'numeric', 'gte:min_price'],
+            'sort' => ['nullable', Rule::in(['newest', 'oldest', 'price_low', 'price_high'])],
+        ]);
+
         $query = Item::with('user')
-            ->where('status', 'available')
-            ->where('moderation_status', 'approved');
+            ->where('status', Item::STATUS_AVAILABLE)
+            ->where('moderation_status', Item::MODERATION_APPROVED);
 
         if ($request->filled('q')) {
-            $search = $request->q;
+            $search = $validated['q'];
             $query->where(function ($innerQuery) use ($search) {
                 $innerQuery->where('title', 'like', '%'.$search.'%')
                     ->orWhere('description', 'like', '%'.$search.'%')
@@ -25,38 +40,38 @@ class ItemController extends Controller
         }
 
         if ($request->filled('category') && $request->category !== 'All') {
-            $query->where('category', $request->category);
+            $query->where('category', $validated['category']);
         }
 
         if ($request->filled('type')) {
-            $query->where('listing_type', $request->type);
+            $query->where('listing_type', $validated['type']);
         }
 
         if ($request->filled('department')) {
-            $query->where('department', $request->department);
+            $query->where('department', $validated['department']);
         }
 
         if ($request->filled('program')) {
-            $query->where('program', $request->program);
+            $query->where('program', $validated['program']);
         }
 
         if ($request->filled('condition')) {
-            $query->where('condition', $request->condition);
+            $query->where('condition', $validated['condition']);
         }
 
         if ($request->filled('course_code')) {
-            $query->where('course_code', 'like', '%'.$request->course_code.'%');
+            $query->where('course_code', 'like', '%'.$validated['course_code'].'%');
         }
 
         if ($request->filled('min_price')) {
-            $query->where('price', '>=', $request->min_price);
+            $query->where('price', '>=', $validated['min_price']);
         }
 
         if ($request->filled('max_price')) {
-            $query->where('price', '<=', $request->max_price);
+            $query->where('price', '<=', $validated['max_price']);
         }
 
-        $sort = $request->input('sort', 'newest');
+        $sort = $validated['sort'] ?? 'newest';
 
         $query = match ($sort) {
             'price_low' => $query->orderBy('price'),
@@ -82,25 +97,9 @@ class ItemController extends Controller
         return view('items.create', compact('departments', 'conditions', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(SaveItemRequest $request)
     {
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'category' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string'],
-            'department' => ['required', 'string', 'max:255'],
-            'program' => ['required', 'string', 'max:255'],
-            'course_code' => ['required', 'string', 'max:20'],
-            'listing_type' => ['required', 'in:sell,rent'],
-            'accepted_payment_methods' => ['required', 'array', 'min:1'],
-            'accepted_payment_methods.*' => ['in:gcash,maya,bank_transfer,cash_on_pickup,other'],
-            'minimum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'min:1', 'max:365'],
-            'maximum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'gte:minimum_rental_days', 'max:365'],
-            'daily_rental_rate' => ['nullable', 'required_if:listing_type,rent', 'numeric', 'min:0'],
-            'condition' => ['required', 'in:new,like_new,good,fair,poor'],
-            'price' => ['nullable', 'numeric', 'min:0'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ]);
+        $data = $request->validated();
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('items', 'public');
@@ -108,7 +107,7 @@ class ItemController extends Controller
 
         $data['user_id'] = Auth::id();
         $data = $this->normalizeListingData($data);
-        $data['moderation_status'] = Auth::user()->isAdmin() ? 'approved' : 'pending';
+        $data['moderation_status'] = Auth::user()->isAdmin() ? Item::MODERATION_APPROVED : Item::MODERATION_PENDING;
         Item::create($data);
 
         return redirect()->route('marketplace.index')->with('success', 'Item posted successfully. It will appear in the marketplace after admin approval.');
@@ -116,6 +115,8 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
+        $this->authorize('view', $item);
+
         $item->load('user');
 
         return view('items.show', compact('item'));
@@ -123,7 +124,7 @@ class ItemController extends Controller
 
     public function edit(Item $item)
     {
-        abort_if($item->user_id !== Auth::id(), 403);
+        $this->authorize('update', $item);
 
         $departments = config('um_departments.departments');
         $conditions = config('um_departments.conditions');
@@ -132,27 +133,11 @@ class ItemController extends Controller
         return view('items.edit', compact('item', 'departments', 'conditions', 'categories'));
     }
 
-    public function update(Request $request, Item $item)
+    public function update(SaveItemRequest $request, Item $item)
     {
-        abort_if($item->user_id !== Auth::id(), 403);
+        $this->authorize('update', $item);
 
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'category' => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string'],
-            'department' => ['required', 'string', 'max:255'],
-            'program' => ['required', 'string', 'max:255'],
-            'course_code' => ['required', 'string', 'max:20'],
-            'listing_type' => ['required', 'in:sell,rent'],
-            'accepted_payment_methods' => ['required', 'array', 'min:1'],
-            'accepted_payment_methods.*' => ['in:gcash,maya,bank_transfer,cash_on_pickup,other'],
-            'minimum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'min:1', 'max:365'],
-            'maximum_rental_days' => ['nullable', 'required_if:listing_type,rent', 'integer', 'gte:minimum_rental_days', 'max:365'],
-            'daily_rental_rate' => ['nullable', 'required_if:listing_type,rent', 'numeric', 'min:0'],
-            'condition' => ['required', 'in:new,like_new,good,fair,poor'],
-            'price' => ['nullable', 'numeric', 'min:0'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ]);
+        $data = $request->validated();
 
         if ($request->hasFile('image')) {
             if ($item->image) {
@@ -163,7 +148,7 @@ class ItemController extends Controller
         }
 
         $data = $this->normalizeListingData($data);
-        $data['moderation_status'] = Auth::user()->isAdmin() ? 'approved' : 'pending';
+        $data['moderation_status'] = Auth::user()->isAdmin() ? Item::MODERATION_APPROVED : Item::MODERATION_PENDING;
         $data['rejection_reason'] = null;
 
         $item->update($data);
@@ -173,7 +158,7 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
-        abort_if($item->user_id !== Auth::id(), 403);
+        $this->authorize('delete', $item);
 
         if ($item->image) {
             Storage::disk('public')->delete($item->image);
@@ -186,7 +171,7 @@ class ItemController extends Controller
 
     private function normalizeListingData(array $data): array
     {
-        if ($data['listing_type'] === 'rent') {
+        if ($data['listing_type'] === Item::TYPE_RENT) {
             $data['rental_duration_days'] = $data['maximum_rental_days'];
             $data['price'] = $data['daily_rental_rate'];
 

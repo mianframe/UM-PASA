@@ -31,10 +31,15 @@
                         default => 'bg-white/10 text-white border-white/10',
                     };
 
-                    $targetUrl = match($notification->type) {
-                        'request', 'approval', 'rejection', 'completion', 'rating', 'payment_proof', 'rental_due_soon', 'rental_due', 'rental_overdue' => $notification->related_id ? route('transactions.show', $notification->related_id) : null,
-                        'message', 'meetup' => $notification->related_id ? route('messages.show', $notification->related_id) : null,
-                        default => null,
+                    $targetUrl = match(true) {
+                        $notification->related instanceof \App\Models\Transaction => route('transactions.show', $notification->related),
+                        $notification->related instanceof \App\Models\Conversation => route('messages.show', $notification->related),
+                        $notification->related instanceof \App\Models\Item => route('marketplace.show', $notification->related),
+                        default => match($notification->type) {
+                            'request', 'approval', 'rejection', 'completion', 'rating', 'payment_proof', 'rental_due_soon', 'rental_due', 'rental_overdue' => $notification->related_id ? route('transactions.show', $notification->related_id) : null,
+                            'message', 'meetup' => $notification->related_id ? route('messages.show', $notification->related_id) : null,
+                            default => null,
+                        },
                     };
                 @endphp
 

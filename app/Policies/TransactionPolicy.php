@@ -12,7 +12,9 @@ class TransactionPolicy
      */
     public function view(User $user, Transaction $transaction): bool
     {
-        return $user->id === $transaction->buyer_id || $user->id === $transaction->seller_id;
+        return $user->id === $transaction->buyer_id
+            || $user->id === $transaction->seller_id
+            || $user->isAdmin();
     }
 
     /**
@@ -20,7 +22,8 @@ class TransactionPolicy
      */
     public function approve(User $user, Transaction $transaction): bool
     {
-        return $user->id === $transaction->seller_id && $transaction->status === 'pending';
+        return $user->id === $transaction->seller_id
+            && $transaction->status === Transaction::STATUS_PENDING;
     }
 
     /**
@@ -28,7 +31,8 @@ class TransactionPolicy
      */
     public function reject(User $user, Transaction $transaction): bool
     {
-        return $user->id === $transaction->seller_id && $transaction->status === 'pending';
+        return $user->id === $transaction->seller_id
+            && $transaction->status === Transaction::STATUS_PENDING;
     }
 
     /**
@@ -36,6 +40,19 @@ class TransactionPolicy
      */
     public function complete(User $user, Transaction $transaction): bool
     {
-        return $user->id === $transaction->seller_id && $transaction->status === 'approved';
+        return $user->id === $transaction->seller_id
+            && $transaction->status === Transaction::STATUS_APPROVED;
+    }
+
+    public function uploadProof(User $user, Transaction $transaction): bool
+    {
+        return $user->id === $transaction->buyer_id
+            && in_array($transaction->status, [Transaction::STATUS_PENDING, Transaction::STATUS_APPROVED], true);
+    }
+
+    public function rate(User $user, Transaction $transaction): bool
+    {
+        return $transaction->status === Transaction::STATUS_COMPLETED
+            && ($user->id === $transaction->buyer_id || $user->id === $transaction->seller_id);
     }
 }

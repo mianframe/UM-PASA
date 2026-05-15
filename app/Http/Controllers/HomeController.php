@@ -11,8 +11,8 @@ class HomeController extends Controller
     public function index()
     {
         $recentItems = Item::with('user')
-            ->where('status', 'available')
-            ->where('moderation_status', 'approved')
+            ->where('status', Item::STATUS_AVAILABLE)
+            ->where('moderation_status', Item::MODERATION_APPROVED)
             ->latest()
             ->take(4)
             ->get();
@@ -20,7 +20,7 @@ class HomeController extends Controller
         $stats = [
             'students' => User::where('role', 'student')->count(),
             'listings' => Item::count(),
-            'completed' => Transaction::where('status', 'completed')->count(),
+            'completed' => Transaction::where('status', Transaction::STATUS_COMPLETED)->count(),
             'departments' => count(config('um_departments.departments')),
         ];
 

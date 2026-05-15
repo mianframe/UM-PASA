@@ -33,5 +33,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'student',
             ]
         );
+
+        $this->call(FlowDemoSeeder::class);
     }
 }

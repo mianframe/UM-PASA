@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notification;
+use App\Http\Requests\StoreRatingRequest;
 use App\Models\Rating;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 
 class RatingController extends Controller
 {
+    public function __construct(private readonly NotificationService $notifications) {}
+
     public function create(Transaction $transaction)
     {
-        abort_if(! in_array(Auth::id(), [$transaction->buyer_id, $transaction->seller_id]), 403);
-        abort_if($transaction->status !== 'completed', 403);
+        $this->authorize('rate', $transaction);
 
         $reviewedUser = Auth::id() === $transaction->buyer_id
             ? $transaction->seller
@@ -22,19 +23,12 @@ class RatingController extends Controller
         return view('ratings.create', compact('transaction', 'reviewedUser'));
     }
 
-    public function store(Request $request, Transaction $transaction)
+    public function store(StoreRatingRequest $request, Transaction $transaction)
     {
-        abort_if(! in_array(Auth::id(), [$transaction->buyer_id, $transaction->seller_id]), 403);
-        abort_if($transaction->status !== 'completed', 403);
-
+        $data = $request->validated();
         $reviewedUserId = Auth::id() === $transaction->buyer_id
             ? $transaction->seller_id
             : $transaction->buyer_id;
-
-        $request->validate([
-            'rating' => ['required', 'integer', 'min:1', 'max:5'],
-            'comment' => ['nullable', 'string', 'max:500'],
-        ]);
 
         $alreadyRated = Rating::where('reviewer_id', Auth::id())
             ->where('transaction_id', $transaction->id)
@@ -49,16 +43,11 @@ class RatingController extends Controller
             'reviewer_id' => Auth::id(),
             'reviewed_user_id' => $reviewedUserId,
             'transaction_id' => $transaction->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
+            'rating' => $data['rating'],
+            'comment' => $data['comment'] ?? null,
         ]);
 
-        Notification::create([
-            'user_id' => $reviewedUserId,
-            'type' => 'rating',
-            'related_id' => $transaction->id,
-            'message' => Auth::user()->name.' left a new rating.',
-        ]);
+        $this->notifications->send($reviewedUserId, 'rating', Auth::user()->name.' left a new rating.', $transaction);
 
         return redirect()->route('profile.ratings')->with('success', 'Rating submitted.');
     }

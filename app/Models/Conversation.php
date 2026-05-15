@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Conversation extends Model
 {
@@ -42,7 +43,7 @@ class Conversation extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function latestMessage()
+    public function latestMessage(): HasOne
     {
         return $this->hasOne(Message::class)->latestOfMany();
     }
@@ -58,5 +59,10 @@ class Conversation extends Model
         }
 
         return null;
+    }
+
+    public function isParticipant(int $userId): bool
+    {
+        return in_array($userId, [$this->starter_id, $this->recipient_id], true);
     }
 }

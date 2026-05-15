@@ -5,9 +5,11 @@ namespace Tests\Feature;
 use App\Models\Conversation;
 use App\Models\Item;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -23,10 +25,11 @@ class MarketplaceWorkflowTest extends TestCase
             'title' => 'Calculus Notes',
             'category' => 'Books',
             'description' => 'Clean annotated notes for review.',
-            'department' => 'College of Arts and Sciences',
-            'program' => 'BS Mathematics',
+            'department' => 'Department of Computing Education',
+            'program' => 'BS in Information Technology',
             'course_code' => 'MATH101',
             'listing_type' => 'sell',
+            'accepted_payment_methods' => ['gcash'],
             'condition' => 'good',
             'price' => -50,
         ]);
@@ -178,6 +181,92 @@ class MarketplaceWorkflowTest extends TestCase
 
         Storage::disk('public')->assertMissing('items/sample.jpg');
         $this->assertDatabaseMissing('items', ['id' => $item->id]);
+    }
+
+    public function test_pending_listing_is_hidden_from_guests_but_visible_to_owner(): void
+    {
+        $seller = User::factory()->create();
+        $item = $this->createItemFor($seller, [
+            'moderation_status' => 'pending',
+        ]);
+
+        $this->get(route('marketplace.show', $item))->assertForbidden();
+
+        $this->actingAs($seller)
+            ->get(route('marketplace.show', $item))
+            ->assertOk()
+            ->assertSee($item->title);
+    }
+
+    public function test_rental_due_date_is_based_on_approved_meetup_and_item_reopens_after_completion(): void
+    {
+        $buyer = User::factory()->create();
+        $seller = User::factory()->create();
+        $item = $this->createItemFor($seller, [
+            'listing_type' => 'rent',
+            'price' => 40,
+            'daily_rental_rate' => 40,
+            'minimum_rental_days' => 2,
+            'maximum_rental_days' => 7,
+            'rental_duration_days' => 7,
+        ]);
+
+        $this->actingAs($buyer)
+            ->post(route('transactions.store', $item), [
+                'payment_method' => 'gcash',
+                'rental_duration_days' => 3,
+            ])
+            ->assertRedirect(route('transactions.history'));
+
+        $transaction = Transaction::firstOrFail();
+        $this->assertNull($transaction->rental_due_date);
+
+        $meetupTime = now()->addDay()->setSecond(0);
+
+        $this->actingAs($seller)
+            ->post(route('transactions.approve', $transaction), [
+                'meetup_location' => 'UM Student Center',
+                'meetup_time' => $meetupTime->format('Y-m-d\TH:i'),
+            ])
+            ->assertSessionHasNoErrors();
+
+        $transaction->refresh();
+
+        $this->assertSame($meetupTime->copy()->addDays(3)->toDateString(), $transaction->rental_due_date->toDateString());
+
+        $this->actingAs($seller)
+            ->post(route('transactions.complete', $transaction))
+            ->assertRedirect(route('transactions.show', $transaction));
+
+        $this->assertSame('completed', $transaction->refresh()->status);
+        $this->assertSame('available', $item->refresh()->status);
+    }
+
+    public function test_stale_pending_requests_command_rejects_request_and_reopens_item(): void
+    {
+        $buyer = User::factory()->create();
+        $seller = User::factory()->create();
+        $item = $this->createItemFor($seller, [
+            'status' => 'pending',
+        ]);
+
+        $transaction = Transaction::create([
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
+            'item_id' => $item->id,
+            'status' => 'pending',
+            'payment_method' => 'gcash',
+        ]);
+        $transaction->forceFill([
+            'created_at' => now()->subDays(8),
+            'updated_at' => now()->subDays(8),
+        ])->save();
+
+        Artisan::call('um-pasa:expire-stale-requests', ['--days' => 7]);
+
+        $this->assertSame('rejected', $transaction->refresh()->status);
+        $this->assertSame('available', $item->refresh()->status);
+        $this->assertSame(2, Notification::where('type', 'request_expired')->count());
     }
 
     private function createItemFor(User $user, array $overrides = []): Item

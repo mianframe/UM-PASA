@@ -53,6 +53,10 @@
         scroll-behavior: smooth;
     }
 
+    [x-cloak] {
+        display: none !important;
+    }
+
     body {
         @apply min-h-screen antialiased;
         background:

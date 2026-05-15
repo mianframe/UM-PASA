@@ -10,6 +10,18 @@ class Message extends Model
 {
     use HasFactory;
 
+    public const TYPE_TEXT = 'text';
+
+    public const TYPE_SYSTEM = 'system';
+
+    public const TYPE_MEETUP_PROPOSAL = 'meetup_proposal';
+
+    public const PROPOSAL_PENDING = 'pending';
+
+    public const PROPOSAL_ACCEPTED = 'accepted';
+
+    public const PROPOSAL_DECLINED = 'declined';
+
     protected $fillable = [
         'conversation_id',
         'user_id',

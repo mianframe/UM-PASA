@@ -24,10 +24,10 @@ class ReportController extends Controller
 
         $stats = [
             'listed' => $items->count(),
-            'approvedListings' => $items->where('moderation_status', 'approved')->count(),
+            'approvedListings' => $items->where('moderation_status', Item::MODERATION_APPROVED)->count(),
             'transactions' => $transactions->count(),
-            'completed' => $transactions->where('status', 'completed')->count(),
-            'earned' => $transactions->where('seller_id', $user->id)->where('status', 'completed')->sum(fn ($transaction) => $transaction->item?->price ?? 0),
+            'completed' => $transactions->where('status', Transaction::STATUS_COMPLETED)->count(),
+            'earned' => $transactions->where('seller_id', $user->id)->where('status', Transaction::STATUS_COMPLETED)->sum(fn ($transaction) => $transaction->item?->price ?? 0),
         ];
 
         return view('reports.student', compact('user', 'items', 'transactions', 'stats'));
@@ -40,10 +40,10 @@ class ReportController extends Controller
 
         $stats = [
             'items' => $items->count(),
-            'pendingListings' => $items->where('moderation_status', 'pending')->count(),
-            'approvedListings' => $items->where('moderation_status', 'approved')->count(),
+            'pendingListings' => $items->where('moderation_status', Item::MODERATION_PENDING)->count(),
+            'approvedListings' => $items->where('moderation_status', Item::MODERATION_APPROVED)->count(),
             'transactions' => $transactions->count(),
-            'completed' => $transactions->where('status', 'completed')->count(),
+            'completed' => $transactions->where('status', Transaction::STATUS_COMPLETED)->count(),
             'gcash' => $transactions->where('payment_method', 'gcash')->count(),
         ];
 
