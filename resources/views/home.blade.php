@@ -197,12 +197,6 @@
                 <a href="{{ route('marketplace.index') }}" class="btn-secondary">See All Listings</a>
             </div>
 
-            <div class="preview-filter-bar">
-                <a href="{{ route('marketplace.index') }}" class="preview-filter-chip">Category</a>
-                <a href="{{ route('marketplace.index') }}" class="preview-filter-chip">Department</a>
-                <a href="{{ route('marketplace.index') }}" class="preview-filter-chip">Price type</a>
-            </div>
-
             @if($recentItems->isNotEmpty())
                 <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
                     @foreach($recentItems as $item)
