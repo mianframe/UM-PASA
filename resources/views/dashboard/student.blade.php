@@ -18,31 +18,31 @@
         <x-flash-messages />
 
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            <div class="glass-card p-5">
+            <a href="{{ route('marketplace.index') }}" class="glass-card block p-5 transition hover:-translate-y-1">
                 <div class="text-sm text-slate-300">Approved Listings</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['approvedListings'] }}</div>
                 <p class="mt-2 text-sm text-slate-400">Listings visible in the marketplace.</p>
-            </div>
-            <div class="glass-card p-5">
+            </a>
+            <a href="{{ route('reports.student') }}" class="glass-card block p-5 transition hover:-translate-y-1">
                 <div class="text-sm text-slate-300">Pending Listing Review</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['pendingListings'] }}</div>
                 <p class="mt-2 text-sm text-slate-400">Waiting for admin approval.</p>
-            </div>
-            <div class="glass-card p-5">
+            </a>
+            <a href="{{ route('reports.student') }}" class="glass-card block p-5 transition hover:-translate-y-1">
                 <div class="text-sm text-slate-300">Total Items</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['totalItems'] }}</div>
                 <p class="mt-2 text-sm text-slate-400">Listings posted from your account.</p>
-            </div>
-            <div class="glass-card p-5">
+            </a>
+            <a href="{{ route('transactions.pending') }}" class="glass-card block p-5 transition hover:-translate-y-1">
                 <div class="text-sm text-slate-300">Pending Requests</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['pendingRequests'] }}</div>
                 <p class="mt-2 text-sm text-slate-400">Requests waiting for your approval.</p>
-            </div>
-            <div class="glass-card p-5">
+            </a>
+            <a href="{{ route('transactions.history') }}" class="glass-card block p-5 transition hover:-translate-y-1">
                 <div class="text-sm text-slate-300">Completed Transactions</div>
                 <div class="mt-3 text-3xl font-bold text-white">{{ $stats['completedTransactions'] }}</div>
                 <p class="mt-2 text-sm text-slate-400">Completed deals linked to your account.</p>
-            </div>
+            </a>
         </div>
 
         <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">

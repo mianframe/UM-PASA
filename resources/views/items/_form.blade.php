@@ -7,6 +7,8 @@
     }
 
     $selectedPaymentMethods = old('accepted_payment_methods', $item->accepted_payment_methods ?? ['gcash', 'maya', 'bank_transfer', 'cash_on_pickup']);
+    $currentCategory = old('category', $item->category ?? '');
+    $isCustomCategory = $currentCategory && ! in_array($currentCategory, $categories, true);
 @endphp
 
 <form
@@ -19,6 +21,7 @@
         departmentPrograms: @js($departments),
         department: @js(old('department', $item->department ?? '')),
         selectedProgram: @js(old('program', $item->program ?? '')),
+        category: @js($isCustomCategory ? '__custom' : $currentCategory),
         listingType: @js(old('listing_type', $item->listing_type ?? '')),
         get programs() {
             return this.departmentPrograms[this.department] || [];
@@ -40,12 +43,17 @@
 
             <div>
                 <label for="category" class="text-sm font-medium text-slate-200">Category</label>
-                <select id="category" name="category" class="glass-input">
+                <select id="category" name="category" class="glass-input" x-model="category">
                     <option value="">Select category</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category }}" @selected(old('category', $item->category ?? '') === $category)>{{ $category }}</option>
+                        <option value="{{ $category }}" @selected(! $isCustomCategory && $currentCategory === $category)>{{ $category }}</option>
                     @endforeach
+                    <option value="__custom" @selected($isCustomCategory)>Other / custom category</option>
                 </select>
+                <div x-show="category === '__custom'" x-transition class="mt-3">
+                    <input type="text" name="custom_category" value="{{ old('custom_category', $isCustomCategory ? $currentCategory : '') }}" class="glass-input" placeholder="Type a custom category">
+                    @error('custom_category') <p class="mt-2 text-sm text-red-200">{{ $message }}</p> @enderror
+                </div>
                 @error('category') <p class="mt-2 text-sm text-red-200">{{ $message }}</p> @enderror
             </div>
 

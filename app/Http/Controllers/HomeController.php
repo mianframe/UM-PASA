@@ -23,7 +23,8 @@ class HomeController extends Controller
             'completed' => Transaction::where('status', Transaction::STATUS_COMPLETED)->count(),
             'departments' => count(config('um_departments.departments')),
         ];
+        $departments = config('um_departments.departments');
 
-        return view('home', compact('recentItems', 'stats'));
+        return view('home', compact('recentItems', 'stats', 'departments'));
     }
 }

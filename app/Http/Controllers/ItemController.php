@@ -15,7 +15,7 @@ class ItemController extends Controller
     {
         $validated = $request->validate([
             'q' => ['nullable', 'string', 'max:120'],
-            'category' => ['nullable', 'string', Rule::in(array_merge(['All'], config('um_departments.categories', [])))],
+            'category' => ['nullable', 'string', 'max:100'],
             'type' => ['nullable', Rule::in([Item::TYPE_SELL, Item::TYPE_RENT])],
             'department' => ['nullable', 'string', Rule::in(array_keys(config('um_departments.departments', [])))],
             'program' => ['nullable', 'string', 'max:255'],
@@ -83,7 +83,7 @@ class ItemController extends Controller
         $items = $query->paginate(20)->withQueryString();
         $departments = config('um_departments.departments');
         $conditions = config('um_departments.conditions');
-        $categories = config('um_departments.categories');
+        $categories = $this->categories();
 
         return view('marketplace.index', compact('items', 'departments', 'conditions', 'categories', 'sort'));
     }
@@ -92,7 +92,7 @@ class ItemController extends Controller
     {
         $departments = config('um_departments.departments');
         $conditions = config('um_departments.conditions');
-        $categories = config('um_departments.categories');
+        $categories = $this->categories();
 
         return view('items.create', compact('departments', 'conditions', 'categories'));
     }
@@ -128,7 +128,7 @@ class ItemController extends Controller
 
         $departments = config('um_departments.departments');
         $conditions = config('um_departments.conditions');
-        $categories = config('um_departments.categories');
+        $categories = $this->categories();
 
         return view('items.edit', compact('item', 'departments', 'conditions', 'categories'));
     }
@@ -184,5 +184,16 @@ class ItemController extends Controller
         $data['rental_duration_days'] = null;
 
         return $data;
+    }
+
+    private function categories(): array
+    {
+        return collect(config('um_departments.categories', []))
+            ->merge(Item::query()->whereNotNull('category')->distinct()->pluck('category'))
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
     }
 }

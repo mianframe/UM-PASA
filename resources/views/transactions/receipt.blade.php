@@ -34,12 +34,12 @@
     <div class="page-wrap space-y-6">
         <x-flash-messages />
 
-        <div class="transaction-receipt-shell print:max-w-none print:rounded-none print:border-none print:bg-white print:p-6 print:text-slate-900 print:shadow-none">
-            <div class="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-start sm:justify-between print:border-slate-200">
+        <div class="transaction-receipt-shell printable-receipt print:max-w-none print:rounded-none print:border-none print:bg-white print:p-6 print:text-slate-900 print:shadow-none">
+            <div class="receipt-header flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-start sm:justify-between print:border-slate-200">
                 <div>
                     <p class="transaction-kicker print:text-red-700">UM-Pasa Receipt</p>
                     <h2 class="mt-2 text-3xl font-bold text-white print:text-slate-900">Transaction #{{ $transaction->id }}</h2>
-                    <p class="mt-1 text-sm text-slate-300 print:text-slate-500">{{ $transaction->created_at->format('F d, Y') }}</p>
+                    <p class="mt-1 text-sm text-slate-300 print:text-slate-500">Issued {{ now()->format('F d, Y h:i A') }}</p>
                 </div>
                 <span class="badge-base {{ $statusClasses }} print:border-slate-900 print:bg-slate-900 print:text-white">
                     {{ ucfirst($transaction->status) }}
@@ -76,6 +76,36 @@
                 </div>
             @endif
 
+            <div class="transaction-receipt-panel print:border-slate-200">
+                <h3>Transaction Details</h3>
+                <div class="transaction-receipt-grid">
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Transaction Date</span>
+                        <strong>{{ $transaction->created_at->format('F d, Y h:i A') }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Status</span>
+                        <strong>{{ ucfirst($transaction->status) }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Payment Method</span>
+                        <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Payment Proof</span>
+                        <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Meetup Location</span>
+                        <strong>{{ $transaction->meetup_location ?? 'To be announced' }}</strong>
+                    </div>
+                    <div class="transaction-meta-tile print:bg-slate-50">
+                        <span>Meetup Time</span>
+                        <strong>{{ $transaction->meetup_time ? $transaction->meetup_time->format('F d, Y h:i A') : 'To be announced' }}</strong>
+                    </div>
+                </div>
+            </div>
+
             <div class="mt-8 grid gap-6 md:grid-cols-2">
                 <div class="transaction-party-card print:bg-slate-100">
                     <h3>Buyer</h3>
@@ -104,14 +134,6 @@
                         <strong>{{ $transaction->item->price ? 'P' . number_format($transaction->item->price, 2) : 'Negotiable' }}</strong>
                     </div>
                     <div class="transaction-meta-tile print:bg-slate-50">
-                        <span>Mode of Payment</span>
-                        <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
-                    </div>
-                    <div class="transaction-meta-tile print:bg-slate-50">
-                        <span>Payment Proof</span>
-                        <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
-                    </div>
-                    <div class="transaction-meta-tile print:bg-slate-50">
                         <span>Tracking Status</span>
                         <strong>{{ $transaction->getTrackingStatusLabel() }}</strong>
                     </div>
@@ -138,14 +160,6 @@
                     <div class="transaction-meta-tile print:bg-slate-50">
                         <span>Course Code</span>
                         <strong>{{ $transaction->item->course_code }}</strong>
-                    </div>
-                    <div class="transaction-meta-tile print:bg-slate-50">
-                        <span>Meetup Location</span>
-                        <strong>{{ $transaction->meetup_location ?? 'To be announced' }}</strong>
-                    </div>
-                    <div class="transaction-meta-tile print:bg-slate-50">
-                        <span>Meetup Time</span>
-                        <strong>{{ $transaction->meetup_time ? $transaction->meetup_time->format('F d, Y h:i A') : 'To be announced' }}</strong>
                     </div>
                 </div>
             </div>

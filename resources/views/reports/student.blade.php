@@ -13,8 +13,8 @@
         </div>
     </x-slot>
 
-    <div class="page-wrap space-y-6 print:max-w-none print:text-slate-900">
-        <div class="glass-card p-6 print:border print:border-slate-200 print:bg-white print:shadow-none">
+    <div class="page-wrap printable-report space-y-6 print:max-w-none print:text-slate-900">
+        <div class="glass-card report-summary p-6 print:border print:border-slate-200 print:bg-white print:shadow-none">
             <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-start sm:justify-between print:border-slate-200">
                 <div>
                     <p class="transaction-kicker print:text-red-700">UM-Pasa Student Report</p>
@@ -33,7 +33,56 @@
             </div>
         </div>
 
-        <div class="table-shell print:border print:border-slate-200 print:bg-white print:shadow-none">
+        <form method="GET" class="glass-card grid gap-4 p-5 md:grid-cols-5 print:hidden">
+            <div>
+                <label class="text-sm font-medium text-slate-200">Transaction Status</label>
+                <select name="status" class="glass-input">
+                    <option value="">All statuses</option>
+                    @foreach(['pending', 'approved', 'rejected', 'completed'] as $status)
+                        <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ ucfirst($status) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium text-slate-200">Type</label>
+                <select name="type" class="glass-input">
+                    <option value="">Sales and rentals</option>
+                    <option value="sell" @selected(($filters['type'] ?? '') === 'sell')>Sales</option>
+                    <option value="rent" @selected(($filters['type'] ?? '') === 'rent')>Rentals</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium text-slate-200">Category</label>
+                <select name="category" class="glass-input">
+                    <option value="">All categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category }}" @selected(($filters['category'] ?? '') === $category)>{{ $category }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium text-slate-200">Sort</label>
+                <select name="sort" class="glass-input">
+                    <option value="newest" @selected(($filters['sort'] ?? 'newest') === 'newest')>Newest</option>
+                    <option value="oldest" @selected(($filters['sort'] ?? '') === 'oldest')>Oldest</option>
+                    <option value="title" @selected(($filters['sort'] ?? '') === 'title')>Title</option>
+                    <option value="status" @selected(($filters['sort'] ?? '') === 'status')>Status</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium text-slate-200">Rows</label>
+                <select name="per_page" class="glass-input">
+                    <option value="10" @selected((int)($filters['per_page'] ?? 10) === 10)>10</option>
+                    <option value="20" @selected((int)($filters['per_page'] ?? 10) === 20)>20</option>
+                </select>
+            </div>
+            <div class="flex items-end gap-3 md:col-span-5">
+                <button class="btn-primary" type="submit">Apply Filters</button>
+                <a href="{{ route('reports.student') }}" class="btn-secondary">Reset</a>
+            </div>
+        </form>
+
+        <div class="table-shell report-table print:border print:border-slate-200 print:bg-white print:shadow-none">
             <div class="p-4 text-lg font-semibold text-white print:text-slate-900">Listings</div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
@@ -64,8 +113,9 @@
                 </table>
             </div>
         </div>
+        <div class="print:hidden">{{ $items->links() }}</div>
 
-        <div class="table-shell print:border print:border-slate-200 print:bg-white print:shadow-none">
+        <div class="table-shell report-table print:border print:border-slate-200 print:bg-white print:shadow-none">
             <div class="p-4 text-lg font-semibold text-white print:text-slate-900">Transactions</div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
@@ -100,5 +150,6 @@
                 </table>
             </div>
         </div>
+        <div class="print:hidden">{{ $transactions->links() }}</div>
     </div>
 </x-app-layout>

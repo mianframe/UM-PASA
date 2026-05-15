@@ -2834,6 +2834,153 @@
     }
 }
 
+@layer components {
+    .analytics-row {
+        display: grid;
+        gap: 0.55rem;
+    }
+
+    .analytics-row-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        color: var(--color-muted);
+        font-size: 0.9rem;
+    }
+
+    .analytics-row-label span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .analytics-row-label strong {
+        color: var(--color-text);
+        font-weight: 850;
+    }
+
+    .analytics-bar {
+        height: 0.75rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .analytics-bar span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #e62424, #f6c84c);
+    }
+}
+
+@media print {
+    @page {
+        margin: 0.55in;
+    }
+
+    html,
+    body {
+        background: #ffffff !important;
+        color: #111827 !important;
+    }
+
+    body::before,
+    body::after,
+    .top-nav,
+    .um-footer,
+    .fixed,
+    .transaction-status-note,
+    .transaction-card-actions,
+    .transaction-final-panel,
+    form,
+    button,
+    .btn-primary,
+    .btn-secondary,
+    .footer-glass {
+        display: none !important;
+    }
+
+    .site-shell,
+    main,
+    .page-wrap,
+    .printable-report,
+    .printable-receipt {
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
+    }
+
+    .glass-card,
+    .table-shell,
+    .transaction-receipt-shell,
+    .transaction-receipt-panel,
+    .transaction-party-card,
+    .transaction-meta-tile {
+        background: #ffffff !important;
+        color: #111827 !important;
+        border-color: #d1d5db !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .report-summary {
+        border: 1px solid #d1d5db !important;
+        border-radius: 0.35rem !important;
+        padding: 1rem !important;
+    }
+
+    .report-table {
+        page-break-inside: avoid;
+        border-radius: 0.35rem !important;
+    }
+
+    .table-head {
+        background: #f3f4f6 !important;
+        color: #111827 !important;
+        letter-spacing: 0.04em !important;
+    }
+
+    .table-row {
+        color: #374151 !important;
+        border-color: #e5e7eb !important;
+    }
+
+    .table-row td,
+    .table-head th {
+        padding: 0.45rem 0.55rem !important;
+    }
+
+    .text-white,
+    .text-slate-100,
+    .text-slate-200,
+    .text-slate-300,
+    .text-slate-400,
+    .transaction-meta-tile strong,
+    .transaction-party-card p,
+    .transaction-receipt-panel h3 {
+        color: #111827 !important;
+    }
+
+    .transaction-meta-tile span,
+    .transaction-party-card span,
+    .section-copy {
+        color: #4b5563 !important;
+    }
+
+    a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+}
+
 @keyframes liquid-rise {
     from {
         opacity: 0;

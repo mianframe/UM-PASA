@@ -1,6 +1,6 @@
 @props(['item'])
 
-<article class="market-card">
+<a href="{{ route('marketplace.show', $item) }}" class="market-card group block focus:outline-none focus:ring-2 focus:ring-red-400">
     <div class="market-card-media">
         @if($item->image)
             <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition duration-500 hover:scale-105" />
@@ -73,7 +73,7 @@
             <span class="text-xs uppercase tracking-[0.18em] text-slate-500">
                 {{ $item->course_code }} · {{ $item->user->name }}
             </span>
-            <a href="{{ route('marketplace.show', $item) }}" class="text-sm font-semibold text-white transition hover:text-[#ff8c82]">Open</a>
+            <span class="text-sm font-semibold text-white transition group-hover:text-[#ff8c82]">Open</span>
         </div>
     </div>
-</article>
+</a>

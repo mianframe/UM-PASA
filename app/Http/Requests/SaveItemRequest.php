@@ -31,7 +31,8 @@ class SaveItemRequest extends FormRequest
 
         return [
             'title' => ['required', 'string', 'max:255'],
-            'category' => ['required', 'string', Rule::in(config('um_departments.categories', []))],
+            'category' => ['required', 'string', 'max:100'],
+            'custom_category' => ['nullable', 'string', 'max:100'],
             'description' => ['required', 'string', 'min:10', 'max:5000'],
             'department' => ['required', 'string', Rule::in(array_keys($departments))],
             'program' => $programRules,
@@ -52,6 +53,10 @@ class SaveItemRequest extends FormRequest
     {
         $this->merge([
             'title' => trim((string) $this->input('title')),
+            'category' => $this->input('category') === '__custom'
+                ? trim((string) $this->input('custom_category'))
+                : trim((string) $this->input('category')),
+            'custom_category' => trim((string) $this->input('custom_category')),
             'course_code' => strtoupper(trim((string) $this->input('course_code'))),
         ]);
     }
@@ -60,6 +65,7 @@ class SaveItemRequest extends FormRequest
     {
         return [
             'accepted_payment_methods' => 'accepted payment methods',
+            'custom_category' => 'custom category',
             'daily_rental_rate' => 'daily rental rate',
             'maximum_rental_days' => 'maximum rental days',
             'minimum_rental_days' => 'minimum rental days',

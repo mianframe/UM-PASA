@@ -150,13 +150,40 @@
                 <div class="stat-label">Completed Deals</div>
                 <p>Transactions completed through campus meetups.</p>
             </div>
-            <div class="premium-stat-card">
+            <a href="#departments-covered" class="premium-stat-card block">
                 <div class="stat-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18"></path><path d="M5 21V8l7-4 7 4v13"></path><path d="M9 21v-6h6v6"></path></svg>
                 </div>
                 <div class="stat-number">{{ $stats['departments'] }}</div>
                 <div class="stat-label">Departments Covered</div>
                 <p>Programs and departments supported by filters.</p>
+            </a>
+        </section>
+
+        <section id="departments-covered" class="landing-section glass-card p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="section-kicker">Departments Covered</p>
+                    <h2 class="section-title mt-2">Departments and programs in UM-Pasa</h2>
+                    <p class="section-copy mt-3 max-w-3xl">Browse by department and program when posting or filtering marketplace listings.</p>
+                </div>
+                <a href="{{ route('marketplace.index') }}" class="btn-secondary">Browse by Department</a>
+            </div>
+            <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                @foreach($departments as $department => $programs)
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                        <h3 class="font-bold text-white">{{ $department }}</h3>
+                        @if($programs)
+                            <ul class="mt-3 space-y-2 text-sm leading-6 text-slate-300">
+                                @foreach($programs as $program)
+                                    <li>{{ $program }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="mt-3 text-sm text-slate-300">General department-level listings.</p>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </section>
 

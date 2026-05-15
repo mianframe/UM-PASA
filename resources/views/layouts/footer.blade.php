@@ -139,7 +139,6 @@
                     support@umpasa.local
                 </a>
                 <div class="footer-badges">
-                    <span class="market-card-bottom-pill">Liquid glass UI</span>
                     <span class="market-card-bottom-pill">Campus-safe trading</span>
                 </div>
             </div>
