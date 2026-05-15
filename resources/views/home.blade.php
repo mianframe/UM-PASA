@@ -198,10 +198,6 @@
             </div>
 
             <div class="preview-filter-bar">
-                <a href="{{ route('marketplace.index') }}" class="preview-search">
-                    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3a6 6 0 1 0 4.472 10.001l3.763 3.764 1.414-1.414-3.764-3.763A6 6 0 0 0 9 3Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" /></svg>
-                    <span>Search items</span>
-                </a>
                 <a href="{{ route('marketplace.index') }}" class="preview-filter-chip">Category</a>
                 <a href="{{ route('marketplace.index') }}" class="preview-filter-chip">Department</a>
                 <a href="{{ route('marketplace.index') }}" class="preview-filter-chip">Price type</a>

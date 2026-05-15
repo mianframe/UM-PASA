@@ -2695,7 +2695,8 @@
 
     @media (min-width: 768px) {
         .preview-filter-bar {
-            grid-template-columns: minmax(16rem, 1fr) repeat(3, auto);
+            grid-template-columns: repeat(3, minmax(10rem, auto));
+            justify-content: end;
             align-items: center;
         }
     }
