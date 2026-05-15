@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Console\Commands\ExpireStaleRequests;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +26,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+
+            $appUrl = config('app.url');
+
+            if (is_string($appUrl) && str_starts_with($appUrl, 'https://') && ! str_contains($appUrl, 'your-domain.example')) {
+                URL::forceRootUrl($appUrl);
+            }
+        }
+
         View::composer('layouts.navigation', function ($view): void {
             $view->with('unreadNotificationCount', auth()->check()
                 ? auth()->user()->notifications()->where('is_read', false)->count()
