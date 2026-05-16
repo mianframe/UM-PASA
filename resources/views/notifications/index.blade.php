@@ -4,7 +4,7 @@
             <div>
                 <p class="text-sm uppercase tracking-[0.2em] text-red-200">Notifications</p>
                 <h1 class="section-title mt-2">Activity Updates</h1>
-                <p class="section-copy mt-2">Review requests, approvals, payment proof, rental due dates, completions, and ratings.</p>
+                <p class="section-copy mt-2">Review requests, approvals, pending items, rejections, messages, and ratings.</p>
             </div>
             <form method="POST" action="{{ route('notifications.readAll') }}">
                 @csrf
@@ -13,57 +13,86 @@
         </div>
     </x-slot>
 
-    <div class="page-wrap">
-        <div class="space-y-4">
-            @forelse($notifications as $notification)
-                @php
-                    $typeClasses = match($notification->type) {
-                        'request' => 'bg-amber-500/15 text-amber-100 border-amber-400/20',
-                        'approval' => 'bg-sky-500/15 text-sky-100 border-sky-400/20',
-                        'rejection' => 'bg-red-500/15 text-red-100 border-red-400/20',
-                        'completion' => 'bg-emerald-500/15 text-emerald-100 border-emerald-400/20',
-                        'rating' => 'bg-fuchsia-500/15 text-fuchsia-100 border-fuchsia-400/20',
-                        'payment_proof' => 'bg-violet-500/15 text-violet-100 border-violet-400/20',
-                        'rental_due_soon', 'rental_due' => 'bg-amber-500/15 text-amber-100 border-amber-400/20',
-                        'rental_overdue' => 'bg-red-500/15 text-red-100 border-red-400/20',
-                        'message' => 'bg-white/10 text-white border-white/10',
-                        'meetup' => 'bg-[#f3df3215] text-[#fff2a0] border-[#f3df3230]',
-                        default => 'bg-white/10 text-white border-white/10',
-                    };
+    @php
+        $filters = [
+            'all' => 'All',
+            'unread' => 'Unread',
+            'requests' => 'Requests',
+            'approved' => 'Approved',
+            'pending' => 'Pending',
+            'rejected' => 'Rejected',
+            'ratings' => 'Ratings',
+        ];
+    @endphp
 
-                    $targetUrl = match(true) {
-                        $notification->related instanceof \App\Models\Transaction => route('transactions.show', $notification->related),
-                        $notification->related instanceof \App\Models\Conversation => route('messages.show', $notification->related),
-                        $notification->related instanceof \App\Models\Item => route('marketplace.show', $notification->related),
-                        default => match($notification->type) {
-                            'request', 'approval', 'rejection', 'completion', 'rating', 'payment_proof', 'rental_due_soon', 'rental_due', 'rental_overdue' => $notification->related_id ? route('transactions.show', $notification->related_id) : null,
-                            'message', 'meetup' => $notification->related_id ? route('messages.show', $notification->related_id) : null,
-                            default => null,
-                        },
-                    };
-                @endphp
+    <div class="page-wrap space-y-6">
+        <div class="flex flex-wrap gap-2">
+            @foreach($filters as $filterKey => $filterLabel)
+                <a href="{{ route('notifications.index', ['filter' => $filterKey]) }}" class="notification-filter-chip {{ $filter === $filterKey ? 'notification-filter-chip-active' : '' }}">
+                    {{ $filterLabel }}
+                </a>
+            @endforeach
+        </div>
 
-                <div class="glass-card p-5 {{ $notification->is_read ? '' : 'border-red-400/20 bg-red-600/10' }}">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <div class="text-sm text-white">{{ $notification->message }}</div>
-                            <div class="mt-3 flex items-center gap-3">
-                                <span class="badge-base {{ $typeClasses }}">{{ str($notification->type)->replace('_', ' ')->title() }}</span>
-                                @if($targetUrl)
-                                    <a href="{{ $targetUrl }}" class="text-xs font-semibold uppercase tracking-[0.18em] text-[#f3df32]">Open</a>
-                                @endif
-                            </div>
-                        </div>
-                        <button type="button" class="btn-secondary pointer-events-none">{{ $notification->is_read ? 'Read' : 'New' }}</button>
+        <div class="space-y-8">
+            @if($notifications->isNotEmpty())
+            @foreach($groupedNotifications as $groupLabel => $group)
+                @continue($group->isEmpty())
+                <section class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <h2 class="text-sm font-bold uppercase tracking-[0.22em] text-[#f3df32]">{{ $groupLabel }}</h2>
+                        <span class="h-px flex-1 bg-white/10"></span>
                     </div>
-                    <div class="mt-3 text-xs text-slate-400">{{ $notification->created_at->diffForHumans() }}</div>
-                </div>
-            @empty
+
+                    @foreach($group as $notification)
+                        @php
+                            $tone = match($notification->type) {
+                                'rejection', 'rental_overdue' => 'rejected',
+                                'rental_due_soon', 'rental_due', 'payment_proof' => 'pending',
+                                'approval', 'completion' => 'approved',
+                                'request', 'message', 'meetup' => 'request',
+                                'rating' => 'rating',
+                                default => 'default',
+                            };
+
+                            $targetUrl = match(true) {
+                                $notification->related instanceof \App\Models\Transaction => route('transactions.show', $notification->related),
+                                $notification->related instanceof \App\Models\Conversation => route('messages.show', $notification->related),
+                                $notification->related instanceof \App\Models\Item => route('marketplace.show', $notification->related),
+                                default => match($notification->type) {
+                                    'request', 'approval', 'rejection', 'completion', 'rating', 'payment_proof', 'rental_due_soon', 'rental_due', 'rental_overdue' => $notification->related_id ? route('transactions.show', $notification->related_id) : null,
+                                    'message', 'meetup' => $notification->related_id ? route('messages.show', $notification->related_id) : null,
+                                    default => null,
+                                },
+                            };
+                        @endphp
+
+                        <article class="notification-card notification-{{ $tone }} {{ $notification->is_read ? '' : 'notification-unread' }}">
+                            <div class="notification-status-icon">
+                                @if(! $notification->is_read)
+                                    <span class="notification-unread-dot"></span>
+                                @endif
+                                <span>{{ str($notification->type)->replace('_', ' ')->title() }}</span>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-sm font-semibold leading-6 text-white">{{ $notification->message }}</p>
+                                <p class="mt-1 text-xs text-slate-400">{{ $notification->created_at->diffForHumans() }}</p>
+                            </div>
+                            @if($targetUrl)
+                                <a href="{{ $targetUrl }}" class="notification-action">View Details</a>
+                            @else
+                                <span class="notification-action notification-action-disabled">View Details</span>
+                            @endif
+                        </article>
+                    @endforeach
+                </section>
+            @endforeach
+            @else
                 <div class="glass-card px-6 py-12 text-center">
                     <h3 class="text-lg font-semibold text-white">No notifications available</h3>
                     <p class="mt-2 text-sm text-slate-300">Once students start requesting items, updates will appear here.</p>
                 </div>
-            @endforelse
+            @endif
         </div>
     </div>
 </x-app-layout>

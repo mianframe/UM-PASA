@@ -160,30 +160,66 @@
             </a>
         </section>
 
-        <section id="departments-covered" class="landing-section glass-card p-6">
+        @php
+            $departmentCards = collect($departments)->map(function ($programs, $department) {
+                $group = str_contains($department, 'Graduate') ? 'Graduate School' : (str_contains($department, 'Senior High') ? 'Senior High' : 'College');
+
+                return [
+                    'department' => $department,
+                    'programs' => $programs,
+                    'group' => $group,
+                    'search' => strtolower($department.' '.implode(' ', $programs)),
+                ];
+            })->values();
+        @endphp
+
+        <section
+            id="departments-covered"
+            class="landing-section glass-card p-6"
+            x-data="{ query: '', group: 'All', departments: @js($departmentCards) }"
+        >
             <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p class="section-kicker">Departments Covered</p>
                     <h2 class="section-title mt-2">Departments and programs in UM-Pasa</h2>
-                    <p class="section-copy mt-3 max-w-3xl">Browse by department and program when posting or filtering marketplace listings.</p>
+                    <p class="section-copy mt-3 max-w-3xl">Search departments and expand each card to view supported programs.</p>
                 </div>
                 <a href="{{ route('marketplace.index') }}" class="btn-secondary">Browse by Department</a>
             </div>
-            <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                @foreach($departments as $department => $programs)
-                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                        <h3 class="font-bold text-white">{{ $department }}</h3>
-                        @if($programs)
-                            <ul class="mt-3 space-y-2 text-sm leading-6 text-slate-300">
-                                @foreach($programs as $program)
-                                    <li>{{ $program }}</li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <p class="mt-3 text-sm text-slate-300">General department-level listings.</p>
-                        @endif
-                    </div>
-                @endforeach
+
+            <div class="mt-5 grid gap-3 lg:grid-cols-[1fr_auto]">
+                <label class="department-search">
+                    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9 3a6 6 0 1 0 4.472 10.001l3.763 3.764 1.414-1.414-3.764-3.763A6 6 0 0 0 9 3Zm-4 6a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z" clip-rule="evenodd" /></svg>
+                    <input type="search" x-model.debounce.150ms="query" placeholder="Search department or program">
+                </label>
+                <div class="department-filter-group">
+                    @foreach(['All', 'College', 'Senior High', 'Graduate School'] as $group)
+                        <button type="button" class="department-filter-chip" :class="group === '{{ $group }}' ? 'department-filter-chip-active' : ''" @click="group = '{{ $group }}'">{{ $group }}</button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                <template x-for="department in departments" :key="department.department">
+                    <details
+                        class="department-card"
+                        x-show="(group === 'All' || department.group === group) && (!query || department.search.includes(query.toLowerCase()))"
+                    >
+                        <summary>
+                            <span class="min-w-0">
+                                <strong x-text="department.department"></strong>
+                                <small x-text="department.group"></small>
+                            </span>
+                            <span class="department-count" x-text="`${department.programs.length} program${department.programs.length === 1 ? '' : 's'}`"></span>
+                        </summary>
+                        <ul x-show="department.programs.length" class="department-program-list">
+                            <template x-for="program in department.programs" :key="program">
+                                <li x-text="program"></li>
+                            </template>
+                        </ul>
+                        <p x-show="!department.programs.length" class="mt-3 text-sm text-slate-300">General department-level listings.</p>
+                    </details>
+                </template>
             </div>
         </section>
 
