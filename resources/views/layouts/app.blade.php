@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark">
     <head>
+        <title>UM-Pasa | University Marketplace</title>
+
+        <link rel="icon" type="image/png" href="{{ asset('UMPASALOGO.png') }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('UMPASALOGO.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('UMPASALOGO.png') }}">
+        <meta name="theme-color" content="#d71920">
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
