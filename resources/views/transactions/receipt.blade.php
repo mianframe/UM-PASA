@@ -10,7 +10,7 @@
         };
         $nextStep = match($transaction->status) {
             'pending' => $isSeller ? 'Approve or reject this request from Pending Requests.' : 'Your request is waiting for the seller.',
-            'approved' => $isSeller ? 'After the campus meetup, mark this deal completed.' : 'Meet the seller using the approved location and time.',
+            'approved' => $isSeller ? 'After the university meetup, mark this deal completed.' : 'Meet the seller using the approved location and time.',
             'rejected' => 'This request was rejected.',
             'completed' => 'This deal is completed. Ratings are now available.',
             default => 'Review the transaction details below.',

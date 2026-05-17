@@ -9,10 +9,10 @@
                     <p class="section-kicker">University Marketplace</p>
                     <div class="space-y-5">
                         <h1 class="landing-title">
-                            Find, sell, and rent campus items in one trusted <span class="title-accent">UM</span> marketplace.
+                            Find, sell, and rent university items in one trusted <span class="title-accent">UM</span> marketplace.
                         </h1>
                         <p class="landing-copy">
-                            UM-Pasa helps students browse academic items, manage listings, coordinate with sellers, and track campus transactions in one organized system.
+                            UM-Pasa helps students browse academic items, manage listings, coordinate with sellers, and track university transactions in one organized system.
                         </p>
                     </div>
                     <div class="landing-actions">
@@ -51,7 +51,7 @@
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <div class="text-sm font-semibold uppercase tracking-[0.24em] text-[#f3df32]">System Characteristics</div>
-                                <div class="mt-3 text-2xl font-extrabold leading-tight text-white">A moderated marketplace for campus sale and rental transactions.</div>
+                                <div class="mt-3 text-2xl font-extrabold leading-tight text-white">A moderated marketplace for university sale and rental transactions.</div>
                             </div>
                             <div class="hero-flow-mark">UM</div>
                         </div>
@@ -104,13 +104,13 @@
                         <span class="mini-dot"></span>
                         <div>
                             <div class="font-bold text-white">UM Email Only</div>
-                            <p>Campus-focused access</p>
+                            <p>University-focused access</p>
                         </div>
                     </div>
                     <div class="floating-mini-card mini-card-two">
                         <span class="mini-dot mini-dot-gold"></span>
                         <div>
-                            <div class="font-bold text-white">Safe Campus Meetups</div>
+                            <div class="font-bold text-white">Safe University Meetups</div>
                             <p>Plan before handoff</p>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                 </div>
                 <div class="stat-number">{{ $stats['completed'] }}</div>
                 <div class="stat-label">Completed Deals</div>
-                <p>Transactions completed through campus meetups.</p>
+                <p>Transactions completed through university meetups.</p>
             </div>
             <a href="#departments-covered" class="premium-stat-card block">
                 <div class="stat-icon">
@@ -259,7 +259,7 @@
             <div class="feature-card">
                 <span>01</span>
                 <h3>UM email accounts only</h3>
-                <p>Keep marketplace activity focused around campus accounts and student needs.</p>
+                <p>Keep marketplace activity focused around university accounts and student needs.</p>
             </div>
             <div class="feature-card">
                 <span>02</span>
@@ -273,7 +273,7 @@
             </div>
             <div class="feature-card">
                 <span>04</span>
-                <h3>Organized campus marketplace</h3>
+                <h3>Organized university marketplace</h3>
                 <p>Filter by category, department, program, condition, and listing type to move fast.</p>
             </div>
         </section>

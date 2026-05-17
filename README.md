@@ -1,385 +1,97 @@
-# UM-Pasa: Campus Marketplace
+# UM-Pasa: University Marketplace
 
-UM-Pasa is a Laravel-based campus marketplace system for the UM Tagum community. It allows students to post, browse, request, message, and complete student-to-student transactions for academic materials in a more organized and accountable way.
+UM-Pasa is a Laravel-based university marketplace for the University of Mindanao community. It helps students browse, sell, rent, request, message, transact, upload payment proof, view receipts, leave ratings, and allows administrators to monitor and moderate marketplace activity.
 
-The system is designed for a BSIT project demonstration and follows Laravel's MVC structure using routes, controllers, models, migrations, Blade views, authentication, role-based access, and CRUD workflows.
+This project is built for an academic BSIT presentation. The target is an **excellent academic system**: complete core workflows, clean Laravel MVC structure, secure role-based access, readable UI, and practical deployment readiness without unnecessary enterprise features.
 
-## Overview
+## Project Summary
 
-UM-Pasa addresses a common problem for students: academic materials such as books, uniforms, calculators, gadgets, laboratory tools, and course-related supplies are often expensive and sometimes only needed for one semester.
-
-Instead of relying only on scattered social media posts or group chats, UM-Pasa provides a focused marketplace where students can:
-
-- Post academic items for sale or rent
-- Browse and filter listings by category, department, program, condition, price, and course code
-- Send requests for available items
-- Message buyers or sellers
-- Coordinate campus meetups
-- Receive notifications for important updates
-- Track transaction history
-- Leave ratings after completed transactions
-
-## Objectives
-
-- Provide a secure web-based marketplace for UM students
-- Organize academic item exchange within one platform
-- Support department, program, category, and course-code based filtering
-- Allow students to request, approve, reject, and complete marketplace transactions
-- Provide messaging and meetup proposal features
-- Add notifications for requests, approvals, messages, completions, and ratings
-- Support user ratings for accountability and trust
-- Provide admin monitoring for users, items, and transactions
-
-## Target Users
-
-| User Type | Access |
+| Item | Details |
 |---|---|
-| Guest | Can view the landing page, help page, marketplace, and item details |
-| Student | Can register, log in, post items, request items, message users, manage transactions, receive notifications, and rate users |
-| Admin | Can monitor users, items, transactions, reports, approve or reject listings, and remove inappropriate listings |
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
+| Project name | UM-Pasa |
+| System type | University marketplace web application |
+| Target users | Guests, students, sellers, buyers, renters, administrators |
 | Framework | Laravel 13 |
-| Language | PHP 8.4+ |
-| Frontend | Blade, Tailwind CSS, Alpine.js |
-| Build Tool | Vite |
-| Database | SQLite or MySQL, depending on `.env` configuration |
-| Authentication | Laravel Breeze / Laravel Auth scaffolding |
-| Testing | PHPUnit |
-| Asset Storage | Laravel public disk for item images; private local disk for payment proofs |
+| Backend | PHP 8.4+, Eloquent ORM, Laravel authentication |
+| Frontend | Blade, Tailwind CSS, Alpine.js, Vite |
+| Database | SQLite for local/demo or MySQL depending on `.env` |
+| Testing | PHPUnit feature tests |
+| Deployment target | Railway deployment supported through environment variables |
+
+## Core Problem
+
+Students often need books, calculators, uniforms, gadgets, laboratory tools, and academic supplies for only one course or semester. These items can be expensive, and posts in social media groups are hard to search, verify, and monitor.
+
+UM-Pasa solves this by providing one organized university marketplace where students can list academic items, request items, coordinate meetups, track transactions, receive notifications, view receipts, and build trust through ratings.
 
 ## Main Features
 
-- Student registration and login
-- UM-style campus marketplace landing page
-- Item listing CRUD
-- Sale and rental listing support
-- Marketplace search, sorting, and filters
-- Item details page
-- Request item transaction flow
-- Seller approval/rejection of requests
+- Guest marketplace browsing and item details
+- Student registration, login, logout, and profile management
+- UM email domain validation during registration
+- Item listing CRUD for sale and rental listings
+- Marketplace search, category filters, sorting, and item status display
+- Admin approval/rejection workflow for listings
+- Buyer request workflow for available items
+- Seller approve/reject workflow for item requests
 - Payment method selection and payment proof upload
+- Private payment proof access through an authorized Laravel route
 - Rental duration and rental due-date tracking
-- Transaction completion and receipt page
-- Buyer/seller messaging
-- Meetup proposal acceptance/decline
-- Notifications and unread notification count
-- User rating and reputation system
-- Student dashboard
-- Admin listing moderation, monitoring pages, and reports
-- Profile and password management
+- Transaction history, receipts, and printable report pages
+- Buyer/seller messaging and meetup proposals
+- Notifications for important account and transaction updates
+- Transaction-based ratings to support accountability
+- Student dashboard with listings, notifications, and statistics
+- Admin dashboard with user, listing, transaction, and report monitoring
 
-## Evaluation Rubric Alignment
+## User Roles
 
-This section maps UM-Pasa directly to the project criteria shown in the class rubric.
-
-| Criteria | Evidence in UM-Pasa |
+| Role | Permissions |
 |---|---|
-| Laravel Framework Utilization | Uses Laravel routes, controllers, Eloquent models, migrations, Blade templates, middleware, policies, form requests, services, seeders, storage, Vite assets, and Artisan commands. The system follows MVC through `routes/web.php`, controllers in `app/Http/Controllers`, models in `app/Models`, and Blade views in `resources/views`. |
-| Functionality and Features | Provides working CRUD for listings, marketplace search and filters, item requests, seller approval/rejection, transaction completion, payment proof upload, rental tracking, messaging, meetup proposals, notifications, ratings, admin moderation, dashboards, and reports. |
-| UI / UX Design | Uses Blade and Tailwind CSS for responsive pages, role-based navigation, reusable components, status badges, form validation messages, flash messages, marketplace cards, dashboards, and admin/student views. |
-| Database Design and Security | Uses normalized tables for users, items, transactions, conversations, messages, notifications, and ratings. Migrations define foreign keys, indexes, unique constraints, and relationship integrity. Security uses Laravel authentication, CSRF protection, policies, admin middleware, request validation, mass-assignment rules, and environment-based configuration. |
-| Code Quality and Best Practices | Keeps business workflows in service classes, validation in form request classes, access rules in policies/middleware, UI in Blade views, and data logic in Eloquent models. The code follows Laravel conventions, PSR autoloading, `.env` configuration, and includes feature tests for authentication, admin access, and marketplace workflows. |
-
-## Required Project Outputs
-
-Use the following content when preparing the pamphlet, full documentation, and class presentation.
-
-### Pamphlet Content
-
-A pamphlet should be short, visual, and easy to scan.
-
-- Project name: UM-Pasa: Campus Marketplace
-- Tagline: A secure student-to-student marketplace for academic items
-- Problem: Students often need affordable books, uniforms, calculators, gadgets, and supplies for only one subject or semester
-- Solution: UM-Pasa organizes buying, renting, messaging, meetups, ratings, and admin monitoring in one Laravel web system
-- Target users: Guests, students, and admins
-- Key features: item posting, marketplace filters, requests, messages, notifications, rental tracking, receipts, ratings, and admin moderation
-- Technology used: Laravel 13, PHP 8.4, Blade, Tailwind CSS, Alpine.js, Vite, SQLite/MySQL, PHPUnit
-- Security highlights: login system, role-based access, CSRF protection, validated forms, policies, admin middleware, and secure `.env` configuration
-- Suggested visuals: logo, marketplace screenshot, item details screenshot, transaction flow diagram, admin moderation screenshot, and QR/link to repository or demo
-- Team and institution: include the project team and University of Mindanao Tagum / UM Visayan Campus details
-
-### Full Documentation Content
-
-The documentation should be more detailed than the pamphlet and can follow this order:
-
-1. Title page
-2. Abstract or project summary
-3. Introduction and background of the problem
-4. Objectives of the system
-5. Scope and limitations
-6. Target users and user roles
-7. System features and modules
-8. System architecture and MVC explanation
-9. Database design, ERD, tables, relationships, foreign keys, and indexes
-10. Security design: authentication, authorization, CSRF, validation, and `.env` usage
-11. UI/UX design notes and screenshots
-12. Installation and setup guide
-13. Demo accounts and test data
-14. Main user workflows: listing, request, transaction, messaging, rating, and admin moderation
-15. Testing summary and test cases
-16. Future improvements
-17. Team roles
-18. References or appendix
-
-### Presentation Outline
-
-Recommended slide flow for a 7 to 12 minute report:
-
-1. Title slide: UM-Pasa, team, course, instructor, and institution
-2. Problem statement: why students need a campus marketplace
-3. Objectives: what the system aims to solve
-4. Target users: guest, student, admin
-5. Feature overview: marketplace, requests, messaging, notifications, ratings, reports
-6. Live demo flow: browse, post item, request item, approve request, message, complete, rate, admin moderation
-7. Laravel implementation: MVC, routes, controllers, Eloquent, Blade, middleware, policies, form requests, services
-8. Database and security: tables, relationships, foreign keys, indexes, authentication, authorization, CSRF, validation
-9. UI/UX: responsive pages, dashboards, filters, status badges, and role-based navigation
-10. Testing and limitations: test coverage, current limits, and future improvements
-11. Conclusion: value to UM students and academic resource sharing
-12. Q&A
-
-## Project Structure
-
-```text
-UM-PASA/
-├── app/
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   │   ├── AdminController.php
-│   │   │   ├── DashboardController.php
-│   │   │   ├── HomeController.php
-│   │   │   ├── ItemController.php
-│   │   │   ├── MessageController.php
-│   │   │   ├── NotificationController.php
-│   │   │   ├── ProfileController.php
-│   │   │   ├── RatingController.php
-│   │   │   ├── ReportController.php
-│   │   │   └── TransactionController.php
-│   │   ├── Middleware/
-│   │   │   └── AdminMiddleware.php
-│   │   └── Requests/
-│   │       ├── SaveItemRequest.php
-│   │       ├── StoreTransactionRequest.php
-│   │       └── StoreMessageRequest.php
-│   ├── Models/
-│   │   ├── Conversation.php
-│   │   ├── Item.php
-│   │   ├── Message.php
-│   │   ├── Notification.php
-│   │   ├── Rating.php
-│   │   ├── Transaction.php
-│   │   └── User.php
-│   ├── Policies/
-│   └── Services/
-├── config/
-│   └── um_departments.php
-├── database/
-│   ├── migrations/
-│   └── seeders/
-│       └── DatabaseSeeder.php
-├── public/
-│   └── UMPASALOGO.png
-├── resources/
-│   ├── css/
-│   │   └── app.css
-│   ├── js/
-│   │   └── app.js
-│   └── views/
-│       ├── admin/
-│       ├── auth/
-│       ├── dashboard/
-│       ├── items/
-│       ├── layouts/
-│       ├── marketplace/
-│       ├── messages/
-│       ├── notifications/
-│       ├── profile/
-│       ├── ratings/
-│       ├── transactions/
-│       ├── help.blade.php
-│       └── home.blade.php
-├── routes/
-│   ├── auth.php
-│   └── web.php
-└── tests/
-    └── Feature/
-```
-
-## MVC Architecture
-
-UM-Pasa follows Laravel's MVC pattern:
-
-| MVC Part | Description | Examples |
-|---|---|---|
-| Model | Represents database tables and relationships | `User`, `Item`, `Transaction`, `Conversation`, `Message`, `Notification`, `Rating` |
-| View | Blade files that display the UI | `home.blade.php`, `marketplace/index.blade.php`, `items/show.blade.php`, `messages/index.blade.php` |
-| Controller | Handles request logic and connects models to views | `ItemController`, `TransactionController`, `MessageController`, `RatingController` |
-
-Example flow:
-
-```text
-User opens /marketplace
--> routes/web.php matches marketplace.index
--> ItemController@index runs search/filter query
--> Item model retrieves available listings
--> marketplace/index.blade.php displays results
-```
-
-## Laravel Components Used
-
-| Component | Project Use |
-|---|---|
-| Routes | `routes/web.php` defines public, authenticated, and admin-only pages |
-| Controllers | Handle page requests, dashboard logic, reports, CRUD, messages, ratings, and transactions |
-| Models and Eloquent ORM | Represent users, items, transactions, conversations, messages, notifications, and ratings |
-| Blade Templates | Render the marketplace, forms, dashboards, admin pages, receipts, and profile pages |
-| Middleware | `AdminMiddleware` protects admin-only pages |
-| Policies | Control item, transaction, conversation, and message permissions |
-| Form Requests | Validate listing, transaction, payment proof, message, profile, rating, and rejection forms |
-| Services | Keep transaction, messaging, notification, and rental notification workflows organized |
-| Migrations and Seeders | Build the schema and provide demo data for project presentation |
-| Artisan Commands | Includes `ExpireStaleRequests` for transaction maintenance |
-
-## Important Routes
-
-| Feature | Route Name | URL / Action |
-|---|---|---|
-| Landing page | `home` | `GET /` |
-| Marketplace | `marketplace.index` | `GET /marketplace` |
-| Item details | `marketplace.show` | `GET /marketplace/{item}` |
-| Create item | `items.create` | `GET /items/create` |
-| Store item | `items.store` | `POST /items` |
-| Edit item | `items.edit` | `GET /items/{item}/edit` |
-| Update item | `items.update` | `PUT/PATCH /items/{item}` |
-| Delete item | `items.destroy` | `DELETE /items/{item}` |
-| Request item | `transactions.store` | `POST /items/{item}/request` |
-| Pending requests | `transactions.pending` | `GET /transactions/pending` |
-| Transaction history | `transactions.history` | `GET /transactions/history` |
-| Approve request | `transactions.approve` | `POST /transactions/{transaction}/approve` |
-| Reject request | `transactions.reject` | `POST /transactions/{transaction}/reject` |
-| Complete transaction | `transactions.complete` | `POST /transactions/{transaction}/complete` |
-| Upload payment proof | `transactions.paymentProof` | `POST /transactions/{transaction}/payment-proof` |
-| Transaction receipt | `transactions.show` | `GET /transactions/{transaction}` |
-| Messages | `messages.index` | `GET /messages` |
-| Conversation | `messages.show` | `GET /messages/{conversation}` |
-| Send message | `messages.store` | `POST /messages` |
-| Notifications | `notifications.index` | `GET /notifications` |
-| Ratings | `ratings.create` | `GET /ratings/{transaction}/create` |
-| Student reports | `reports.student` | `GET /reports` |
-| Admin users | `admin.users` | `GET /admin/users` |
-| Admin items | `admin.items` | `GET /admin/items` |
-| Approve listing | `admin.items.approve` | `POST /admin/items/{item}/approve` |
-| Reject listing | `admin.items.reject` | `POST /admin/items/{item}/reject` |
-| Admin transactions | `admin.transactions` | `GET /admin/transactions` |
-| Admin reports | `admin.reports` | `GET /admin/reports` |
-
-## Database Tables
-
-| Table | Purpose |
-|---|---|
-| `users` | Stores student and admin accounts |
-| `items` | Stores posted marketplace listings |
-| `transactions` | Stores item requests and transaction status |
-| `conversations` | Stores chat threads between two users |
-| `messages` | Stores messages and meetup proposals |
-| `notifications` | Stores user updates |
-| `ratings` | Stores transaction-based user reviews |
-| `sessions` | Stores Laravel session data |
-| `password_reset_tokens` | Supports password reset |
-| `cache`, `jobs` | Laravel framework support tables |
-
-## Main Database Relationships
-
-- One user can post many items.
-- One item belongs to one user.
-- One item can have many transactions.
-- One transaction connects a buyer, seller, and item.
-- One user can have many notifications.
-- One conversation connects a starter, recipient, and optionally an item.
-- One conversation has many messages.
-- One completed transaction can receive ratings.
-- Ratings connect a reviewer, a reviewed user, and a transaction.
-
-## Database and Security Notes
-
-- Foreign keys connect users, items, transactions, conversations, messages, and ratings.
-- Marketplace and transaction indexes improve filtering, sorting, dashboards, and notifications.
-- Rating records use a unique transaction-reviewer constraint to avoid duplicate reviews.
-- Admin pages are protected by authentication plus `AdminMiddleware`.
-- Policies prevent unauthorized item, transaction, conversation, and message access.
-- Form requests validate user input before storing listings, requests, payment proof, messages, ratings, and profile updates.
-- Laravel Blade forms use CSRF protection.
-- Eloquent query builder and validation are used instead of manually concatenated SQL.
-- Sensitive configuration belongs in `.env`; `.env.example` documents safe defaults.
-
-## Transaction Flow
-
-```text
-1. Buyer opens an available item.
-2. Buyer clicks Request Item and selects an accepted payment method.
-3. System validates the request and creates a pending transaction.
-4. Seller receives a notification.
-5. Buyer may upload payment proof.
-6. Seller approves or rejects the request.
-7. If approved, seller adds meetup location and time.
-8. For rentals, the system calculates the rental due date.
-9. After meetup, seller marks transaction as completed.
-10. Buyer/seller may leave a rating.
-```
+| Guest | View the landing page, help page, marketplace, and item details |
+| Student | Register, log in, create listings, request items, message users, manage transactions, upload payment proof, view receipts, and rate completed transactions |
+| Admin | View dashboards, manage users, moderate listings, monitor transactions, and generate reports |
 
 ## Demo Accounts
 
-The seeder creates these demo accounts:
+All seeded demo accounts use this password:
 
-| Role | Name | Email | Password |
-|---|---|---|---|
-| Admin | Admin User | `admin@umindanao.edu.ph` | `password` |
-| Student | Student User | `student@umindanao.edu.ph` | `password` |
-| Seller | Ava Seller | `seller@umindanao.edu.ph` | `password` |
-| Buyer | Marco Buyer | `buyer@umindanao.edu.ph` | `password` |
-| Renter | Bea Renter | `renter@umindanao.edu.ph` | `password` |
-| Second Seller | Jessa Seller | `seller2@umindanao.edu.ph` | `password` |
+```text
+password
+```
 
-Seeder file:
+| Role | Name | Email |
+|---|---|---|
+| Admin | Admin User | `admin@umindanao.edu.ph` |
+| Student | Student User | `student@umindanao.edu.ph` |
+| Seller | Ava Seller | `seller@umindanao.edu.ph` |
+| Buyer | Marco Buyer | `buyer@umindanao.edu.ph` |
+| Renter | Bea Renter | `renter@umindanao.edu.ph` |
+| Second seller | Jessa Seller | `seller2@umindanao.edu.ph` |
+
+Demo accounts and sample marketplace data are created in:
 
 ```text
 database/seeders/DatabaseSeeder.php
 ```
 
-## Setup Guide
+## Quick Start
 
-### 1. Install PHP dependencies
+### 1. Install dependencies
 
 ```bash
 composer install
-```
-
-### 2. Install frontend dependencies
-
-```bash
 npm install
 ```
 
-### 3. Create environment file
+### 2. Create environment file
 
 ```bash
 cp .env.example .env
-```
-
-### 4. Generate application key
-
-```bash
 php artisan key:generate
 ```
 
-### 5. Configure database
-
-Open `.env` and configure your database.
+### 3. Configure the database
 
 For SQLite:
 
@@ -387,13 +99,13 @@ For SQLite:
 DB_CONNECTION=sqlite
 ```
 
-Make sure the database file exists:
+Then create the database file:
 
 ```bash
 touch database/database.sqlite
 ```
 
-For MySQL:
+For MySQL, configure these values in `.env`:
 
 ```env
 DB_CONNECTION=mysql
@@ -404,33 +116,24 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### 6. Run migrations
+### 4. Run database setup
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
-### 7. Seed demo accounts
+### 5. Link public storage
 
-```bash
-php artisan db:seed
-```
-
-### 8. Link public storage for item images
+This is needed for public item images. Payment proofs are stored privately and served only through an authorized route.
 
 ```bash
 php artisan storage:link
 ```
 
-### 9. Build frontend assets
+### 6. Build assets and start the app
 
 ```bash
 npm run build
-```
-
-### 10. Start the Laravel server
-
-```bash
 php artisan serve
 ```
 
@@ -449,7 +152,7 @@ php artisan serve
 npm run dev
 ```
 
-Or use the project dev script:
+Or run the project development script:
 
 ```bash
 composer run dev
@@ -458,29 +161,177 @@ composer run dev
 Run tests:
 
 ```bash
-composer test
+php artisan test
 ```
 
-Clear caches before demo:
+Run Pint formatting check:
 
 ```bash
-php artisan optimize:clear
+./vendor/bin/pint --test
 ```
 
-Recommended final demo prep:
+Build frontend assets:
 
 ```bash
-php artisan optimize:clear
-php artisan migrate
-php artisan db:seed
-php artisan storage:link
 npm run build
-php artisan serve
 ```
 
-## Demo Flow
+Clear cached config, routes, views, and events before a local demo:
 
-1. Open the landing page and explain the campus marketplace problem.
+```bash
+php artisan optimize:clear
+```
+
+## Verification Checklist
+
+Before presentation, these commands should pass:
+
+```bash
+composer validate --strict
+composer audit
+npm audit
+./vendor/bin/pint --test
+php artisan test
+npm run build
+php artisan route:list
+php artisan migrate:fresh --seed
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan optimize:clear
+```
+
+Notes:
+
+- `migrate:fresh --seed` resets the local database, so use it only when you are preparing demo data.
+- `optimize:clear` is included at the end so the local environment returns to a clean demo state after cache testing.
+- Do not commit real `.env` secrets, database files, uploaded payment proofs, or local Railway artifacts.
+
+## Railway Deployment Note
+
+The system can run outside local development through Railway as long as Railway environment variables are configured correctly. Keep secrets in Railway variables, not in the repository.
+
+Important Railway values normally include:
+
+- `APP_KEY`
+- `APP_ENV`
+- `APP_DEBUG`
+- `APP_URL`
+- database connection variables
+- mail variables, if email features are enabled
+
+This README documents the expected setup but does not change Railway configuration files or production settings.
+
+## Laravel MVC Architecture
+
+UM-Pasa follows Laravel's MVC pattern:
+
+| Layer | Project usage |
+|---|---|
+| Model | Eloquent models represent users, items, transactions, conversations, messages, notifications, and ratings |
+| View | Blade templates render the marketplace, dashboards, forms, reports, receipts, and admin pages |
+| Controller | Controllers receive requests, validate access, call models/services, and return views or redirects |
+
+Example marketplace flow:
+
+```text
+GET /marketplace
+-> routes/web.php matches marketplace.index
+-> ItemController@index prepares search/filter queries
+-> Item model retrieves approved listings
+-> resources/views/marketplace/index.blade.php displays the listing cards
+```
+
+## Laravel Features Used
+
+| Laravel feature | How UM-Pasa uses it |
+|---|---|
+| Routes | `routes/web.php` and `routes/auth.php` organize public, authenticated, and admin routes |
+| Controllers | Separate controllers manage items, transactions, messages, ratings, reports, profiles, dashboards, and admin pages |
+| Eloquent ORM | Models define fillable fields, relationships, scopes, and database access |
+| Blade | Views and layouts build reusable UI for marketplace, dashboards, forms, receipts, and reports |
+| Middleware | Auth middleware protects student routes; admin middleware protects admin routes |
+| Form Requests | Request classes validate listings, transactions, payment proofs, messages, ratings, rejections, and profile updates |
+| Policies | Policies protect item, transaction, conversation, and message access |
+| Services | Workflow services keep transaction, messaging, notification, and rental logic out of Blade views |
+| Seeders | DatabaseSeeder creates demo accounts, sample listings, transactions, messages, ratings, and notifications |
+| Storage | Public disk stores item images; private local storage protects payment proof files |
+| Tests | Feature tests verify authentication, admin access, marketplace workflows, and payment proof authorization |
+
+## Important Routes
+
+| Feature | Route name | URL / action |
+|---|---|---|
+| Landing page | `home` | `GET /` |
+| Marketplace | `marketplace.index` | `GET /marketplace` |
+| Item details | `marketplace.show` | `GET /marketplace/{item}` |
+| Create listing | `items.create` | `GET /items/create` |
+| Store listing | `items.store` | `POST /items` |
+| Edit listing | `items.edit` | `GET /items/{item}/edit` |
+| Update listing | `items.update` | `PUT/PATCH /items/{item}` |
+| Delete listing | `items.destroy` | `DELETE /items/{item}` |
+| Request item | `transactions.store` | `POST /items/{item}/request` |
+| Pending requests | `transactions.pending` | `GET /transactions/pending` |
+| Transaction history | `transactions.history` | `GET /transactions/history` |
+| Approve request | `transactions.approve` | `POST /transactions/{transaction}/approve` |
+| Reject request | `transactions.reject` | `POST /transactions/{transaction}/reject` |
+| Complete transaction | `transactions.complete` | `POST /transactions/{transaction}/complete` |
+| Upload payment proof | `transactions.paymentProof` | `POST /transactions/{transaction}/payment-proof` |
+| View payment proof | `transactions.paymentProof.show` | `GET /transactions/{transaction}/payment-proof` |
+| Receipt | `transactions.show` | `GET /transactions/{transaction}` |
+| Messages | `messages.index` | `GET /messages` |
+| Conversation | `messages.show` | `GET /messages/{conversation}` |
+| Send message | `messages.store` | `POST /messages` |
+| Notifications | `notifications.index` | `GET /notifications` |
+| Rating form | `ratings.create` | `GET /ratings/{transaction}/create` |
+| Student report | `reports.student` | `GET /reports` |
+| Admin users | `admin.users` | `GET /admin/users` |
+| Admin listings | `admin.items` | `GET /admin/items` |
+| Admin transactions | `admin.transactions` | `GET /admin/transactions` |
+| Admin reports | `admin.reports` | `GET /admin/reports` |
+
+## Database Design
+
+| Table | Purpose |
+|---|---|
+| `users` | Stores student and admin accounts |
+| `items` | Stores marketplace listings and moderation status |
+| `transactions` | Stores buyer requests, seller decisions, payment proof paths, rental dates, and completion status |
+| `conversations` | Stores message threads between users |
+| `messages` | Stores chat messages and meetup proposal data |
+| `notifications` | Stores user notifications |
+| `ratings` | Stores transaction-based user reviews |
+| `sessions` | Stores Laravel session records |
+| `password_reset_tokens` | Supports password reset |
+| `cache`, `jobs` | Laravel framework support tables |
+
+Main relationships:
+
+- A user can create many items.
+- An item belongs to one seller.
+- An item can have many transactions.
+- A transaction belongs to one buyer, one seller, and one item.
+- A conversation connects two users and can optionally be related to an item.
+- A conversation has many messages.
+- A transaction can receive ratings after completion.
+- Ratings connect a reviewer, a reviewed user, and a completed transaction.
+
+## Security Highlights
+
+- Laravel authentication protects account-only routes.
+- Admin routes require authentication plus `AdminMiddleware`.
+- Student registration does not allow users to mass assign the `role` field.
+- Blade forms use CSRF tokens.
+- Form requests validate incoming listing, transaction, message, payment proof, profile, and rating data.
+- Policies prevent users from viewing or changing resources they do not own.
+- Eloquent query builder is used instead of manually concatenated SQL.
+- Payment proof uploads are validated by file type and size.
+- Payment proof files are stored privately and accessed through an authorized controller action.
+- Sensitive values belong in `.env` or Railway variables, not committed files.
+
+## Presentation Demo Flow
+
+1. Open the landing page and explain the university marketplace problem.
 2. Log in as `buyer@umindanao.edu.ph`.
 3. Browse the marketplace and use search or filters.
 4. Open an item details page.
@@ -489,43 +340,86 @@ php artisan serve
 7. Check notifications.
 8. Log in as `seller@umindanao.edu.ph`.
 9. Open pending requests and approve or reject a request.
-10. Open messages and show meetup proposals.
+10. Open messages and show meetup proposal handling.
 11. Complete an approved transaction after meetup.
-12. View the receipt and leave a rating.
+12. View the receipt and submit a rating.
 13. Log in as `admin@umindanao.edu.ph`.
-14. Show admin users, items, transactions, reports, and listing moderation.
-15. Log out.
+14. Show the admin dashboard, users, listings, transactions, reports, and listing moderation.
+15. Explain Laravel MVC, database relationships, security, and UI/UX decisions.
+
+## Academic Rubric Alignment
+
+| Criteria | Evidence in UM-Pasa |
+|---|---|
+| Laravel Framework Utilization | Uses MVC structure, resource-style routes, controllers, middleware, Eloquent relationships, Blade views, form requests, policies, services, seeders, storage, tests, and Artisan commands |
+| Functionality and Features | Includes listing CRUD, marketplace browsing, search/filter/sort, request workflow, approval/rejection, payment proof upload, receipts, messaging, meetup proposals, notifications, ratings, admin moderation, and reports |
+| UI / UX Design | Uses a consistent dark UM-Pasa visual identity, responsive layouts, status badges, dashboard cards, readable forms, loading/disabled submit states, and role-based navigation |
+| Database Design and Security | Uses relational tables, foreign keys, indexes, unique constraints, validation, CSRF protection, authorization checks, private payment proof handling, and safe mass-assignment rules |
+| Code Quality and Best Practices | Keeps business logic in controllers/services/models instead of Blade, follows Laravel naming conventions, uses `.env` configuration, includes tests, and uses Pint formatting |
+
+## Required Presentation Materials
+
+Use these existing files while preparing class requirements:
+
+| File | Purpose |
+|---|---|
+| `README.md` | Main project overview, setup, features, routes, security, and demo guide |
+| `DEMO_FLOW.md` | Short live-demo script and account guide |
+| `DEFENSE_SCRIPT.md` | Speaking script for MVC, database, security, and UI/UX defense |
+| `SETUP_GUIDE.md` | More detailed local setup and troubleshooting notes |
+
+Suggested pamphlet sections:
+
+- Project name and tagline
+- Problem and solution
+- Target users
+- Core features
+- Technology stack
+- Security highlights
+- Screenshots of marketplace, item details, transaction receipt, and admin dashboard
+- Team members and institution
+- Repository or Railway demo link
+
+Suggested presentation slide flow:
+
+1. Title and team
+2. Problem statement
+3. Objectives
+4. Target users
+5. Main features
+6. Live demo flow
+7. Laravel MVC implementation
+8. Database relationships and security
+9. UI/UX design
+10. Testing, limitations, and future improvements
+11. Conclusion and Q&A
 
 ## Scope and Limitations
 
 Current scope:
 
-- Campus marketplace for academic/student items
-- Student item posting and browsing
-- Item requests and transaction tracking
-- Messaging and meetup proposals
-- Notifications
-- Ratings
-- Admin monitoring, listing approval/rejection, and reports
+- University marketplace for academic items
+- Student listings, requests, transaction tracking, receipts, messaging, notifications, ratings, admin moderation, and reports
 
-Limitations:
+Current limitations:
 
-- No online payment gateway
-- No delivery service
+- No real online payment gateway
+- No delivery management
 - No real-time websocket chat
-- Campus meetup safety still depends on user responsibility
-- Admin tools are focused on monitoring, moderation, and reports, not full analytics
+- No full commercial audit logging
+- Payment proof handling is safer than public storage, but future versions can move private files to a dedicated cloud storage provider
+- Admin analytics are designed for academic monitoring, not enterprise business intelligence
 
 ## Future Improvements
 
-- Real-time chat using broadcasting/websockets
+- Student ID or email verification workflow
+- Real-time chat through Laravel broadcasting
 - Report item/user feature
-- Stronger student verification
-- Admin analytics charts
-- More advanced moderation tools
+- More detailed admin analytics and export options
+- Stronger moderation tools
 - Mobile PWA support
-- Better notification preferences
-- Exportable reports for admin
+- Notification preferences
+- Cloud private file storage for payment proofs
 
 ## Project Team
 
@@ -541,16 +435,11 @@ Limitations:
 
 ## Institution
 
-Department of Computing Education  
-Computer Science and Information Technology Program  
-University of Mindanao Tagum / UM Visayan Campus  
-Visayan Village, Tagum City, Davao del Norte  
+- Department of Computing Education
+- Computer Science and Information Technology Program
+- University of Mindanao Tagum
+- Visayan Village, Tagum City, Davao del Norte
 
+## Final Note
 
-## Compliance Note
-
-UM-Pasa is designed with account-based access, user accountability, and role-based admin monitoring. As a student project, it should still be reviewed and improved further before production deployment, especially for privacy, moderation, and data protection requirements under the Data Privacy Act of 2012, R.A. 10173.
-
-## Summary
-
-UM-Pasa promotes affordability, sustainability, and mutual academic support within the UM campus by giving students a structured platform to exchange academic resources safely and efficiently.
+UM-Pasa is ready to present as an academic Laravel marketplace system when the verification checklist passes and the demo database is seeded. It demonstrates Laravel MVC, functional marketplace workflows, protected admin access, normalized database relationships, secure form handling, private payment proof access, and a polished UI suitable for a BSIT project defense.

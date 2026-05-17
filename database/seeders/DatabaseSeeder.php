@@ -313,7 +313,7 @@ class DatabaseSeeder extends Seeder
         Message::create([
             'conversation_id' => $conversation->id,
             'user_id' => $recipient->id,
-            'body' => 'Yes, it is still available. I can meet on campus.',
+            'body' => 'Yes, it is still available. I can meet at the university.',
             'type' => 'text',
             'read_at' => now()->subMinutes(10),
             'meta' => ['item_title' => $item->title],

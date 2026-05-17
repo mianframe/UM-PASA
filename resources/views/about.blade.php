@@ -3,7 +3,7 @@
         <div class="space-y-3">
             <p class="section-kicker">About Us</p>
             <h1 class="section-title">The UM-Pasa team</h1>
-            <p class="section-copy">UM-Pasa is a student marketplace system built for campus-focused buying, selling, renting, messaging, payments, and transaction tracking.</p>
+            <p class="section-copy">UM-Pasa is a student marketplace system built for university-focused buying, selling, renting, messaging, payments, and transaction tracking.</p>
         </div>
     </x-slot>
 
@@ -17,7 +17,7 @@
                 <div class="mt-5 grid gap-3 sm:grid-cols-2">
                     <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
                         <div class="text-xs uppercase tracking-[0.18em] text-slate-400">Focus</div>
-                        <div class="mt-2 font-semibold text-white">Campus marketplace</div>
+                        <div class="mt-2 font-semibold text-white">University marketplace</div>
                     </div>
                     <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
                         <div class="text-xs uppercase tracking-[0.18em] text-slate-400">Users</div>
@@ -49,7 +49,7 @@
             <div class="feature-card">
                 <span>01</span>
                 <h3>Student-centered</h3>
-                <p>Built around academic items, campus handoffs, and UM email accounts.</p>
+                <p>Built around academic items, university handoffs, and UM email accounts.</p>
             </div>
             <div class="feature-card">
                 <span>02</span>

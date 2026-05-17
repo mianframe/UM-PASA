@@ -26,7 +26,7 @@
                         Filter only when <span class="bg-gradient-to-r from-[#ffb5a6] to-[#ff2b1c] bg-clip-text text-transparent">needed.</span>
                     </h1>
                     <p class="max-w-3xl text-lg leading-8 text-[#eedcbbc7]">
-                        Find books, gadgets, uniforms, and other campus items from student listings.
+                        Find books, gadgets, uniforms, and other university items from student listings.
                     </p>
                 </div>
 

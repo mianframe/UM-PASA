@@ -9,7 +9,7 @@
                         </div>
                         <div>
                             <div class="footer-brand-title">UM-Pasa</div>
-                            <div class="footer-brand-subtitle">Campus Marketplace</div>
+                            <div class="footer-brand-subtitle">University Marketplace</div>
                             <p class="footer-brand-copy">
                                 Browse items, post listings, request transactions, open conversations, and track marketplace activity from one student workspace.
                             </p>
@@ -139,7 +139,7 @@
                     support@umpasa.local
                 </a>
                 <div class="footer-badges">
-                    <span class="market-card-bottom-pill">Campus-safe trading</span>
+                    <span class="market-card-bottom-pill">University-safe trading</span>
                 </div>
             </div>
         </div>

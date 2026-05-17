@@ -7,7 +7,7 @@
                 </div>
                 <div>
                     <div class="nav-brand-title">UM-Pasa</div>
-                    <div class="nav-brand-subtitle">Campus Marketplace</div>
+                    <div class="nav-brand-subtitle">University Marketplace</div>
                 </div>
             </a>
 

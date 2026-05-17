@@ -2,7 +2,7 @@
 
 ## Opening
 
-Good day. Our project is **UM-Pasa: Campus Marketplace**, a Laravel-based web application for the University of Mindanao community. It helps students buy, rent, request, message, and complete transactions for academic items such as books, uniforms, calculators, gadgets, and course materials.
+Good day. Our project is **UM-Pasa: University Marketplace**, a Laravel-based web application for the University of Mindanao community. It helps students buy, rent, request, message, and complete transactions for academic items such as books, uniforms, calculators, gadgets, and course materials.
 
 The problem we focused on is that students often rely on scattered group chats or social media posts when looking for academic items. UM-Pasa gives them one organized platform with user accounts, marketplace listings, transaction tracking, messaging, notifications, ratings, and admin moderation.
 
