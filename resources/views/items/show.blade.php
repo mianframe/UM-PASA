@@ -1,4 +1,9 @@
 <x-app-layout>
+    @php
+        $sellerRatingCount = $item->user->ratings_received_count ?? 0;
+        $sellerAverageRating = $item->user->average_rating;
+    @endphp
+
     <x-slot name="header">
         <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -109,7 +114,7 @@
                             <div class="mt-1 text-lg font-bold text-white">{{ $item->user->name }}</div>
                             <div class="mt-1 text-sm text-slate-300">{{ $item->user->email }}</div>
                             <div class="mt-2 text-sm text-slate-300">
-                                {{ number_format($item->user->average_rating, 1) }} rating · {{ $item->user->ratingsReceived()->count() }} review{{ $item->user->ratingsReceived()->count() === 1 ? '' : 's' }}
+                                {{ number_format($sellerAverageRating, 1) }} rating · {{ $sellerRatingCount }} review{{ $sellerRatingCount === 1 ? '' : 's' }}
                             </div>
                         </div>
                     </div>

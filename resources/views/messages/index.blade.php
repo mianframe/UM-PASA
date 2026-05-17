@@ -28,7 +28,8 @@
                         @php
                             $other = $conversation->starter_id === auth()->id() ? $conversation->recipient : $conversation->starter;
                             $latest = $conversation->latestMessage;
-                            $otherRatingCount = $other?->ratingsReceived()->count() ?? 0;
+                            $otherRatingCount = $other?->ratings_received_count ?? 0;
+                            $otherAverageRating = $other?->average_rating ?? 0;
                         @endphp
                         <a href="{{ route('messages.show', $conversation) }}" class="message-thread-link {{ $activeConversation && $activeConversation->id === $conversation->id ? 'message-thread-active' : '' }}">
                             <div class="flex items-start justify-between gap-3">
@@ -36,7 +37,7 @@
                                     <div class="message-thread-name">{{ $other?->name }}</div>
                                     <div class="message-user-meta">
                                         <span>{{ str($other?->role ?? 'student')->title() }}</span>
-                                        <span>{{ number_format($other?->average_rating ?? 0, 1) }} rating</span>
+                                        <span>{{ number_format($otherAverageRating, 1) }} rating</span>
                                         <span>{{ $otherRatingCount }} review{{ $otherRatingCount === 1 ? '' : 's' }}</span>
                                     </div>
                                     <div class="message-thread-item">
@@ -64,7 +65,8 @@
                 @if($activeConversation)
                     @php
                         $other = $activeConversation->starter_id === auth()->id() ? $activeConversation->recipient : $activeConversation->starter;
-                        $otherRatingCount = $other?->ratingsReceived()->count() ?? 0;
+                        $otherRatingCount = $other?->ratings_received_count ?? 0;
+                        $otherAverageRating = $other?->average_rating ?? 0;
                     @endphp
 
                     <div class="messages-chat-header">
@@ -74,7 +76,7 @@
                                 <h2>{{ $other?->name }}</h2>
                                 <div class="message-header-meta">
                                     <span>{{ str($other?->role ?? 'student')->title() }}</span>
-                                    <span>{{ number_format($other?->average_rating ?? 0, 1) }} rating</span>
+                                    <span>{{ number_format($otherAverageRating, 1) }} rating</span>
                                     <span>{{ $otherRatingCount }} review{{ $otherRatingCount === 1 ? '' : 's' }}</span>
                                 </div>
                                 <p>{{ $activeConversation->item?->title ? 'Talking about: ' . $activeConversation->item->title : 'General marketplace conversation' }}</p>

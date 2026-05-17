@@ -9,6 +9,7 @@ use App\Models\Notification;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -181,6 +182,41 @@ class MarketplaceWorkflowTest extends TestCase
 
         Storage::disk('public')->assertMissing('items/sample.jpg');
         $this->assertDatabaseMissing('items', ['id' => $item->id]);
+    }
+
+    public function test_payment_proof_is_served_through_authorized_transaction_route(): void
+    {
+        Storage::fake('local');
+
+        $buyer = User::factory()->create();
+        $seller = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $item = $this->createItemFor($seller, ['status' => 'pending']);
+        $transaction = Transaction::create([
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
+            'item_id' => $item->id,
+            'status' => 'pending',
+            'payment_method' => 'gcash',
+        ]);
+
+        $this->actingAs($buyer)
+            ->post(route('transactions.paymentProof', $transaction), [
+                'payment_proof' => UploadedFile::fake()->create('proof.pdf', 10, 'application/pdf'),
+            ])
+            ->assertSessionHasNoErrors();
+
+        $transaction->refresh();
+
+        Storage::disk('local')->assertExists($transaction->payment_proof);
+
+        $this->actingAs($buyer)
+            ->get(route('transactions.paymentProof.show', $transaction))
+            ->assertOk();
+
+        $this->actingAs($otherUser)
+            ->get(route('transactions.paymentProof.show', $transaction))
+            ->assertForbidden();
     }
 
     public function test_pending_listing_is_hidden_from_guests_but_visible_to_owner(): void

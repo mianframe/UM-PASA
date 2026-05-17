@@ -18,7 +18,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
     ];
 
     protected $hidden = [
@@ -66,6 +65,10 @@ class User extends Authenticatable
 
     public function getAverageRatingAttribute(): float
     {
+        if (array_key_exists('ratings_received_avg_rating', $this->attributes)) {
+            return round((float) $this->attributes['ratings_received_avg_rating'], 1);
+        }
+
         return round($this->ratingsReceived()->avg('rating') ?? 0, 1);
     }
 

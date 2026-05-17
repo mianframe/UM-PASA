@@ -40,7 +40,8 @@ class ProfileController extends Controller
     public function ratings(Request $request)
     {
         $user = $request->user();
-        $ratings = $user->ratingsReceived()->latest()->get();
+        $user->loadAvg('ratingsReceived', 'rating');
+        $ratings = $user->ratingsReceived()->with('reviewer')->latest()->get();
 
         return view('profile.ratings', compact('user', 'ratings'));
     }

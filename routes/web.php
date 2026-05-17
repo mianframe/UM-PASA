@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::post('transactions/{transaction}/reject', [TransactionController::class, 'reject'])->name('transactions.reject');
     Route::post('transactions/{transaction}/complete', [TransactionController::class, 'complete'])->name('transactions.complete');
     Route::post('transactions/{transaction}/payment-proof', [TransactionController::class, 'uploadProof'])->name('transactions.paymentProof');
+    Route::get('transactions/{transaction}/payment-proof', [TransactionController::class, 'paymentProof'])->name('transactions.paymentProof.show');
     Route::get('transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');

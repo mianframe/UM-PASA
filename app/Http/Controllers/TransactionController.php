@@ -10,6 +10,7 @@ use App\Models\Rating;
 use App\Models\Transaction;
 use App\Services\TransactionWorkflowService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
 {
@@ -92,5 +93,18 @@ class TransactionController extends Controller
         $this->transactions->uploadProof($transaction, $request->file('payment_proof'));
 
         return back()->with('success', 'Payment proof uploaded successfully.');
+    }
+
+    public function paymentProof(Transaction $transaction)
+    {
+        $this->authorize('view', $transaction);
+
+        abort_unless($transaction->payment_proof, 404);
+
+        $disk = Storage::disk('local')->exists($transaction->payment_proof) ? 'local' : 'public';
+
+        abort_unless(Storage::disk($disk)->exists($transaction->payment_proof), 404);
+
+        return Storage::disk($disk)->response($transaction->payment_proof);
     }
 }

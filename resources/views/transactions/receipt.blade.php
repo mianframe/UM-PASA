@@ -150,7 +150,7 @@
                     @if($transaction->payment_proof)
                         <div class="transaction-meta-tile print:bg-slate-50">
                             <span>Receipt File</span>
-                            <strong><a href="{{ asset('storage/' . $transaction->payment_proof) }}" class="text-red-200 print:text-slate-900" target="_blank">View uploaded proof</a></strong>
+                            <strong><a href="{{ route('transactions.paymentProof.show', $transaction) }}" class="text-red-200 print:text-slate-900" target="_blank">View uploaded proof</a></strong>
                         </div>
                     @endif
                     <div class="transaction-meta-tile print:bg-slate-50">

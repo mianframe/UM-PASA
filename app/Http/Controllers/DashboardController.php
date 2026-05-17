@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\RentalNotificationService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -16,6 +17,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $user->loadCount('ratingsReceived')->loadAvg('ratingsReceived', 'rating');
 
         if ($user->isAdmin()) {
             $stats = [
@@ -48,9 +50,13 @@ class DashboardController extends Controller
                 ->oldest()
                 ->get()
                 ->groupBy(fn (Transaction $transaction) => $transaction->created_at->format('Y-m'))
-                ->map(fn ($transactions, $month) => ['label' => $month, 'total' => $transactions->count()])
+                ->map(fn ($transactions, $month) => [
+                    'label' => Carbon::createFromFormat('Y-m', $month)->format('M'),
+                    'total' => $transactions->count(),
+                ])
                 ->values()
-                ->take(6);
+                ->slice(-6)
+                ->values();
             $approvalChart = collect([
                 ['label' => 'Pending', 'total' => $stats['pendingItems']],
                 ['label' => 'Approved', 'total' => $stats['approvedItems']],
@@ -59,7 +65,6 @@ class DashboardController extends Controller
             $typeChart = collect([
                 ['label' => 'Sales', 'total' => $stats['sales']],
                 ['label' => 'Rentals', 'total' => $stats['rentals']],
-                ['label' => 'Swaps', 'total' => 0],
             ]);
 
             return view('dashboard.admin', compact(

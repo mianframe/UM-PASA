@@ -158,7 +158,7 @@ class DatabaseSeeder extends Seeder
             'payment_method' => 'maya',
             'meetup_location' => 'UM Main Library Lobby',
             'meetup_time' => now()->addDay()->setTime(15, 30),
-            'payment_proof' => 'demo/payment-proof-sample.pdf',
+            'payment_proof' => 'payment-proofs/demo-payment-proof-sample.pdf',
             'payment_proof_uploaded_at' => now()->subHours(2),
         ]);
 
@@ -204,18 +204,16 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin User',
                 'password' => Hash::make(self::PASSWORD),
-                'role' => 'admin',
             ]
-        );
+        )->forceFill(['role' => 'admin'])->save();
 
         User::updateOrCreate(
             ['email' => 'student@umindanao.edu.ph'],
             [
                 'name' => 'Student User',
                 'password' => Hash::make(self::PASSWORD),
-                'role' => 'student',
             ]
-        );
+        )->forceFill(['role' => 'student'])->save();
     }
 
     private function resetDemoUsers(): void
@@ -230,8 +228,8 @@ class DatabaseSeeder extends Seeder
 
     private function seedDemoFiles(): void
     {
-        Storage::disk('public')->put(
-            'demo/payment-proof-sample.pdf',
+        Storage::disk('local')->put(
+            'payment-proofs/demo-payment-proof-sample.pdf',
             "%PDF-1.4\n1 0 obj\n<< /Type /Catalog >>\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF\n"
         );
     }
@@ -242,10 +240,12 @@ class DatabaseSeeder extends Seeder
             'name' => $name,
             'email' => $email,
             'password' => Hash::make(self::PASSWORD),
-            'role' => 'student',
         ]);
 
-        $user->forceFill(['email_verified_at' => now()])->save();
+        $user->forceFill([
+            'email_verified_at' => now(),
+            'role' => 'student',
+        ])->save();
 
         return $user;
     }

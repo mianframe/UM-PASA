@@ -139,10 +139,11 @@ class TransactionWorkflowService
     public function uploadProof(Transaction $transaction, UploadedFile $paymentProof): Transaction
     {
         if ($transaction->payment_proof) {
+            Storage::disk('local')->delete($transaction->payment_proof);
             Storage::disk('public')->delete($transaction->payment_proof);
         }
 
-        $path = $paymentProof->store('payment-proofs', 'public');
+        $path = $paymentProof->store('payment-proofs', 'local');
 
         $transaction->update([
             'payment_proof' => $path,

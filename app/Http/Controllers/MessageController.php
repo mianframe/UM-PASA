@@ -18,7 +18,12 @@ class MessageController extends Controller
         $activeConversation = $conversations->first();
 
         if ($activeConversation) {
-            $activeConversation->load(['starter', 'recipient', 'item.user', 'messages.user']);
+            $activeConversation->load([
+                'starter' => $this->userRatingQuery(),
+                'recipient' => $this->userRatingQuery(),
+                'item.user',
+                'messages.user',
+            ]);
         }
 
         return view('messages.index', [
@@ -32,8 +37,8 @@ class MessageController extends Controller
         $this->authorize('view', $conversation);
 
         $conversation->load([
-            'starter',
-            'recipient',
+            'starter' => $this->userRatingQuery(),
+            'recipient' => $this->userRatingQuery(),
             'item.user',
             'messages.user',
         ]);
@@ -75,7 +80,12 @@ class MessageController extends Controller
 
     protected function conversationQuery()
     {
-        return Conversation::with(['starter', 'recipient', 'item', 'latestMessage.user'])
+        return Conversation::with([
+            'starter' => $this->userRatingQuery(),
+            'recipient' => $this->userRatingQuery(),
+            'item',
+            'latestMessage.user',
+        ])
             ->where(function ($query) {
                 $query->where('starter_id', Auth::id())
                     ->orWhere('recipient_id', Auth::id());
@@ -84,4 +94,10 @@ class MessageController extends Controller
             ->orderByDesc('updated_at');
     }
 
+    private function userRatingQuery(): callable
+    {
+        return fn ($query) => $query
+            ->withCount('ratingsReceived')
+            ->withAvg('ratingsReceived', 'rating');
+    }
 }

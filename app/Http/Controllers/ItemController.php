@@ -117,7 +117,11 @@ class ItemController extends Controller
     {
         $this->authorize('view', $item);
 
-        $item->load('user');
+        $item->load([
+            'user' => fn ($query) => $query
+                ->withCount('ratingsReceived')
+                ->withAvg('ratingsReceived', 'rating'),
+        ]);
 
         return view('items.show', compact('item'));
     }

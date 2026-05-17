@@ -6,10 +6,10 @@ Run the seeders:
 php artisan migrate --seed
 ```
 
-Rerun only the walkthrough data:
+Refresh the walkthrough data:
 
 ```bash
-php artisan db:seed --class=FlowDemoSeeder
+php artisan migrate:fresh --seed
 ```
 
 All demo accounts use the password `password`.
