@@ -437,7 +437,7 @@ Current limitations:
 
 - Department of Computing Education
 - Computer Science and Information Technology Program
-- University of Mindanao Tagum
+- UM Tagum College| UM Visayan Campus
 - Visayan Village, Tagum City, Davao del Norte
 
 ## Final Note
