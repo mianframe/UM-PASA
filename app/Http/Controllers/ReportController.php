@@ -29,11 +29,11 @@ class ReportController extends Controller
         $allItems = (clone $itemQuery)->get();
 
         $transactions = $this->sortTransactions($transactionQuery, $filters['sort'] ?? 'newest')
-            ->paginate($filters['per_page'] ?? 10, ['*'], 'transactions_page')
+            ->paginate($filters['per_page'] ?? 5, ['*'], 'transactions_page')
             ->withQueryString();
 
         $items = $this->sortItems($itemQuery, $filters['sort'] ?? 'newest')
-            ->paginate($filters['per_page'] ?? 10, ['*'], 'items_page')
+            ->paginate($filters['per_page'] ?? 5, ['*'], 'items_page')
             ->withQueryString();
 
         $stats = [
@@ -60,11 +60,11 @@ class ReportController extends Controller
         $allItems = (clone $itemQuery)->get();
 
         $transactions = $this->sortTransactions($transactionQuery, $filters['sort'] ?? 'newest')
-            ->paginate($filters['per_page'] ?? 10, ['*'], 'transactions_page')
+            ->paginate($filters['per_page'] ?? 5, ['*'], 'transactions_page')
             ->withQueryString();
 
         $items = $this->sortItems($itemQuery, $filters['sort'] ?? 'newest')
-            ->paginate($filters['per_page'] ?? 10, ['*'], 'items_page')
+            ->paginate($filters['per_page'] ?? 5, ['*'], 'items_page')
             ->withQueryString();
 
         $stats = [
@@ -92,7 +92,7 @@ class ReportController extends Controller
             'type' => ['nullable', Rule::in([Item::TYPE_SELL, Item::TYPE_RENT])],
             'category' => ['nullable', 'string', 'max:100'],
             'sort' => ['nullable', Rule::in(['newest', 'oldest', 'title', 'status'])],
-            'per_page' => ['nullable', 'integer', Rule::in([10, 20])],
+            'per_page' => ['nullable', 'integer', Rule::in([5, 10, 20])],
         ]);
     }
 

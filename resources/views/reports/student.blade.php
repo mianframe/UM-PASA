@@ -9,7 +9,7 @@
             },
             'Category' => $filters['category'] ?? 'All categories',
             'Sort' => str($filters['sort'] ?? 'newest')->replace('_', ' ')->title(),
-            'Rows' => (string) ($filters['per_page'] ?? 10),
+            'Rows' => (string) ($filters['per_page'] ?? 5),
         ]);
     @endphp
 
@@ -95,8 +95,9 @@
             <div>
                 <label class="text-sm font-medium text-slate-200">Rows</label>
                 <select name="per_page" class="glass-input">
-                    <option value="10" @selected((int)($filters['per_page'] ?? 10) === 10)>10</option>
-                    <option value="20" @selected((int)($filters['per_page'] ?? 10) === 20)>20</option>
+                    <option value="5" @selected((int)($filters['per_page'] ?? 5) === 5)>5</option>
+                    <option value="10" @selected((int)($filters['per_page'] ?? 5) === 10)>10</option>
+                    <option value="20" @selected((int)($filters['per_page'] ?? 5) === 20)>20</option>
                 </select>
             </div>
             <div class="flex items-end gap-3 md:col-span-5">
@@ -106,7 +107,7 @@
         </form>
 
         <div class="table-shell report-table print:border print:border-slate-200 print:bg-white print:shadow-none">
-            <div class="p-4 text-lg font-semibold text-white print:text-slate-900">Listings</div>
+            <div class="report-section-title p-4 text-lg font-semibold text-white print:text-slate-900">Listings</div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead class="table-head">
@@ -139,7 +140,7 @@
         <div class="print:hidden">{{ $items->links() }}</div>
 
         <div class="table-shell report-table print:border print:border-slate-200 print:bg-white print:shadow-none">
-            <div class="p-4 text-lg font-semibold text-white print:text-slate-900">Transactions</div>
+            <div class="report-section-title p-4 text-lg font-semibold text-white print:text-slate-900">Transactions</div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead class="table-head">
@@ -149,10 +150,11 @@
                             <th class="px-4 py-4">Role</th>
                             <th class="px-4 py-4">Status</th>
                             <th class="px-4 py-4">Payment</th>
-                            <th class="px-4 py-4">Proof</th>
-                            <th class="px-4 py-4">Tracking</th>
-                            <th class="px-4 py-4">Date</th>
-                        </tr>
+	                            <th class="px-4 py-4">Proof</th>
+	                            <th class="px-4 py-4">Tracking</th>
+	                            <th class="px-4 py-4">Date</th>
+	                            <th class="px-4 py-4 print:hidden">Receipt</th>
+	                        </tr>
                     </thead>
                     <tbody>
                         @forelse($transactions as $transaction)
@@ -162,13 +164,16 @@
                                 <td class="px-4 py-4 text-slate-300">{{ $transaction->seller_id === $user->id ? 'Seller' : 'Buyer' }}</td>
                                 <td class="px-4 py-4 text-slate-300">{{ ucfirst($transaction->status) }}</td>
                                 <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentMethodLabel() }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentProofStatusLabel() }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getTrackingStatusLabel() }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->created_at->format('M d, Y') }}</td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="8" class="px-4 py-8 text-center text-slate-300">No transactions yet.</td></tr>
-                        @endforelse
+	                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentProofStatusLabel() }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getTrackingStatusLabel() }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $transaction->created_at->format('M d, Y') }}</td>
+	                                <td class="px-4 py-4 print:hidden">
+	                                    <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
+	                                </td>
+	                            </tr>
+	                        @empty
+	                            <tr><td colspan="9" class="px-4 py-8 text-center text-slate-300">No transactions yet.</td></tr>
+	                        @endforelse
                     </tbody>
                 </table>
             </div>

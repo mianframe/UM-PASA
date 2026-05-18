@@ -17,21 +17,25 @@
                         <thead class="table-head">
                             <tr>
                                 <th class="px-4 py-4">Name</th>
-                                <th class="px-4 py-4">Email</th>
-                                <th class="px-4 py-4">Role</th>
-                                <th class="px-4 py-4">Joined</th>
-                            </tr>
+	                                <th class="px-4 py-4">Email</th>
+	                                <th class="px-4 py-4">Role</th>
+	                                <th class="px-4 py-4">Joined</th>
+	                                <th class="px-4 py-4">Record</th>
+	                            </tr>
                         </thead>
                         <tbody>
                             @foreach($users as $userItem)
                                 <tr class="table-row">
                                     <td class="px-4 py-4">{{ $userItem->name }}</td>
                                     <td class="px-4 py-4 text-slate-300">{{ $userItem->email }}</td>
-                                    <td class="px-4 py-4">
-                                        <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ ucfirst($userItem->role) }}</span>
-                                    </td>
-                                    <td class="px-4 py-4 text-slate-300">{{ $userItem->created_at->format('M d, Y') }}</td>
-                                </tr>
+	                                    <td class="px-4 py-4">
+	                                        <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ ucfirst($userItem->role) }}</span>
+	                                    </td>
+	                                    <td class="px-4 py-4 text-slate-300">{{ $userItem->created_at->format('M d, Y') }}</td>
+	                                    <td class="px-4 py-4">
+	                                        <a href="{{ route('admin.users.record', $userItem) }}" class="btn-secondary">View Record</a>
+	                                    </td>
+	                                </tr>
                             @endforeach
                         </tbody>
                     </table>

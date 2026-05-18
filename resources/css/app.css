@@ -1720,6 +1720,220 @@
         line-height: 1.55;
     }
 
+    .transaction-proof-panel {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: 1rem;
+        margin-top: 1.25rem;
+        border-radius: 1.5rem;
+        border: 1px solid color-mix(in srgb, var(--glass-border) 68%, var(--color-accent) 32%);
+        padding: clamp(1rem, 2.2vw, 1.25rem);
+        background:
+            radial-gradient(circle at 0% 0%, rgba(255, 59, 48, 0.11), transparent 15rem),
+            radial-gradient(circle at 100% 0%, rgba(246, 200, 76, 0.11), transparent 15rem),
+            rgba(255, 255, 255, 0.035);
+    }
+
+    @media (min-width: 980px) {
+        .transaction-proof-panel {
+            grid-template-columns: minmax(13rem, 0.52fr) minmax(0, 1.48fr);
+        }
+    }
+
+    .transaction-proof-panel > div:first-child {
+        min-width: 0;
+    }
+
+    .transaction-proof-panel strong {
+        display: block;
+        color: var(--color-text);
+        font-size: 1.04rem;
+    }
+
+    .transaction-proof-panel p {
+        margin-top: 0.3rem;
+        color: var(--color-muted);
+        line-height: 1.55;
+    }
+
+    .payment-proof-uploader {
+        display: grid;
+        width: 100%;
+        min-width: 0;
+        gap: 0.85rem;
+    }
+
+    .payment-proof-status {
+        border-radius: 1rem;
+        padding: 0.85rem 1rem;
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+
+    .payment-proof-status-title {
+        color: var(--color-text);
+        font-weight: 780;
+    }
+
+    .payment-proof-status p,
+    .payment-proof-link {
+        margin-top: 0.25rem;
+    }
+
+    .payment-proof-link {
+        display: inline-flex;
+        color: color-mix(in srgb, var(--color-text) 92%, var(--color-accent) 8%);
+        text-decoration: underline;
+        text-decoration-color: color-mix(in srgb, var(--color-accent) 42%, transparent);
+        text-underline-offset: 4px;
+    }
+
+    .payment-proof-status-success {
+        border: 1px solid rgba(52, 211, 153, 0.24);
+        background: rgba(16, 185, 129, 0.1);
+        color: rgb(209, 250, 229);
+    }
+
+    .payment-proof-status-waiting {
+        border: 1px solid rgba(251, 191, 36, 0.24);
+        background: rgba(245, 158, 11, 0.1);
+        color: rgb(254, 243, 199);
+    }
+
+    .payment-proof-status-error {
+        border: 1px solid rgba(248, 113, 113, 0.3);
+        background: rgba(239, 68, 68, 0.15);
+        color: rgb(254, 202, 202);
+        font-weight: 700;
+    }
+
+    .payment-proof-controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    @media (min-width: 820px) {
+        .payment-proof-controls {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+        }
+    }
+
+    .payment-proof-uploader-compact .payment-proof-controls {
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 1200px) {
+        .payment-proof-uploader-compact .payment-proof-controls {
+            grid-template-columns: minmax(0, 1fr) auto;
+        }
+    }
+
+    .payment-proof-field {
+        display: grid;
+        min-width: 0;
+        gap: 0.45rem;
+    }
+
+    .payment-proof-field span {
+        color: color-mix(in srgb, var(--color-muted) 78%, transparent);
+        font-size: 0.72rem;
+        font-weight: 760;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .payment-proof-field .glass-input {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .payment-proof-button {
+        min-height: 3.05rem;
+        align-self: end;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 819px) {
+        .payment-proof-button {
+            width: 100%;
+            align-self: stretch;
+        }
+    }
+
+    .payment-proof-preview {
+        border-radius: 1.1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.85rem;
+        background: rgba(255, 255, 255, 0.045);
+    }
+
+    .payment-proof-preview-inner {
+        display: grid;
+        grid-template-columns: 5.5rem minmax(0, 1fr);
+        gap: 0.9rem;
+        align-items: center;
+    }
+
+    @media (max-width: 520px) {
+        .payment-proof-preview-inner {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .payment-proof-preview-media,
+    .payment-proof-preview-file {
+        width: 5.5rem;
+        height: 5.5rem;
+        border-radius: 0.95rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.18);
+    }
+
+    .payment-proof-preview-media {
+        object-fit: cover;
+    }
+
+    .payment-proof-preview-file {
+        display: grid;
+        place-items: center;
+        color: rgb(254, 226, 226);
+        font-size: 0.85rem;
+        font-weight: 850;
+        letter-spacing: 0.2em;
+    }
+
+    .payment-proof-preview-copy {
+        min-width: 0;
+        font-size: 0.9rem;
+    }
+
+    .payment-proof-preview-title {
+        color: var(--color-text);
+        font-weight: 760;
+    }
+
+    .payment-proof-preview-name {
+        margin-top: 0.25rem;
+        color: rgb(203, 213, 225);
+        overflow-wrap: anywhere;
+    }
+
+    .payment-proof-preview-size,
+    .payment-proof-preview-help {
+        margin-top: 0.25rem;
+        color: rgb(148, 163, 184);
+    }
+
+    .payment-proof-preview-error {
+        margin-top: 0.4rem;
+        color: rgb(254, 202, 202);
+        font-size: 0.82rem;
+        font-weight: 700;
+    }
+
     .messages-shell {
         display: grid;
         gap: 1.25rem;
@@ -2939,21 +3153,23 @@
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+        align-items: stretch;
         justify-content: flex-start;
     }
 
     .admin-action-button {
         display: inline-flex;
-        min-height: 4.2rem;
+        min-height: 3.9rem;
         align-items: center;
         justify-content: center;
         gap: 0.8rem;
         border-radius: 1.25rem;
         border: 1px solid rgba(255, 255, 255, 0.12);
-        padding: 1rem 1.45rem;
+        padding: 0.95rem 1.25rem;
         color: rgba(255, 255, 255, 0.84);
         font-size: 0.95rem;
         font-weight: 850;
+        white-space: nowrap;
         background:
             linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
             rgba(255, 255, 255, 0.04);
@@ -2992,8 +3208,16 @@
 
     .admin-stat-grid {
         display: grid;
-        gap: 0.9rem;
+        gap: 1rem;
         grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .admin-analytics-grid,
+    .admin-support-grid {
+        display: grid;
+        align-items: stretch;
+        gap: 1rem;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .admin-stat-card,
@@ -3032,7 +3256,7 @@
         grid-template-columns: auto minmax(0, 1fr);
         align-items: center;
         gap: 1rem;
-        min-height: 8.3rem;
+        min-height: 8.1rem;
         padding: 1rem;
         transition:
             transform 180ms ease,
@@ -3122,15 +3346,25 @@
     }
 
     .admin-panel {
-        min-height: 15rem;
-        padding: 1.2rem;
+        display: flex;
+        min-height: 100%;
+        flex-direction: column;
+        padding: clamp(1rem, 1.6vw, 1.25rem);
     }
 
     .admin-panel-header {
         display: flex;
         align-items: center;
         gap: 1rem;
+        min-height: 2.65rem;
         margin-bottom: 1.1rem;
+    }
+
+    .admin-panel-title-row {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 1rem;
     }
 
     .admin-panel-header h2 {
@@ -3142,10 +3376,12 @@
     }
 
     .admin-panel-header-split {
+        gap: 1rem;
         justify-content: space-between;
     }
 
     .admin-panel-header-split a {
+        flex: 0 0 auto;
         border: 1px solid rgba(255, 255, 255, 0.11);
         border-radius: 9999px;
         padding: 0.45rem 0.85rem;
@@ -3158,6 +3394,8 @@
     .admin-bar-list,
     .admin-department-list {
         display: grid;
+        flex: 1;
+        align-content: start;
         gap: 0.8rem;
     }
 
@@ -3167,6 +3405,7 @@
         grid-template-columns: minmax(6.5rem, 0.55fr) minmax(7rem, 1fr) auto;
         align-items: center;
         gap: 0.85rem;
+        min-height: 2.25rem;
         color: rgba(255, 247, 234, 0.72);
         font-size: 0.86rem;
         font-weight: 700;
@@ -3216,6 +3455,8 @@
 
     .admin-donut-wrap {
         display: grid;
+        flex: 1;
+        align-content: center;
         gap: 1.1rem;
         justify-items: center;
     }
@@ -3289,6 +3530,7 @@
         display: grid;
         grid-template-columns: repeat(6, minmax(2.5rem, 1fr));
         align-items: end;
+        flex: 1;
         min-height: 11rem;
         gap: 0.75rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -3325,6 +3567,8 @@
 
     .admin-activity-list {
         display: grid;
+        flex: 1;
+        align-content: start;
         gap: 0.55rem;
     }
 
@@ -3333,6 +3577,7 @@
         grid-template-columns: auto minmax(0, 1fr) auto auto;
         align-items: center;
         gap: 0.75rem;
+        min-height: 3.35rem;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 1rem;
         padding: 0.75rem 0.9rem;
@@ -3363,7 +3608,21 @@
         color: #f6c84c;
         font-size: 0.72rem;
         font-weight: 900;
+        white-space: nowrap;
         background: rgba(246, 200, 76, 0.12);
+    }
+
+    .admin-activity-pending,
+    .admin-activity-payment_pending,
+    .admin-activity-payment_submitted {
+        color: #f6c84c;
+        background: rgba(246, 200, 76, 0.12);
+    }
+
+    .admin-activity-approved,
+    .admin-activity-completed {
+        color: #8effb4;
+        background: rgba(74, 222, 128, 0.13);
     }
 
     .admin-activity-rejected {
@@ -3371,9 +3630,38 @@
         background: rgba(255, 69, 58, 0.13);
     }
 
+    .admin-activity-cancelled {
+        color: #ffc0b8;
+        background: rgba(255, 141, 134, 0.13);
+    }
+
     .admin-activity-user {
         color: #ffad83;
         background: rgba(255, 123, 47, 0.12);
+    }
+
+    .admin-activity-icon-pending,
+    .admin-activity-icon-payment_pending,
+    .admin-activity-icon-payment_submitted {
+        background: #f6c84c;
+        box-shadow: 0 0 18px rgba(246, 200, 76, 0.38);
+    }
+
+    .admin-activity-icon-approved,
+    .admin-activity-icon-completed {
+        background: #4ade80;
+        box-shadow: 0 0 18px rgba(74, 222, 128, 0.36);
+    }
+
+    .admin-activity-icon-rejected,
+    .admin-activity-icon-cancelled {
+        background: #ff453a;
+        box-shadow: 0 0 18px rgba(255, 69, 58, 0.4);
+    }
+
+    .admin-activity-icon-user {
+        background: #ff7b2f;
+        box-shadow: 0 0 18px rgba(255, 123, 47, 0.34);
     }
 
     .admin-activity-row time {
@@ -3394,8 +3682,26 @@
         }
     }
 
+    @media (min-width: 1024px) {
+        .admin-analytics-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .admin-support-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
     @media (min-width: 1280px) {
+        .admin-hero-actions {
+            justify-content: flex-end;
+        }
+
         .admin-stat-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .admin-analytics-grid {
             grid-template-columns: repeat(4, minmax(0, 1fr));
         }
     }
@@ -3410,14 +3716,30 @@
         }
 
         .admin-bar-row,
-        .admin-department-row,
-        .admin-activity-row {
+        .admin-department-row {
             grid-template-columns: 1fr;
+            align-items: start;
+            gap: 0.45rem;
         }
 
         .admin-bar-row strong,
-        .admin-department-row strong,
+        .admin-department-row strong {
+            justify-self: start;
+        }
+
+        .admin-activity-row {
+            grid-template-columns: auto minmax(0, 1fr);
+            align-items: start;
+            gap: 0.55rem 0.75rem;
+        }
+
+        .admin-activity-row p {
+            white-space: normal;
+        }
+
+        .admin-activity-tag,
         .admin-activity-row time {
+            grid-column: 2;
             justify-self: start;
         }
 
@@ -3425,110 +3747,6 @@
             overflow-x: auto;
             grid-template-columns: repeat(6, minmax(4rem, 1fr));
         }
-    }
-}
-
-@media print {
-    @page {
-        margin: 0.55in;
-    }
-
-    html,
-    body {
-        background: #ffffff !important;
-        color: #111827 !important;
-    }
-
-    body::before,
-    body::after,
-    .top-nav,
-    .um-footer,
-    .fixed,
-    .transaction-status-note,
-    .transaction-card-actions,
-    .transaction-final-panel,
-    form,
-    button,
-    .btn-primary,
-    .btn-secondary,
-    .footer-glass {
-        display: none !important;
-    }
-
-    .site-shell,
-    main,
-    .page-wrap,
-    .printable-report,
-    .printable-receipt {
-        max-width: none !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: #ffffff !important;
-        box-shadow: none !important;
-    }
-
-    .glass-card,
-    .table-shell,
-    .transaction-receipt-shell,
-    .transaction-receipt-panel,
-    .transaction-party-card,
-    .transaction-meta-tile {
-        background: #ffffff !important;
-        color: #111827 !important;
-        border-color: #d1d5db !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-    }
-
-    .report-summary {
-        border: 1px solid #d1d5db !important;
-        border-radius: 0.35rem !important;
-        padding: 1rem !important;
-    }
-
-    .report-table {
-        page-break-inside: avoid;
-        border-radius: 0.35rem !important;
-    }
-
-    .table-head {
-        background: #f3f4f6 !important;
-        color: #111827 !important;
-        letter-spacing: 0.04em !important;
-    }
-
-    .table-row {
-        color: #374151 !important;
-        border-color: #e5e7eb !important;
-    }
-
-    .table-row td,
-    .table-head th {
-        padding: 0.45rem 0.55rem !important;
-    }
-
-    .text-white,
-    .text-slate-100,
-    .text-slate-200,
-    .text-slate-300,
-    .text-slate-400,
-    .transaction-meta-tile strong,
-    .transaction-party-card p,
-    .transaction-receipt-panel h3 {
-        color: #111827 !important;
-    }
-
-    .transaction-meta-tile span,
-    .transaction-party-card span,
-    .section-copy {
-        color: #4b5563 !important;
-    }
-
-    a {
-        color: inherit !important;
-        text-decoration: none !important;
     }
 }
 
@@ -3835,13 +4053,17 @@
 
 @media print {
     @page {
-        margin: 0.55in;
+        margin: 0.32in;
     }
 
     html,
     body {
         background: #fff !important;
-        color: #000 !important;
+        color: #111827 !important;
+        font-size: 9pt !important;
+        line-height: 1.25 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 
     body::before,
@@ -3850,6 +4072,10 @@
     .um-footer,
     .fixed,
     .print\:hidden,
+    .transaction-status-note,
+    .transaction-card-actions,
+    .transaction-final-panel,
+    .payment-proof-uploader,
     form,
     button,
     .btn-primary,
@@ -3858,13 +4084,42 @@
         display: none !important;
     }
 
+    .site-shell,
+    main,
+    .page-wrap {
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+    }
+
     .printable-report,
     .printable-report *,
     .printable-receipt,
     .printable-receipt * {
-        color: #000 !important;
+        color: #111827 !important;
         text-shadow: none !important;
         box-shadow: none !important;
+    }
+
+    .printable-report {
+        font-size: 7.2pt !important;
+        line-height: 1.18 !important;
+    }
+
+    .printable-receipt {
+        font-size: 8.4pt !important;
+        line-height: 1.22 !important;
+    }
+
+    .printable-report,
+    .printable-receipt {
+        display: block !important;
+        position: static !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .printable-report,
@@ -3877,38 +4132,267 @@
     .transaction-receipt-panel,
     .transaction-party-card {
         background: #fff !important;
-        border-color: #000 !important;
+        border-color: #d1d5db !important;
+        border-radius: 0 !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
 
-    .report-summary,
-    .report-table {
-        border: 1px solid #000 !important;
-        border-radius: 0 !important;
+    .printable-report > *,
+    .printable-receipt > * {
+        margin-block: 0 !important;
+    }
+
+    .printable-report > * + *,
+    .printable-receipt > * + * {
+        margin-top: 0.08in !important;
+    }
+
+    .report-summary {
+        border: 1px solid #d1d5db !important;
+        padding: 0.12in !important;
         page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .report-summary > div:first-child {
+        padding-bottom: 0.08in !important;
+    }
+
+    .report-summary h2 {
+        margin-top: 0.03in !important;
+        font-size: 14pt !important;
+        line-height: 1.05 !important;
+    }
+
+    .report-summary p,
+    .report-summary .text-sm {
+        font-size: 7pt !important;
+        line-height: 1.2 !important;
+    }
+
+    .report-summary .mt-3 {
+        margin-top: 0.05in !important;
+    }
+
+    .report-summary .mt-6 {
+        margin-top: 0.08in !important;
+    }
+
+    .report-summary > div:last-child {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(0.82in, 1fr)) !important;
+        gap: 0.05in !important;
+    }
+
+    .report-filter-summary {
+        gap: 0.03in !important;
+        margin-top: 0.05in !important;
     }
 
     .report-filter-summary span {
-        border-color: #666 !important;
+        border-color: #d1d5db !important;
+        border-radius: 0 !important;
+        padding: 0.025in 0.045in !important;
         background: #fff !important;
+        color: #374151 !important;
+        font-size: 6.5pt !important;
+    }
+
+    .report-table {
+        overflow: visible !important;
+        border: 1px solid #d1d5db !important;
+        page-break-inside: auto;
+        break-inside: auto;
+    }
+
+    .report-table .overflow-x-auto {
+        overflow: visible !important;
+    }
+
+    .report-section-title {
+        padding: 0.06in 0.08in !important;
+        border-bottom: 1px solid #d1d5db !important;
+        background: #f9fafb !important;
+        font-size: 9pt !important;
+        line-height: 1.1 !important;
+    }
+
+    .printable-report table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        table-layout: fixed !important;
+        font-size: 6.5pt !important;
+    }
+
+    .printable-report thead {
+        display: table-header-group;
     }
 
     .table-head {
-        background: #f1f1f1 !important;
-        color: #000 !important;
+        background: #f3f4f6 !important;
+        color: #111827 !important;
+        letter-spacing: 0.02em !important;
     }
 
     .table-row {
-        border-color: #777 !important;
+        border-color: #e5e7eb !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
-    table {
-        border-collapse: collapse !important;
+    .printable-report th,
+    .printable-report td {
+        border: 1px solid #e5e7eb !important;
+        padding: 0.035in 0.045in !important;
+        vertical-align: top !important;
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
     }
 
-    th,
-    td {
-        border: 1px solid #777 !important;
+    .printable-report .transaction-meta-tile {
+        min-height: auto !important;
+        padding: 0.055in !important;
+    }
+
+    .printable-report .transaction-meta-tile span,
+    .printable-report .transaction-meta-tile strong {
+        margin-top: 0 !important;
+        font-size: 6.5pt !important;
+        line-height: 1.12 !important;
+    }
+
+    .transaction-receipt-shell.printable-receipt {
+        width: 100% !important;
+        max-width: none !important;
+        border: 1px solid #d1d5db !important;
+        padding: 0.2in !important;
+    }
+
+    .printable-receipt .receipt-header {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        gap: 0.15in !important;
+        padding-bottom: 0.1in !important;
+        border-bottom: 1px solid #d1d5db !important;
+    }
+
+    .printable-receipt .transaction-kicker {
+        font-size: 7pt !important;
+        letter-spacing: 0.12em !important;
+    }
+
+    .printable-receipt h2 {
+        margin-top: 0.03in !important;
+        font-size: 18pt !important;
+        line-height: 1.05 !important;
+    }
+
+    .printable-receipt .badge-base {
+        border: 1px solid #111827 !important;
+        background: #111827 !important;
+        color: #fff !important;
+        padding: 0.035in 0.07in !important;
+        font-size: 7pt !important;
+    }
+
+    .transaction-receipt-panel {
+        margin-top: 0.1in !important;
+        padding: 0.1in !important;
+        border: 1px solid #d1d5db !important;
+    }
+
+    .transaction-receipt-panel h3,
+    .transaction-party-card h3 {
+        font-size: 6.8pt !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    .printable-receipt .transaction-receipt-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 0.055in !important;
+        margin-top: 0.07in !important;
+    }
+
+    .printable-receipt .transaction-meta-tile {
+        min-height: auto !important;
+        border: 1px solid #e5e7eb !important;
+        padding: 0.06in !important;
+        background: #f9fafb !important;
+    }
+
+    .printable-receipt .transaction-meta-tile span {
+        font-size: 6.1pt !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    .printable-receipt .transaction-meta-tile strong {
+        margin-top: 0.025in !important;
+        font-size: 7.5pt !important;
+        line-height: 1.15 !important;
+    }
+
+    .printable-receipt .receipt-party-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.08in !important;
+        margin-top: 0.1in !important;
+    }
+
+    .transaction-party-card {
+        border: 1px solid #d1d5db !important;
+        padding: 0.08in !important;
+        background: #fff !important;
+    }
+
+    .transaction-party-card p {
+        margin-top: 0.04in !important;
+        font-size: 9pt !important;
+        line-height: 1.1 !important;
+    }
+
+    .transaction-party-card span {
+        margin-top: 0.02in !important;
+        font-size: 7.2pt !important;
+        line-height: 1.15 !important;
+    }
+
+    .receipt-item-title {
+        margin-top: 0.05in !important;
+        font-size: 12pt !important;
+        line-height: 1.08 !important;
+    }
+
+    .receipt-item-description {
+        margin-top: 0.04in !important;
+        max-height: 0.36in !important;
+        overflow: hidden !important;
+        font-size: 7.3pt !important;
+        line-height: 1.22 !important;
+    }
+
+    .text-white,
+    .text-slate-100,
+    .text-slate-200,
+    .text-slate-300,
+    .text-slate-400,
+    .transaction-meta-tile strong,
+    .transaction-party-card p,
+    .transaction-receipt-panel h3 {
+        color: #111827 !important;
+    }
+
+    .transaction-meta-tile span,
+    .transaction-party-card span,
+    .section-copy {
+        color: #4b5563 !important;
+    }
+
+    a {
+        color: inherit !important;
+        text-decoration: none !important;
     }
 }

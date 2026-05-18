@@ -76,11 +76,12 @@ class TransactionController extends Controller
 
         $transaction->load(['item', 'buyer', 'seller']);
 
+        $isParticipant = Auth::id() === $transaction->buyer_id || Auth::id() === $transaction->seller_id;
         $reviewedUserId = Auth::id() === $transaction->buyer_id
             ? $transaction->seller_id
             : $transaction->buyer_id;
 
-        $canRate = $transaction->status === Transaction::STATUS_COMPLETED && ! Rating::where('reviewer_id', Auth::id())
+        $canRate = $isParticipant && $transaction->status === Transaction::STATUS_COMPLETED && ! Rating::where('reviewer_id', Auth::id())
             ->where('transaction_id', $transaction->id)
             ->where('reviewed_user_id', $reviewedUserId)
             ->exists();

@@ -88,10 +88,18 @@
                                 <span>Mode of Payment</span>
                                 <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
                             </div>
-                            <div class="transaction-meta-tile">
-                                <span>Payment Proof</span>
-                                <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
-                            </div>
+	                            <div class="transaction-meta-tile">
+	                                <span>Payment Proof</span>
+	                                @if($transaction->payment_proof)
+	                                    <strong>
+	                                        <a href="{{ route('transactions.paymentProof.show', $transaction) }}" target="_blank" class="text-emerald-100 underline decoration-emerald-200/50 underline-offset-4">
+	                                            Uploaded - View file
+	                                        </a>
+	                                    </strong>
+	                                @else
+	                                    <strong>Not uploaded yet</strong>
+	                                @endif
+	                            </div>
                             <div class="transaction-meta-tile">
                                 <span>Tracking Status</span>
                                 <strong>{{ $transaction->getTrackingStatusLabel() }}</strong>
@@ -112,18 +120,14 @@
                             </div>
                         </div>
 
-                        <div class="transaction-card-actions">
-                            <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
-                            @if(!$isSeller && in_array($transaction->status, ['pending', 'approved']))
-                                <form method="POST" action="{{ route('transactions.paymentProof', $transaction) }}" enctype="multipart/form-data" class="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                    @csrf
-                                    <input type="file" name="payment_proof" accept="image/png,image/jpeg,application/pdf" class="glass-input max-w-xs" required>
-                                    <button type="submit" class="btn-secondary">Upload Proof</button>
-                                </form>
-                            @endif
-                            <form method="POST" action="{{ route('messages.store') }}">
-                                @csrf
-                                <input type="hidden" name="recipient_id" value="{{ $isSeller ? $transaction->buyer_id : $transaction->seller_id }}">
+	                        <div class="transaction-card-actions">
+	                            <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
+	                            @if($transaction->payment_proof)
+	                                <a href="{{ route('transactions.paymentProof.show', $transaction) }}" class="btn-secondary" target="_blank">View Uploaded Proof</a>
+	                            @endif
+	                            <form method="POST" action="{{ route('messages.store') }}">
+	                                @csrf
+	                                <input type="hidden" name="recipient_id" value="{{ $isSeller ? $transaction->buyer_id : $transaction->seller_id }}">
                                 <input type="hidden" name="item_id" value="{{ $transaction->item_id }}">
                                 <input type="hidden" name="body" value="Hi, I want to coordinate about {{ $transaction->item->title }}.">
                                 <button type="submit" class="btn-secondary">{{ $isSeller ? 'Message Buyer' : 'Message Seller' }}</button>
@@ -134,11 +138,21 @@
                             @if($isSeller && $transaction->status === 'approved')
                                 <form method="POST" action="{{ route('transactions.complete', $transaction) }}">
                                     @csrf
-                                    <button type="submit" class="btn-primary">Mark as Completed</button>
-                                </form>
-                            @endif
-                        </div>
-                    </div>
+	                                    <button type="submit" class="btn-primary">Mark as Completed</button>
+	                                </form>
+	                            @endif
+	                        </div>
+
+	                        @if(!$isSeller && in_array($transaction->status, ['pending', 'approved']))
+	                            <div class="transaction-proof-panel">
+	                                <div>
+	                                    <strong>Payment proof</strong>
+	                                    <p>Attach your screenshot or receipt so the seller can verify the payment.</p>
+	                                </div>
+	                                <x-payment-proof-uploader :transaction="$transaction" button-class="btn-secondary" compact />
+	                            </div>
+	                        @endif
+	                    </div>
                 @endforeach
             </div>
 

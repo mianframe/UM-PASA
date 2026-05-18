@@ -20,6 +20,44 @@ class AdminController extends Controller
         return view('admin.users', compact('users'));
     }
 
+    public function userRecord(User $user)
+    {
+        $itemQuery = Item::where('user_id', $user->id);
+        $transactionQuery = Transaction::with(['item', 'buyer', 'seller'])
+            ->where(function ($query) use ($user) {
+                $query->where('buyer_id', $user->id)
+                    ->orWhere('seller_id', $user->id);
+            });
+
+        $allItems = (clone $itemQuery)->get();
+        $allTransactions = (clone $transactionQuery)->get();
+
+        $stats = [
+            'listings' => $allItems->count(),
+            'approvedListings' => $allItems->where('moderation_status', Item::MODERATION_APPROVED)->count(),
+            'transactions' => $allTransactions->count(),
+            'completed' => $allTransactions->where('status', Transaction::STATUS_COMPLETED)->count(),
+            'bought' => $allTransactions->where('buyer_id', $user->id)->where('status', Transaction::STATUS_COMPLETED)->count(),
+            'sold' => $allTransactions->where('seller_id', $user->id)->where('status', Transaction::STATUS_COMPLETED)->count(),
+            'earned' => $allTransactions
+                ->where('seller_id', $user->id)
+                ->where('status', Transaction::STATUS_COMPLETED)
+                ->sum(fn (Transaction $transaction) => $transaction->item?->price ?? 0),
+        ];
+
+        $items = $itemQuery
+            ->latest()
+            ->paginate(5, ['*'], 'items_page')
+            ->withQueryString();
+
+        $transactions = $transactionQuery
+            ->latest()
+            ->paginate(5, ['*'], 'transactions_page')
+            ->withQueryString();
+
+        return view('admin.user-record', compact('user', 'items', 'transactions', 'stats'));
+    }
+
     public function transactions()
     {
         $transactions = Transaction::with(['item', 'buyer', 'seller'])->latest()->paginate(15);

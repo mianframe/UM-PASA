@@ -65,10 +65,18 @@
                                 <span>Mode of Payment</span>
                                 <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
                             </div>
-                            <div class="transaction-meta-tile">
-                                <span>Payment Proof</span>
-                                <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
-                            </div>
+	                            <div class="transaction-meta-tile">
+	                                <span>Payment Proof</span>
+	                                @if($transaction->payment_proof)
+	                                    <strong>
+	                                        <a href="{{ route('transactions.paymentProof.show', $transaction) }}" target="_blank" class="text-emerald-100 underline decoration-emerald-200/50 underline-offset-4">
+	                                            Uploaded - View file
+	                                        </a>
+	                                    </strong>
+	                                @else
+	                                    <strong>Not uploaded yet</strong>
+	                                @endif
+	                            </div>
                             @if($transaction->item->listing_type === 'rent')
                                 <div class="transaction-meta-tile">
                                     <span>Rental Duration</span>
@@ -110,15 +118,18 @@
                         </div>
 
                         <div class="transaction-card-actions">
-                            <form method="POST" action="{{ route('messages.store') }}">
-                                @csrf
-                                <input type="hidden" name="recipient_id" value="{{ $transaction->buyer_id }}">
-                                <input type="hidden" name="item_id" value="{{ $transaction->item_id }}">
-                                <input type="hidden" name="body" value="Hi {{ $transaction->buyer->name }}, I saw your request for {{ $transaction->item->title }}.">
-                                <button type="submit" class="btn-secondary">Message Buyer</button>
-                            </form>
-                            <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
-                        </div>
+	                            <form method="POST" action="{{ route('messages.store') }}">
+	                                @csrf
+	                                <input type="hidden" name="recipient_id" value="{{ $transaction->buyer_id }}">
+	                                <input type="hidden" name="item_id" value="{{ $transaction->item_id }}">
+	                                <input type="hidden" name="body" value="Hi {{ $transaction->buyer->name }}, I saw your request for {{ $transaction->item->title }}.">
+	                                <button type="submit" class="btn-secondary">Message Buyer</button>
+	                            </form>
+	                            <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
+	                            @if($transaction->payment_proof)
+	                                <a href="{{ route('transactions.paymentProof.show', $transaction) }}" class="btn-secondary" target="_blank">View Uploaded Proof</a>
+	                            @endif
+	                        </div>
                     </div>
                 @endforeach
             </div>

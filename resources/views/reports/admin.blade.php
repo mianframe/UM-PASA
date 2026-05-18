@@ -9,7 +9,7 @@
             },
             'Category' => $filters['category'] ?? 'All categories',
             'Sort' => str($filters['sort'] ?? 'newest')->replace('_', ' ')->title(),
-            'Rows' => (string) ($filters['per_page'] ?? 10),
+            'Rows' => (string) ($filters['per_page'] ?? 5),
         ]);
     @endphp
 
@@ -93,8 +93,9 @@
             <div>
                 <label class="text-sm font-medium text-slate-200">Rows</label>
                 <select name="per_page" class="glass-input">
-                    <option value="10" @selected((int)($filters['per_page'] ?? 10) === 10)>10</option>
-                    <option value="20" @selected((int)($filters['per_page'] ?? 10) === 20)>20</option>
+                    <option value="5" @selected((int)($filters['per_page'] ?? 5) === 5)>5</option>
+                    <option value="10" @selected((int)($filters['per_page'] ?? 5) === 10)>10</option>
+                    <option value="20" @selected((int)($filters['per_page'] ?? 5) === 20)>20</option>
                 </select>
             </div>
             <div class="flex items-end gap-3 md:col-span-5">
@@ -104,7 +105,7 @@
         </form>
 
         <div class="table-shell report-table print:border print:border-slate-200 print:bg-white print:shadow-none">
-            <div class="p-4 text-lg font-semibold text-white print:text-slate-900">Listing Moderation</div>
+            <div class="report-section-title p-4 text-lg font-semibold text-white print:text-slate-900">Listing Moderation</div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead class="table-head">
@@ -113,25 +114,31 @@
                             <th class="px-4 py-4">Seller</th>
                             <th class="px-4 py-4">Type</th>
                             <th class="px-4 py-4">Rental / Sale Status</th>
-                            <th class="px-4 py-4">Review</th>
-                            <th class="px-4 py-4">Reason</th>
-                            <th class="px-4 py-4">Status</th>
-                        </tr>
+	                            <th class="px-4 py-4">Review</th>
+	                            <th class="px-4 py-4">Reason</th>
+	                            <th class="px-4 py-4">Status</th>
+	                            <th class="px-4 py-4 print:hidden">Record</th>
+	                        </tr>
                     </thead>
                     <tbody>
                         @forelse($items as $item)
                             <tr class="table-row">
                                 <td class="px-4 py-4">{{ $item->title }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $item->user->name }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ ucfirst($item->listing_type) }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $item->listing_type === 'rent' ? (($item->minimum_rental_days ?? 1) . '-' . ($item->maximum_rental_days ?? $item->rental_duration_days ?? 'TBD') . ' day(s)') : ucfirst($item->status) }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $item->getModerationStatusLabel() }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $item->rejection_reason ?: 'N/A' }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ ucfirst($item->status) }}</td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="7" class="px-4 py-8 text-center text-slate-300">No listings found.</td></tr>
-                        @endforelse
+	                                <td class="px-4 py-4 text-slate-300">
+	                                    <a href="{{ route('admin.users.record', $item->user) }}" class="text-red-100 underline decoration-red-300/40 underline-offset-4 print:text-slate-900">{{ $item->user->name }}</a>
+	                                </td>
+	                                <td class="px-4 py-4 text-slate-300">{{ ucfirst($item->listing_type) }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $item->listing_type === 'rent' ? (($item->minimum_rental_days ?? 1) . '-' . ($item->maximum_rental_days ?? $item->rental_duration_days ?? 'TBD') . ' day(s)') : ucfirst($item->status) }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $item->getModerationStatusLabel() }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $item->rejection_reason ?: 'N/A' }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ ucfirst($item->status) }}</td>
+	                                <td class="px-4 py-4 print:hidden">
+	                                    <a href="{{ route('marketplace.show', $item) }}" class="btn-secondary">View Item</a>
+	                                </td>
+	                            </tr>
+	                        @empty
+	                            <tr><td colspan="8" class="px-4 py-8 text-center text-slate-300">No listings found.</td></tr>
+	                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -139,7 +146,7 @@
         <div class="print:hidden">{{ $items->links() }}</div>
 
         <div class="table-shell report-table print:border print:border-slate-200 print:bg-white print:shadow-none">
-            <div class="p-4 text-lg font-semibold text-white print:text-slate-900">Transaction Payments</div>
+            <div class="report-section-title p-4 text-lg font-semibold text-white print:text-slate-900">Transaction Payments</div>
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead class="table-head">
@@ -149,26 +156,34 @@
                             <th class="px-4 py-4">Buyer</th>
                             <th class="px-4 py-4">Seller</th>
                             <th class="px-4 py-4">Status</th>
-                            <th class="px-4 py-4">Payment</th>
-                            <th class="px-4 py-4">Proof</th>
-                            <th class="px-4 py-4">Tracking</th>
-                        </tr>
+	                            <th class="px-4 py-4">Payment</th>
+	                            <th class="px-4 py-4">Proof</th>
+	                            <th class="px-4 py-4">Tracking</th>
+	                            <th class="px-4 py-4 print:hidden">Receipt</th>
+	                        </tr>
                     </thead>
                     <tbody>
                         @forelse($transactions as $transaction)
                             <tr class="table-row">
                                 <td class="px-4 py-4">#{{ $transaction->id }}</td>
                                 <td class="px-4 py-4">{{ $transaction->item->title }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->buyer->name }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->seller->name }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ ucfirst($transaction->status) }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentMethodLabel() }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentProofStatusLabel() }}</td>
-                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getTrackingStatusLabel() }}</td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="8" class="px-4 py-8 text-center text-slate-300">No transactions found.</td></tr>
-                        @endforelse
+	                                <td class="px-4 py-4 text-slate-300">
+	                                    <a href="{{ route('admin.users.record', $transaction->buyer) }}" class="text-red-100 underline decoration-red-300/40 underline-offset-4 print:text-slate-900">{{ $transaction->buyer->name }}</a>
+	                                </td>
+	                                <td class="px-4 py-4 text-slate-300">
+	                                    <a href="{{ route('admin.users.record', $transaction->seller) }}" class="text-red-100 underline decoration-red-300/40 underline-offset-4 print:text-slate-900">{{ $transaction->seller->name }}</a>
+	                                </td>
+	                                <td class="px-4 py-4 text-slate-300">{{ ucfirst($transaction->status) }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentMethodLabel() }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentProofStatusLabel() }}</td>
+	                                <td class="px-4 py-4 text-slate-300">{{ $transaction->getTrackingStatusLabel() }}</td>
+	                                <td class="px-4 py-4 print:hidden">
+	                                    <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
+	                                </td>
+	                            </tr>
+	                        @empty
+	                            <tr><td colspan="9" class="px-4 py-8 text-center text-slate-300">No transactions found.</td></tr>
+	                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->group(function () {
     Route::get('users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('users/{user}/record', [AdminController::class, 'userRecord'])->name('admin.users.record');
     Route::get('transactions', [AdminController::class, 'transactions'])->name('admin.transactions');
     Route::get('items', [AdminController::class, 'items'])->name('admin.items');
     Route::post('items/{item}/approve', [AdminController::class, 'approveItem'])->name('admin.items.approve');

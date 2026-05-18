@@ -63,16 +63,12 @@
             </div>
 
             @if(!$isSeller && in_array($transaction->status, ['pending', 'approved']))
-                <div class="transaction-final-panel print:hidden">
+	                <div class="transaction-final-panel transaction-proof-panel print:hidden">
                     <div>
                         <strong>Payment proof</strong>
                         <p>Upload a receipt or screenshot after payment is done. Accepted files: JPG, PNG, or PDF.</p>
                     </div>
-                    <form method="POST" action="{{ route('transactions.paymentProof', $transaction) }}" enctype="multipart/form-data" class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                        @csrf
-                        <input type="file" name="payment_proof" accept="image/png,image/jpeg,application/pdf" class="glass-input" required>
-                        <button type="submit" class="btn-primary">Upload Proof</button>
-                    </form>
+                    <x-payment-proof-uploader :transaction="$transaction" button-class="btn-primary" />
                 </div>
             @endif
 
@@ -91,10 +87,18 @@
                         <span>Payment Method</span>
                         <strong>{{ $transaction->getPaymentMethodLabel() }}</strong>
                     </div>
-                    <div class="transaction-meta-tile print:bg-slate-50">
-                        <span>Payment Proof</span>
-                        <strong>{{ $transaction->getPaymentProofStatusLabel() }}</strong>
-                    </div>
+	                    <div class="transaction-meta-tile print:bg-slate-50">
+	                        <span>Payment Proof</span>
+	                        @if($transaction->payment_proof)
+	                            <strong>
+	                                <a href="{{ route('transactions.paymentProof.show', $transaction) }}" target="_blank" class="text-emerald-100 underline decoration-emerald-200/50 underline-offset-4 print:text-slate-900">
+	                                    Uploaded - View file
+	                                </a>
+	                            </strong>
+	                        @else
+	                            <strong>Not uploaded yet</strong>
+	                        @endif
+	                    </div>
                     <div class="transaction-meta-tile print:bg-slate-50">
                         <span>Meetup Location</span>
                         <strong>{{ $transaction->meetup_location ?? 'To be announced' }}</strong>
@@ -106,7 +110,7 @@
                 </div>
             </div>
 
-            <div class="mt-8 grid gap-6 md:grid-cols-2">
+            <div class="receipt-party-grid mt-8 grid gap-6 md:grid-cols-2">
                 <div class="transaction-party-card print:bg-slate-100">
                     <h3>Buyer</h3>
                     <p>{{ $transaction->buyer->name }}</p>
@@ -121,8 +125,8 @@
 
             <div class="transaction-receipt-panel print:border-slate-200">
                 <h3>Item Details</h3>
-                <div class="mt-3 text-2xl font-semibold text-white print:text-slate-900">{{ $transaction->item->title }}</div>
-                <p class="mt-3 text-sm leading-6 text-slate-300 print:text-slate-600">{{ $transaction->item->description }}</p>
+                <div class="receipt-item-title mt-3 text-2xl font-semibold text-white print:text-slate-900">{{ $transaction->item->title }}</div>
+                <p class="receipt-item-description mt-3 text-sm leading-6 text-slate-300 print:text-slate-600">{{ $transaction->item->description }}</p>
 
                 <div class="transaction-receipt-grid">
                     <div class="transaction-meta-tile print:bg-slate-50">
@@ -138,7 +142,7 @@
                         <strong>{{ $transaction->getTrackingStatusLabel() }}</strong>
                     </div>
                     @if($transaction->item->listing_type === 'rent')
-                        <div class="transaction-meta-tile print:bg-slate-50">
+                        <div class="transaction-meta-tile print:hidden print:bg-slate-50">
                             <span>Rental Duration</span>
                             <strong>{{ $transaction->rental_duration_days ? $transaction->rental_duration_days . ' day(s)' : 'To be discussed' }}</strong>
                         </div>

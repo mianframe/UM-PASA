@@ -27,7 +27,7 @@
             </div>
 
             <div class="glass-card p-6">
-                <h2 class="text-xl font-bold text-white">Publishers / Developers</h2>
+                <h2 class="text-xl font-bold text-white">Project Information</h2>
                 <div class="mt-4 space-y-3 text-sm text-[#eedcbbcc]">
                     <div class="glass-panel p-4">
                         <div class="font-semibold text-white">PASA Development Team</div>
@@ -35,13 +35,46 @@
                     </div>
                     <div class="glass-panel p-4">
                         <div class="font-semibold text-white">Project Role</div>
-                        <div class="mt-1">Designed and implemented the marketplace, rental flow, admin approval, reports, and transaction tracking features.</div>
+                        <div class="mt-1">Designed and implemented the marketplace, rental flow, admin approval, reports, receipts, payment proof upload, and transaction tracking features.</div>
                     </div>
                     <div class="glass-panel p-4">
                         <div class="font-semibold text-white">Institution</div>
-                        <div class="mt-1">University of Mindanao</div>
+                        <ul class="mt-2 space-y-1 text-[#eedcbbcc]">
+                            <li>Department of Computing Education</li>
+                            <li>Information Technology Program</li>
+                            <li>2nd Year</li>
+                            <li>UM Tagum College - Visayan Campus</li>
+                            <li>Visayan Village, Tagum City, Davao del Norte</li>
+                        </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="section-kicker">Project Team</p>
+                    <h2 class="mt-2 text-2xl font-bold text-white">Group 1 Members</h2>
+                </div>
+                <p class="max-w-xl text-sm leading-6 text-[#eedcbbcc]">UM-Pasa was developed by Group 1 for IT 9A - Professional Track for IT 3.</p>
+            </div>
+
+            <div class="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                @foreach([
+                    ['name' => 'Terante, Markpaul', 'role' => 'Project Leader'],
+                    ['name' => 'Tuyac, Sophia Khym O.', 'role' => 'Front-end Developer'],
+                    ['name' => 'Coronia, Ian Miguel T.', 'role' => 'Front-end Developer'],
+                    ['name' => 'Bacunlay, Tejay R.', 'role' => 'Back-end Developer'],
+                    ['name' => 'Nalzaro, Rhena Mae T.', 'role' => 'Back-end Developer'],
+                    ['name' => 'Arapoc, Dongie Ana Marie A.', 'role' => 'Back-end Developer'],
+                    ['name' => 'Villarosa, Jorlan', 'role' => 'Back-end Developer'],
+                ] as $member)
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                        <div class="text-sm font-semibold text-white">{{ $member['name'] }}</div>
+                        <div class="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-red-200">{{ $member['role'] }}</div>
+                    </div>
+                @endforeach
             </div>
         </div>
 

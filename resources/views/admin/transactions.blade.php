@@ -21,24 +21,32 @@
                                 <th class="px-4 py-4">Item</th>
                                 <th class="px-4 py-4">Buyer</th>
                                 <th class="px-4 py-4">Seller</th>
-                                <th class="px-4 py-4">Status</th>
-                                <th class="px-4 py-4">Payment</th>
-                                <th class="px-4 py-4">Date</th>
-                            </tr>
+	                                <th class="px-4 py-4">Status</th>
+	                                <th class="px-4 py-4">Payment</th>
+	                                <th class="px-4 py-4">Date</th>
+	                                <th class="px-4 py-4">Receipt</th>
+	                            </tr>
                         </thead>
                         <tbody>
                             @foreach($transactions as $transaction)
                                 <tr class="table-row">
                                     <td class="px-4 py-4">{{ $transaction->id }}</td>
                                     <td class="px-4 py-4">{{ $transaction->item->title }}</td>
-                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->buyer->name }}</td>
-                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->seller->name }}</td>
-                                    <td class="px-4 py-4">
-                                        <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ ucfirst($transaction->status) }}</span>
-                                    </td>
-                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentMethodLabel() }}</td>
-                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->created_at->format('M d, Y') }}</td>
-                                </tr>
+	                                    <td class="px-4 py-4 text-slate-300">
+	                                        <a href="{{ route('admin.users.record', $transaction->buyer) }}" class="text-red-100 underline decoration-red-300/40 underline-offset-4">{{ $transaction->buyer->name }}</a>
+	                                    </td>
+	                                    <td class="px-4 py-4 text-slate-300">
+	                                        <a href="{{ route('admin.users.record', $transaction->seller) }}" class="text-red-100 underline decoration-red-300/40 underline-offset-4">{{ $transaction->seller->name }}</a>
+	                                    </td>
+	                                    <td class="px-4 py-4">
+	                                        <span class="badge-base border-white/15 bg-white/10 text-slate-200">{{ ucfirst($transaction->status) }}</span>
+	                                    </td>
+	                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->getPaymentMethodLabel() }}</td>
+	                                    <td class="px-4 py-4 text-slate-300">{{ $transaction->created_at->format('M d, Y') }}</td>
+	                                    <td class="px-4 py-4">
+	                                        <a href="{{ route('transactions.show', $transaction) }}" class="btn-secondary">View Receipt</a>
+	                                    </td>
+	                                </tr>
                             @endforeach
                         </tbody>
                     </table>

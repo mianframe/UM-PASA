@@ -117,7 +117,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7 3h7l4 4v14H7z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 3v5h5M9 15h6M9 18h4"></path>
                         </svg>
-                        Export Report
+                        Generate Report
                     </a>
                     <a href="{{ route('admin.users') }}" class="admin-action-button">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -177,7 +177,7 @@
             @endforeach
         </section>
 
-        <section class="grid gap-5 xl:grid-cols-[1.05fr_0.95fr_0.8fr_1.1fr]">
+        <section class="admin-analytics-grid">
             <div class="admin-panel">
                 <div class="admin-panel-header">
                     <div class="admin-panel-icon">
@@ -262,7 +262,7 @@
             </div>
         </section>
 
-        <section class="grid gap-5 xl:grid-cols-[1fr_0.98fr]">
+        <section class="admin-support-grid">
             <div class="admin-panel">
                 <div class="admin-panel-header">
                     <div class="admin-panel-icon">
@@ -286,7 +286,7 @@
 
             <div class="admin-panel">
                 <div class="admin-panel-header admin-panel-header-split">
-                    <div class="flex items-center gap-4">
+                    <div class="admin-panel-title-row">
                         <div class="admin-panel-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 19 6v5c0 4.5-2.9 8.3-7 10-4.1-1.7-7-5.5-7-10V6z"></path></svg>
                         </div>
@@ -297,7 +297,7 @@
                 <div class="admin-activity-list">
                     @forelse($recentActivities as $activity)
                         <div class="admin-activity-row">
-                            <div class="admin-activity-icon"></div>
+                            <div class="admin-activity-icon admin-activity-icon-{{ $activity['tone'] }}"></div>
                             <p>{{ $activity['title'] }}</p>
                             <span class="admin-activity-tag admin-activity-{{ $activity['tone'] }}">{{ $activity['tag'] }}</span>
                             <time>{{ $activity['time'] }}</time>

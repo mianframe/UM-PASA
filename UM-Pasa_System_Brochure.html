@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UM-Pasa Premium System Poster</title>
+    <style>
+        :root {
+            --black: #070708;
+            --charcoal: #202024;
+            --charcoal-2: #29282d;
+            --crimson: #e62424;
+            --crimson-deep: #8e0101;
+            --orange-red: #f4372d;
+            --gold: #f6c84c;
+            --gold-strong: #f3df32;
+            --cream: #f1dcc0;
+            --text: #ffffff;
+            --muted: rgba(255, 247, 234, 0.72);
+            --glass: rgba(17, 17, 20, 0.64);
+            --glass-strong: rgba(12, 12, 15, 0.78);
+            --glass-soft: rgba(255, 255, 255, 0.07);
+            --glass-line: rgba(255, 255, 255, 0.16);
+            --gold-line: rgba(246, 200, 76, 0.34);
+            --red-glow: rgba(230, 36, 36, 0.35);
+            --amber-glow: rgba(246, 200, 76, 0.24);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            background: #050506;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            line-height: 1.25;
+            background:
+                linear-gradient(135deg, rgba(230, 36, 36, 0.18), transparent 34%),
+                linear-gradient(230deg, rgba(246, 200, 76, 0.14), transparent 42%),
+                var(--black);
+        }
+
+        .sheet {
+            position: relative;
+            width: 8.5in;
+            min-height: 11in;
+            margin: 24px auto;
+            padding: 0.34in;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                linear-gradient(120deg, rgba(255, 255, 255, 0.045), transparent 30%),
+                linear-gradient(245deg, rgba(230, 36, 36, 0.16), transparent 48%),
+                linear-gradient(155deg, #070708 0%, #111114 46%, #050505 100%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+        }
+
+        .sheet::before,
+        .sheet::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .sheet::before {
+            background:
+                linear-gradient(90deg, transparent 0 6%, rgba(246, 200, 76, 0.13) 18%, transparent 31%),
+                linear-gradient(160deg, transparent 0 46%, rgba(230, 36, 36, 0.26) 56%, transparent 76%),
+                linear-gradient(25deg, transparent 0 55%, rgba(246, 200, 76, 0.12) 72%, transparent 100%);
+            filter: blur(28px);
+            transform: scale(1.08);
+        }
+
+        .sheet::after {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 76%);
+        }
+
+        .topbar,
+        .glass,
+        .feature-card,
+        .screen,
+        .mini-panel,
+        .stat {
+            backdrop-filter: blur(22px) saturate(150%);
+            -webkit-backdrop-filter: blur(22px) saturate(150%);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 11px 14px;
+            border: 1px solid var(--glass-line);
+            border-radius: 24px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.035)),
+                rgba(7, 7, 8, 0.48);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.18),
+                0 20px 42px rgba(0, 0, 0, 0.28);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 50%;
+            box-shadow: 0 0 24px rgba(246, 200, 76, 0.28);
+        }
+
+        .brand strong {
+            display: block;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .brand span {
+            display: block;
+            color: var(--cream);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .nav-pills {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-pills span,
+        .chip {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.055);
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            padding: 7px 9px;
+            text-transform: uppercase;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.04fr 0.96fr;
+            gap: 24px;
+            align-items: center;
+            padding: 31px 2px 23px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 13px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 26px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--text);
+            font-size: 68px;
+            line-height: 0.88;
+            letter-spacing: -0.075em;
+        }
+
+        .subtitle {
+            margin: 10px 0 18px;
+            color: var(--cream);
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+        }
+
+        .headline {
+            max-width: 460px;
+            margin: 0 0 13px;
+            color: var(--text);
+            font-size: 25px;
+            font-weight: 850;
+            letter-spacing: -0.045em;
+        }
+
+        .tagline {
+            max-width: 420px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 13.2px;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.26), transparent 30%),
+                linear-gradient(135deg, var(--orange-red), var(--crimson-deep));
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.24),
+                0 16px 34px rgba(230, 36, 36, 0.35);
+            color: white;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .system-meta {
+            color: rgba(255, 255, 255, 0.64);
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .screen-wrap {
+            position: relative;
+            min-height: 318px;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 7px 0 0 18px;
+            padding: 15px;
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.035)),
+                rgba(11, 11, 13, 0.78);
+            box-shadow:
+                0 28px 70px rgba(0, 0, 0, 0.48),
+                0 0 0 1px rgba(246, 200, 76, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        }
+
+        .screen-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .search {
+            flex: 1;
+            height: 28px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.065);
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 8px 12px;
+        }
+
+        .notify {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .notify::after {
+            content: "3";
+            position: absolute;
+            top: -5px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--gold);
+            color: #15110b;
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .market-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .market-card {
+            min-height: 96px;
+            padding: 11px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035)),
+                rgba(32, 32, 36, 0.68);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13);
+        }
+
+        .thumb {
+            height: 35px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            background:
+                linear-gradient(120deg, rgba(255, 255, 255, 0.22), transparent 38%),
+                linear-gradient(135deg, var(--crimson-deep), var(--orange-red) 52%, var(--gold));
+        }
+
+        .market-card h3 {
+            margin: 0 0 4px;
+            font-size: 11px;
+            letter-spacing: -0.02em;
+        }
+
+        .market-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .floating {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
+                rgba(14, 14, 16, 0.74);
+            border-radius: 18px;
+            box-shadow:
+                0 20px 45px rgba(0, 0, 0, 0.42),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+        }
+
+        .receipt {
+            left: 0;
+            bottom: 15px;
+            width: 150px;
+            padding: 12px;
+        }
+
+        .receipt strong,
+        .message strong {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 11px;
+        }
+
+        .receipt-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 5px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.09);
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .message {
+            right: 2px;
+            bottom: 4px;
+            width: 173px;
+            padding: 12px;
+        }
+
+        .bubble {
+            margin-top: 6px;
+            padding: 8px 9px;
+            border-radius: 14px 14px 14px 4px;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 9px;
+        }
+
+        .bubble.out {
+            border-radius: 14px 14px 4px 14px;
+            background: linear-gradient(135deg, rgba(230, 36, 36, 0.75), rgba(142, 1, 1, 0.86));
+            color: white;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .stat {
+            padding: 13px 13px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            border-radius: 19px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+                rgba(18, 18, 20, 0.66);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.13),
+                0 16px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .stat strong {
+            display: block;
+            margin-top: 4px;
+            color: var(--text);
+            font-size: 20px;
+            letter-spacing: -0.05em;
+        }
+
+        .stat .bar {
+            height: 4px;
+            margin-top: 9px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .stat .bar i {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--crimson), var(--gold));
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 14px;
+            margin: 10px 0 12px;
+        }
+
+        .panel-title h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: -0.035em;
+        }
+
+        .panel-title p {
+            max-width: 345px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 10.5px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .feature-card {
+            min-height: 101px;
+            padding: 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.03)),
+                rgba(18, 18, 21, 0.68);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .feature-card b {
+            display: grid;
+            place-items: center;
+            width: 27px;
+            height: 27px;
+            margin-bottom: 9px;
+            border-radius: 10px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.2), transparent 36%),
+                linear-gradient(135deg, var(--crimson-deep), var(--crimson));
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 950;
+        }
+
+        .feature-card h3 {
+            min-height: 29px;
+            margin: 0 0 5px;
+            font-size: 11.2px;
+            line-height: 1.15;
+            letter-spacing: -0.015em;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 9.2px;
+            line-height: 1.25;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .mini-panel {
+            position: relative;
+            overflow: hidden;
+            min-height: 145px;
+            padding: 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+                rgba(13, 13, 15, 0.7);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13);
+        }
+
+        .mini-panel h2 {
+            margin: 0 0 9px;
+            font-size: 13px;
+            color: var(--gold);
+            letter-spacing: -0.025em;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .feature-list span {
+            padding: 6px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.055);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 8.8px;
+            font-weight: 800;
+        }
+
+        .chart {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            height: 72px;
+            margin-top: 10px;
+        }
+
+        .chart span {
+            flex: 1;
+            min-width: 0;
+            border-radius: 999px 999px 4px 4px;
+            background: linear-gradient(180deg, var(--gold), var(--orange-red), var(--crimson-deep));
+            box-shadow: 0 0 20px rgba(246, 200, 76, 0.13);
+        }
+
+        .team {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 8.9px;
+            line-height: 1.45;
+        }
+
+        .footer-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 13px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.58);
+            font-size: 9.3px;
+            font-weight: 700;
+        }
+
+        /* Letter-page fit tuning: keeps the premium composition inside one printable page. */
+        .sheet {
+            margin: 0 auto;
+            padding: 0.24in 0.28in;
+        }
+
+        .topbar {
+            padding: 9px 13px;
+            border-radius: 22px;
+        }
+
+        .brand img {
+            width: 34px;
+            height: 34px;
+        }
+
+        .nav-pills {
+            gap: 6px;
+        }
+
+        .nav-pills span,
+        .chip {
+            padding: 6px 8px;
+            font-size: 8px;
+        }
+
+        .hero {
+            gap: 18px;
+            padding: 20px 2px 12px;
+        }
+
+        .eyebrow {
+            margin-bottom: 9px;
+        }
+
+        h1 {
+            font-size: 59px;
+        }
+
+        .subtitle {
+            margin: 7px 0 12px;
+            font-size: 18px;
+        }
+
+        .headline {
+            margin-bottom: 9px;
+            font-size: 22px;
+        }
+
+        .tagline {
+            font-size: 12.4px;
+        }
+
+        .hero-actions {
+            margin-top: 14px;
+        }
+
+        .primary-btn {
+            min-height: 34px;
+            padding: 0 14px;
+            font-size: 10px;
+        }
+
+        .screen-wrap {
+            min-height: 266px;
+        }
+
+        .screen {
+            inset: 4px 0 0 16px;
+            padding: 12px;
+            border-radius: 23px;
+        }
+
+        .screen-top {
+            margin-bottom: 9px;
+        }
+
+        .search {
+            height: 25px;
+            padding: 6px 11px;
+        }
+
+        .notify {
+            width: 27px;
+            height: 27px;
+        }
+
+        .market-grid {
+            gap: 8px;
+        }
+
+        .market-card {
+            min-height: 76px;
+            padding: 9px;
+            border-radius: 16px;
+        }
+
+        .thumb {
+            height: 27px;
+            margin-bottom: 7px;
+        }
+
+        .market-card h3 {
+            font-size: 10px;
+        }
+
+        .market-card p {
+            font-size: 8px;
+        }
+
+        .receipt {
+            bottom: 9px;
+            width: 142px;
+            padding: 10px;
+        }
+
+        .message {
+            bottom: 0;
+            width: 166px;
+            padding: 10px;
+        }
+
+        .receipt strong,
+        .message strong {
+            margin-bottom: 5px;
+            font-size: 10px;
+        }
+
+        .receipt-line {
+            padding: 4px 0;
+            font-size: 8px;
+        }
+
+        .bubble {
+            margin-top: 5px;
+            padding: 7px 8px;
+            font-size: 8px;
+        }
+
+        .stats {
+            gap: 9px;
+            margin-bottom: 8px;
+        }
+
+        .stat {
+            padding: 10px 12px;
+            border-radius: 16px;
+        }
+
+        .stat strong {
+            font-size: 17px;
+        }
+
+        .stat .bar {
+            margin-top: 6px;
+        }
+
+        .panel-title {
+            margin: 7px 0 8px;
+        }
+
+        .panel-title h2 {
+            font-size: 17px;
+        }
+
+        .panel-title p {
+            font-size: 9.4px;
+        }
+
+        .feature-grid {
+            gap: 8px;
+            margin-bottom: 9px;
+        }
+
+        .feature-card {
+            min-height: 84px;
+            padding: 10px;
+            border-radius: 16px;
+        }
+
+        .feature-card b {
+            width: 23px;
+            height: 23px;
+            margin-bottom: 6px;
+            border-radius: 9px;
+            font-size: 9px;
+        }
+
+        .feature-card h3 {
+            min-height: 24px;
+            margin-bottom: 4px;
+            font-size: 10.1px;
+        }
+
+        .feature-card p {
+            font-size: 8.1px;
+        }
+
+        .bottom-grid {
+            gap: 9px;
+        }
+
+        .mini-panel {
+            min-height: 119px;
+            padding: 11px;
+            border-radius: 17px;
+        }
+
+        .mini-panel h2 {
+            margin-bottom: 7px;
+            font-size: 11.5px;
+        }
+
+        .feature-list {
+            gap: 5px;
+        }
+
+        .feature-list span {
+            padding: 5px 7px;
+            font-size: 7.6px;
+        }
+
+        .chart {
+            height: 38px;
+            margin-top: 7px;
+            gap: 6px;
+        }
+
+        .team {
+            margin-top: 6px;
+            font-size: 7.75px;
+        }
+
+        .footer-strip {
+            margin-top: 8px;
+            padding-top: 8px;
+            font-size: 8.2px;
+        }
+
+        @media print {
+            body {
+                background: var(--black);
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            .sheet {
+                width: auto;
+                min-height: 11in;
+                margin: 0;
+                box-shadow: none;
+                border: 0;
+            }
+
+            .sheet::before {
+                display: none;
+            }
+
+            .primary-btn {
+                box-shadow: none;
+            }
+
+            @page {
+                size: letter;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="sheet">
+        <header class="topbar">
+            <div class="brand">
+                <img src="public/UMPASALOGO.png" alt="UM-Pasa logo">
+                <div>
+                    <strong>UM-Pasa</strong>
+                    <span>Campus Marketplace</span>
+                </div>
+            </div>
+            <nav class="nav-pills" aria-label="System highlights">
+                <span>Laravel MVC</span>
+                <span>Admin Moderation</span>
+                <span>Secure Transactions</span>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div>
+                <div class="eyebrow">University Marketplace System</div>
+                <h1>UM-Pasa</h1>
+                <p class="subtitle">University Marketplace System</p>
+                <p class="headline">Find, sell, and rent university items in one trusted marketplace.</p>
+                <p class="tagline">A moderated campus marketplace for safe and organized student transactions.</p>
+                <div class="hero-actions">
+                    <span class="primary-btn">Production-Ready Defense</span>
+                    <span class="system-meta">Laravel 13 / Blade / Tailwind / Eloquent</span>
+                </div>
+            </div>
+
+            <div class="screen-wrap" aria-label="UM-Pasa interface preview">
+                <div class="screen">
+                    <div class="screen-top">
+                        <div class="search">Search books, calculators, uniforms...</div>
+                        <div class="notify"></div>
+                    </div>
+                    <div class="nav-pills" style="justify-content:flex-start; margin-bottom:10px;">
+                        <span>All</span>
+                        <span>For Sale</span>
+                        <span>For Rent</span>
+                        <span>Approved</span>
+                    </div>
+                    <div class="market-grid">
+                        <article class="market-card">
+                            <div class="thumb"></div>
+                            <h3>Engineering Calculator</h3>
+                            <p>Approved / GCash / Meetup</p>
+                        </article>
+                        <article class="market-card">
+                            <div class="thumb"></div>
+                            <h3>Arduino Kit Rental</h3>
+                            <p>Rental tracking enabled</p>
+                        </article>
+                        <article class="market-card">
+                            <div class="thumb"></div>
+                            <h3>Data Structures Book</h3>
+                            <p>Pending buyer request</p>
+                        </article>
+                        <article class="market-card">
+                            <div class="thumb"></div>
+                            <h3>Nursing Uniform Set</h3>
+                            <p>Admin review queue</p>
+                        </article>
+                    </div>
+                </div>
+
+                <aside class="floating receipt">
+                    <strong>Receipt #UM-2026</strong>
+                    <div class="receipt-line"><span>Status</span><b>Completed</b></div>
+                    <div class="receipt-line"><span>Method</span><b>GCash</b></div>
+                    <div class="receipt-line"><span>Rating</span><b>5.0</b></div>
+                </aside>
+
+                <aside class="floating message">
+                    <strong>Meetup Coordination</strong>
+                    <div class="bubble">Available at UM gate?</div>
+                    <div class="bubble out">Confirmed. 3:30 PM.</div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="stats" aria-label="System capability widgets">
+            <article class="stat">
+                <span>Marketplace</span>
+                <strong>Search</strong>
+                <div class="bar"><i style="width:92%"></i></div>
+            </article>
+            <article class="stat">
+                <span>Security</span>
+                <strong>Roles</strong>
+                <div class="bar"><i style="width:88%"></i></div>
+            </article>
+            <article class="stat">
+                <span>Workflow</span>
+                <strong>Receipts</strong>
+                <div class="bar"><i style="width:84%"></i></div>
+            </article>
+            <article class="stat">
+                <span>Trust</span>
+                <strong>Ratings</strong>
+                <div class="bar"><i style="width:90%"></i></div>
+            </article>
+        </section>
+
+        <section>
+            <div class="panel-title">
+                <h2>System Modules</h2>
+                <p>Everything the panel needs to understand the system at a glance: marketplace flow, admin control, communication, payments, tracking, reports, and trust signals.</p>
+            </div>
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <b>01</b>
+                    <h3>Marketplace Browsing</h3>
+                    <p>Searchable item listings with categories, filters, sorting, and item detail pages.</p>
+                </article>
+                <article class="feature-card">
+                    <b>02</b>
+                    <h3>Admin-Reviewed Listings</h3>
+                    <p>Listings pass through approval or rejection before appearing publicly.</p>
+                </article>
+                <article class="feature-card">
+                    <b>03</b>
+                    <h3>Messaging & Meetup Coordination</h3>
+                    <p>Buyer and seller conversations support meetup proposals and responses.</p>
+                </article>
+                <article class="feature-card">
+                    <b>04</b>
+                    <h3>Flexible Payments</h3>
+                    <p>Accepted payment methods and payment proof upload support real workflows.</p>
+                </article>
+                <article class="feature-card">
+                    <b>05</b>
+                    <h3>Rental Tracking</h3>
+                    <p>Rental duration and due-date tracking help students manage borrowed items.</p>
+                </article>
+                <article class="feature-card">
+                    <b>06</b>
+                    <h3>Reports & Receipts</h3>
+                    <p>Printable receipts and reports document completed marketplace activity.</p>
+                </article>
+                <article class="feature-card">
+                    <b>07</b>
+                    <h3>Student Ratings & Reviews</h3>
+                    <p>Transaction-based ratings build trust between buyers, renters, and sellers.</p>
+                </article>
+                <article class="feature-card">
+                    <b>08</b>
+                    <h3>Notifications & Transaction Monitoring</h3>
+                    <p>Important approvals, requests, messages, and completions stay visible.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="bottom-grid">
+            <article class="mini-panel">
+                <h2>Feature Highlights</h2>
+                <div class="feature-list">
+                    <span>Responsive UI/UX</span>
+                    <span>Student-Friendly Interface</span>
+                    <span>Role-Based Access</span>
+                    <span>Messaging System</span>
+                    <span>Marketplace Search & Filters</span>
+                    <span>Secure Transactions</span>
+                    <span>Payment Proof Upload</span>
+                    <span>Transaction Receipts</span>
+                    <span>Notifications</span>
+                    <span>Ratings & Reviews</span>
+                </div>
+            </article>
+
+            <article class="mini-panel">
+                <h2>Technical Foundation</h2>
+                <div class="feature-list">
+                    <span>Laravel MVC Architecture</span>
+                    <span>Eloquent ORM</span>
+                    <span>Blade Components</span>
+                    <span>Form Requests</span>
+                    <span>Policies</span>
+                    <span>Admin Middleware</span>
+                    <span>Migrations</span>
+                    <span>Seeders</span>
+                    <span>Feature Tests</span>
+                    <span>Service Classes</span>
+                </div>
+                <div class="chart" aria-label="Dashboard analytics visual">
+                    <span style="height:38%"></span>
+                    <span style="height:64%"></span>
+                    <span style="height:52%"></span>
+                    <span style="height:82%"></span>
+                    <span style="height:70%"></span>
+                    <span style="height:94%"></span>
+                </div>
+            </article>
+
+            <article class="mini-panel">
+                <h2>Project Team</h2>
+                <p class="team">
+                    Terante, Markpaul / Tuyac, Sophia Khym O. / Coronia, Ian Miguel T. /
+                    Bacunlay, Tejay R. / Nalzaro, Rhena Mae T. /
+                    Arapoc, Dongie Ana Marie A. / Villarosa, Jorlan
+                </p>
+                <div class="feature-list" style="margin-top:10px;">
+                    <span>University of Mindanao Tagum</span>
+                    <span>Department of Computing Education</span>
+                    <span>BSIT Capstone Defense</span>
+                </div>
+            </article>
+        </section>
+
+        <footer class="footer-strip">
+            <span>UM-Pasa: University Marketplace</span>
+            <span>Premium Laravel campus marketplace system for safe, moderated, student-to-student transactions.</span>
+        </footer>
+    </main>
+</body>
+</html>
