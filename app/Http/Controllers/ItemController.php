@@ -13,6 +13,10 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
+        $request->merge([
+            'q' => trim((string) $request->input('q', '')),
+        ]);
+
         $validated = $request->validate([
             'q' => ['nullable', 'string', 'max:120'],
             'category' => ['nullable', 'string', 'max:100'],
@@ -30,7 +34,7 @@ class ItemController extends Controller
             ->where('status', Item::STATUS_AVAILABLE)
             ->where('moderation_status', Item::MODERATION_APPROVED);
 
-        if ($request->filled('q')) {
+        if (! empty($validated['q'])) {
             $search = $validated['q'];
             $query->where(function ($innerQuery) use ($search) {
                 $innerQuery->where('title', 'like', '%'.$search.'%')
