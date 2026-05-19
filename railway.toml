@@ -1,2 +1,5 @@
+[build]
+buildCommand = "npm run build"
+
 [deploy]
 preDeployCommand = "php artisan config:clear && php artisan migrate --force"
